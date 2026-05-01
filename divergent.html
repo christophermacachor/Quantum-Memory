@@ -1,6 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <nav class="tabs-container">
+    <a href="index.html" class="tab">Featured Coherence</a>
+    <a href="divergent.html" class="tab active">Divergent Reality</a>
+</nav>
+<link rel="stylesheet" href="styles.css">
+.tabs-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.tab {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    color: #e0e0e0;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.tab:hover {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
+}
+
+.tab.active {
+    background: rgba(0, 212, 255, 0.2);
+    border-color: rgba(0, 212, 255, 0.5);
+}
+
+**@media** (max-width: 768px) {
+    .tabs-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>MACACHOR ABSOLUTE · SOVEREIGN ONTOLOGY · CODEX APERTURE</title>
