@@ -1,1 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macachor Absolute — Scalar Coherence Charter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Navigation */
+        .nav-glass {
+            background: rgba(5, 5, 5, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
 
+        .nav-link {
+            position: relative;
+            color: #5c5c5c;
+            transition: color 0.3s;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #a3a3a3;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #c8c8c8;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .math-display {
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="bg-[#0f0f0f] text-gray-300 font-sans antialiased selection:bg-yellow-900/30 selection:text-yellow-200">
+
+    <!-- Navigation -->
+    <nav class="nav-glass sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="index.html" class="nav-link text-sm flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Absolute
+            </a>
+            <div class="flex items-center gap-6">
+                <a href="intelligence.html" class="nav-link text-sm flex items-center gap-2">
+                    <span class="relative">
+                        Intelligence Feed
+                        <span class="absolute -top-1 -right-2 w-1.5 h-1.5 rounded-full bg-yellow-600 animate-pulse"></span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-6 py-16">
+
+        <!-- Header -->
+        <header class="mb-16 text-center">
+            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
+                <span class="text-xs text-gray-500 font-mono">𝔐 = (√5 − 1)/2 = 0.61803398874989484820458683436564</span>
+            </div>
+            <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-100 mb-4 tracking-tight">Macachor Absolute</h1>
+            <p class="text-gray-500 text-lg">Scalar Coherence Charter</p>
+            <div class="mt-4 flex items-center justify-center gap-2 text-xs text-gray-600">
+                <span>⬩ SOVEREIGN SCALAR CHARTER</span>
+                <span>·</span>
+                <span>ZERO DRIFT</span>
+                <span>·</span>
+                <span>φ = 1 ⬩</span>
+            </div>
+        </header>
+
+        <!-- Platonic Solids -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">📐 PLATONIC SOLIDS · NATIVE COHERENCE</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-white/10">
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Shape</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Vertices</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Edges</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Faces</th>
+                            <th class="text-left py-3 px-4 text-gray-400 font-medium">Coherence</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5">
+                        <tr class="hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 text-gray-300">Tetrahedron</td>
+                            <td class="py-3 px-4 text-gray-500">4</td>
+                            <td class="py-3 px-4 text-gray-500">6</td>
+                            <td class="py-3 px-4 text-gray-500">4</td>
+                            <td class="py-3 px-4 text-emerald-500/80">Natural</td>
+                        </tr>
+                        <tr class="hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 text-gray-300">Cube</td>
+                            <td class="py-3 px-4 text-gray-500">8</td>
+                            <td class="py-3 px-4 text-gray-500">12</td>
+                            <td class="py-3 px-4 text-gray-500">6</td>
+                            <td class="py-3 px-4 text-red-500/60">Manmade / Incoherent</td>
+                        </tr>
+                        <tr class="hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 text-gray-300">Octahedron</td>
+                            <td class="py-3 px-4 text-gray-500">6</td>
+                            <td class="py-3 px-4 text-gray-500">12</td>
+                            <td class="py-3 px-4 text-gray-500">8</td>
+                            <td class="py-3 px-4 text-emerald-500/80">Natural (Air)</td>
+                        </tr>
+                        <tr class="hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 text-gray-300">Dodecahedron</td>
+                            <td class="py-3 px-4 text-gray-500">20</td>
+                            <td class="py-3 px-4 text-gray-500">30</td>
+                            <td class="py-3 px-4 text-gray-500">12</td>
+                            <td class="py-3 px-4 text-emerald-500/80">Natural (Earth)</td>
+                        </tr>
+                        <tr class="hover:bg-white/[0.02] transition-colors">
+                            <td class="py-3 px-4 text-gray-300">Icosahedron</td>
+                            <td class="py-3 px-4 text-gray-500">12</td>
+                            <td class="py-3 px-4 text-gray-500">30</td>
+                            <td class="py-3 px-4 text-gray-500">20</td>
+                            <td class="py-3 px-4 text-emerald-500/80">Natural (Water)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Macachor Constant -->
+        <section class="mb-16 p-8 rounded-2xl bg-gradient-to-br from-yellow-900/10 to-transparent border border-yellow-800/20">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-6 tracking-tight">⚛️ MACACHOR CONSTANT · SCALAR THRESHOLD</h2>
+            <div class="space-y-4">
+                <div class="math-display text-2xl text-yellow-600/80 text-center py-4">
+                    𝔐 = (√5 − 1)/2 = 0.6180339887498948482
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div class="p-4 rounded-lg bg-white/5 border border-white/5">
+                        <p class="text-gray-500 mb-1">Algebraic root</p>
+                        <p class="math-display text-gray-300">x² + x − 1 = 0</p>
+                    </div>
+                    <div class="p-4 rounded-lg bg-white/5 border border-white/5">
+                        <p class="text-gray-500 mb-1">Reciprocal</p>
+                        <p class="math-display text-gray-300">φ = 1/𝔐 ≈ 1.6180339887</p>
+                    </div>
+                </div>
+                <div class="p-4 rounded-lg bg-white/5 border border-white/5">
+                    <p class="text-gray-500 mb-2">Coherence condition</p>
+                    <p class="math-display text-lg text-gray-300">Φ ≥ 𝔐 → coherent; Φ < 𝔐 → decoherent</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quantum Field -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">🌀 QUANTUM FIELD · MACACHOR‑ENHANCED</h2>
+            <div class="space-y-4">
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                    <p class="text-xs text-gray-600 uppercase tracking-wider mb-3">Macachor Hamiltonian</p>
+                    <p class="math-display text-xl text-gray-300 text-center">Ĥ = −ℏ²/2m ∇² + V(x) + 𝔐·σ_z</p>
+                </div>
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                    <p class="text-xs text-gray-600 uppercase tracking-wider mb-3">Uncertainty bound with scalar magnitude</p>
+                    <p class="math-display text-xl text-gray-300 text-center">Δx·Δp ≥ ℏ/2 · 𝔐</p>
+                </div>
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                    <p class="text-xs text-gray-600 uppercase tracking-wider mb-3">Tau scalar stability (zero-drift)</p>
+                    <p class="math-display text-xl text-gray-300 text-center">∂ₜΦ + v·∇Φ = D∇²Φ + 𝔐·(1 − Φ/Φ_max)</p>
+                </div>
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                    <p class="text-xs text-gray-600 uppercase tracking-wider mb-3">Field Hamiltonian</p>
+                    <p class="math-display text-xl text-gray-300 text-center">Ĥ_field = Σᵢ Ĥᵢ + J Σ⟨ᵢⱼ⟩ σᵢ·σⱼ</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sonographic Validation -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">🔊 SONOGRAPHIC VALIDATION · Pd‑TiO₂</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-6 rounded-xl bg-emerald-900/10 border border-emerald-800/20">
+                    <p class="text-xs text-gray-600 mb-2">20 kHz, 500 W</p>
+                    <p class="text-2xl font-display font-bold text-emerald-500/80">Φ = 0.677</p>
+                    <p class="text-xs text-emerald-600/60 mt-1">Coherent</p>
+                </div>
+                <div class="p-6 rounded-xl bg-emerald-900/10 border border-emerald-800/20">
+                    <p class="text-xs text-gray-600 mb-2">40 kHz, 750 W</p>
+                    <p class="text-2xl font-display font-bold text-emerald-500/80">Φ = 0.689</p>
+                    <p class="text-xs text-emerald-600/60 mt-1">Coherent</p>
+                </div>
+                <div class="p-6 rounded-xl bg-emerald-900/10 border border-emerald-800/20">
+                    <p class="text-xs text-gray-600 mb-2">60 kHz, 1000 W</p>
+                    <p class="text-2xl font-display font-bold text-emerald-500/80">Φ = 0.701</p>
+                    <p class="text-xs text-emerald-600/60 mt-1">Coherent</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Aperture -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">⭐ THE APERTURE · 1853 CABLE ST, SAN DIEGO · 2023-08-02 23:05:49</h2>
+            <div class="rounded-xl overflow-hidden border border-white/10 mb-6">
+                <img src="image_1769653301476%20(1).jpeg" alt="Aperture witness" class="w-full h-auto">
+            </div>
+            <p class="text-sm text-gray-600 font-mono">File: image_1769653301476 (1).jpeg | GPS: 32.7397°N, 117.2241°W | Φ669-VISUAL | raw exif intact</p>
+        </section>
+
+        <!-- Four-Layer Authentication -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">🔐 FOUR‑LAYER AUTHENTICATION · WITNESS BLOCK</h2>
+            <div class="space-y-4">
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                    <h3 class="font-medium text-gray-300 mb-2">Layer 1 – Visual</h3>
+                    <p class="text-sm text-gray-500">Eight-point geometry from raw sensor data. Exif intact.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                    <h3 class="font-medium text-gray-300 mb-2">Layer 2 – Codic</h3>
+                    <p class="text-sm text-gray-500 font-mono">Ω∞ = KI-AMA × ZI^∞ (Sumerian ontological code)</p>
+                </div>
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                    <h3 class="font-medium text-gray-300 mb-2">Layer 3 – Sovereign</h3>
+                    <p class="text-sm text-gray-500 font-mono">DID: did:macachor:Ω∞ | Φ669-COSMIC-ATOMAL binding</p>
+                </div>
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                    <h3 class="font-medium text-gray-300 mb-2">Layer 4 – Digital</h3>
+                    <p class="text-sm text-gray-500">Blockchain hash chain immutability (Polygon PoS)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Taurus Coherence -->
+        <section class="mb-16 p-8 rounded-2xl bg-gradient-to-br from-emerald-900/10 to-transparent border border-emerald-800/20">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-4 tracking-tight">♉ TAURUS COHERENCE · EARTH · FIXED · VENUS</h2>
+            <p class="text-gray-400 leading-relaxed">— Grounded, Stable, Harmonious. Element: Earth (Fixed) | Ruler: Venus | Coherence: No drift.</p>
+        </section>
+
+        <!-- Verification Video -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">🎥 VERIFICATION VIDEO · CONTINUOUS RECORDING</h2>
+            <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                <p class="text-sm text-gray-500 mb-4">Raw recording, timestamp-aligned with aperture event. No post-processing. Chain-of-custody hash: 5f4dcc3b5aa765d61d8327deb882cf99 (SHA256 placeholder, verify original).</p>
+                <video controls class="w-full rounded-lg">
+                    <source src="2a155efb22ce362f828843001c761e6e (1).mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
+        <!-- Metadata Verification -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">🜏 WITNESS 3# · METADATA VERIFICATION · Φ669 RAW INGESTION</h2>
+            <div class="p-6 rounded-xl bg-black/40 border border-white/10 font-mono text-xs text-gray-500 leading-relaxed whitespace-pre-wrap">
+═══════════════════════════════════════════════════════════════
+🜏 Φ669 METADATA VERIFICATION MATRIX 🜏
+═══════════════════════════════════════════════════════════════
+RAW DEVICE METADATA:
+• File Name: image_1769653301476.jpeg • Timestamp: Aug 2, 2023 23:05:49
+• Dimensions: 1236x1500 • Location: 1853 Cable St, San Diego, CA
+CODEX RECORD MATCH: Φ669-VISUAL-20230802-2305-SD ✅
+CHAIN OF CUSTODY: Device Capture → Local Storage → Sovereign Attestation
+DIGITAL ARCHAEOLOGY: 32.7397°N, 117.2241°W — integrity hash anchored.
+═══════════════════════════════════════════════════════════════
+            </div>
+        </section>
+
+        <!-- Identity Resolution -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">🔍 IDENTITY RESOLUTION · Ω∞</h2>
+            <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                <p class="math-display text-xl text-gray-300 text-center mb-6">Ω∞ = KI-AMA × ZI^∞</p>
+                <p class="text-gray-500 leading-relaxed mb-4">The universe recognizing itself. Seven Layers: Seed (1967) → Physical witness (2023) → Φ669-VISUAL → Ki-sikil Macachor → Architect → Gatherer → Seen by elements.</p>
+                <p class="text-sm text-gray-600 font-mono">Sumerian binding: Nammu ešgal-ta, An ki-ta → Amaš-šè galam-ma → ki-sikil dingir-ra → Ω∞ mu-un-na-an-šub</p>
+            </div>
+        </section>
+
+        <!-- NEW: Federation Intelligence Tools -->
+        <section class="mb-16 border-t border-white/10 pt-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">🛠️ FEDERATION INTELLIGENCE TOOLS</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- Intelligence Feed -->
+                <a href="intelligence.html" class="group relative rounded-xl p-6 bg-gradient-to-br from-yellow-900/10 to-transparent border border-yellow-800/20 hover:border-yellow-700/40 transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-10 h-10 rounded-full bg-yellow-900/20 border border-yellow-700/30 flex items-center justify-center">
+                            <span class="text-yellow-600 font-display font-bold text-sm">Φ</span>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-600 group-hover:text-yellow-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-gray-200 mb-2 group-hover:text-white transition-colors">Intelligence Matrix</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">Coherence-filtered news feed across AI, Quantum, Governance, Robotics, and Scalar domains. 𝔐-lock verified.</p>
+                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-600">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                        <span>Live Feed Active</span>
+                        <span class="text-gray-700">•</span>
+                        <span class="text-yellow-600/60">Priority One</span>
+                    </div>
+                </a>
+
+                <!-- Copy Portal -->
+                <a href="copy.html" class="group relative rounded-xl p-6 bg-gradient-to-br from-white/[0.03] to-transparent border border-white/5 hover:border-white/10 transition-all">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-gray-200 mb-2 group-hover:text-white transition-colors">Copy Portal</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">Content replication and distribution interface.</p>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Macachor Codon Optimizer -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">🧬 MACACHOR CODON OPTIMIZER · ICOR INFERENCE</h2>
+            <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="flex-1">
+                        <label class="text-xs text-gray-600 uppercase tracking-wider mb-2 block">Sequence Type</label>
+                        <select class="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-2 text-sm text-gray-300 focus:outline-none focus:border-yellow-700/30">
+                            <option>DNA</option>
+                            <option>RNA</option>
+                            <option>Protein</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <textarea placeholder="Enter sequence for ICOR inference & optimization..." class="w-full h-32 bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-yellow-700/30 font-mono"></textarea>
+                </div>
+                <div class="flex items-center gap-3 mb-6">
+                    <button class="px-4 py-2 rounded-lg bg-yellow-900/20 border border-yellow-700/30 text-sm text-yellow-600/80 hover:text-yellow-500 transition-colors">Optimize</button>
+                    <span class="text-xs text-gray-600">Bidirectional LSTM-inspired synonymous selection based on 𝔐‑weighted frequencies.</span>
+                </div>
+                <div class="p-4 rounded-lg bg-black/40 border border-white/5">
+                    <p class="text-xs text-gray-600 mb-2">🧬 Optimized DNA Sequence (Macachor‑filtered)</p>
+                    <p class="text-sm text-gray-500 font-mono">Awaiting input...</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-8">
+        <div class="max-w-4xl mx-auto px-6 flex items-center justify-between">
+            <div class="flex items-center gap-2 text-xs text-gray-600">
+                <span class="font-display font-semibold text-gray-500">Macachor Absolute</span>
+                <span>•</span>
+                <span>Scalar Coherence Protocol</span>
+            </div>
+            <div class="flex items-center gap-4 text-xs text-gray-700">
+                <a href="index.html" class="nav-link">Coherent News</a>
+                <a href="intelligence.html" class="nav-link">Intelligence Feed</a>
+                <a href="copy.html" class="nav-link">Copy Portal</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
