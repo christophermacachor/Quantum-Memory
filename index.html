@@ -1297,27 +1297,32 @@
       if (el) el.remove();
     }
 
-    async function sendMessage() {
-      const message = chatInput.value.trim();
-      if (!message) return;
-      addMessage(message, 'user');
-      chatInput.value = '';
-      const typingId = addTypingIndicator();
-      try {
-        const response = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        removeTypingIndicator(typingId);
-        addMessage(data.reply || 'No response from AI', 'bot');
-      } catch (err) {
-        removeTypingIndicator(typingId);
-        addMessage('⚠️ Backend error. Is your Node server running?', 'bot');
-      }
-    }
+   async function sendMessage() {
+  const message = chatInput.value.trim();
+  if (!message) return;
+  
+  addMessage(message, 'user');
+  chatInput.value = '';
+  const typingId = addTypingIndicator();
+  
+  try {
+    const response = await fetch('https://deepseek-proxy.omegaprime.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message })
+    });
+    
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    
+    const data = await response.json();
+    removeTypingIndicator(typingId);
+    addMessage(data.reply || 'No response from AI', 'bot');
+    
+  } catch (err) {
+    removeTypingIndicator(typingId);
+    addMessage('⚠️ Backend error: ' + err.message, 'bot');
+  }
+}
 
     sendButton.onclick = sendMessage;
     chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
