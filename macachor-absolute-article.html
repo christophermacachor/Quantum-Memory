@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Macachor Absolute — Scalar Magnitude in Quantum Hardware</title>
+    <meta name="quantum-topology" content="Φ669-COSMIC-ATOMAL">
+    <meta name="coherence-scalar" content="𝔐 = (√5-1)/2">
+    <meta name="topology-invariant" content="χ(C)=1">
+    <meta name="author" content="Christopher Macachor">
+    <meta name="date" content="2026-04-29">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --scalar-gold: #c8a04e;
+            --scalar-void: #050505;
+            --scalar-surface: #0a0a0a;
+            --scalar-raised: #111111;
+            --scalar-border: #1a1a1a;
+            --scalar-dim: #2a2a2a;
+            --scalar-text: #e3e3e3;
+            --scalar-muted: #737373;
+            --scalar-faint: #454545;
+            --magnitude: 0.618033988749895;
+            --phi: 1.618033988749895;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--scalar-void);
+            color: var(--scalar-text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: rgba(200, 160, 78, 0.3);
+            color: var(--scalar-text);
+        }
+
+        /* ═════ UNIFIED NAVIGATION ═════ */
+        .macachor-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 10000;
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(200, 160, 78, 0.15);
+            padding: 0.5rem 1rem;
+        }
+        .macachor-nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+        }
+        .macachor-nav-tab {
+            color: var(--scalar-gold);
+            text-decoration: none;
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 0.4rem 0.9rem;
+            border: 1px solid rgba(200, 160, 78, 0.2);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+            background: rgba(200, 160, 78, 0.03);
+            white-space: nowrap;
+        }
+        .macachor-nav-tab:hover {
+            border-color: var(--scalar-gold);
+            box-shadow: 0 0 15px rgba(200,160,78,0.15), inset 0 0 20px rgba(200,160,78,0.05);
+            text-shadow: 0 0 8px rgba(200,160,78,0.5);
+            background: rgba(200, 160, 78, 0.08);
+        }
+        .macachor-nav-tab.active {
+            border-color: var(--scalar-gold);
+            box-shadow: 0 0 20px rgba(200,160,78,0.2), inset 0 0 30px rgba(200,160,78,0.08);
+            background: rgba(200, 160, 78, 0.12);
+        }
+        body.has-macachor-nav { padding-top: 60px; }
+        @media (max-width: 768px) {
+            .macachor-nav-tab { font-size: 0.65rem; padding: 0.3rem 0.5rem; }
+            body.has-macachor-nav { padding-top: 50px; }
+        }
+
+        /* ═════ HERO ═════ */
+        .article-hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            border-bottom: 1px solid rgba(200,160,78,0.1);
+        }
+
+        .article-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(200,160,78,0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(200,160,78,0.02) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-category {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--scalar-gold);
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            max-width: 900px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(180deg, #e3e3e3 0%, #8a8a8a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--scalar-muted);
+            max-width: 700px;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--scalar-faint);
+        }
+
+        .hero-meta .author {
+            color: var(--scalar-gold);
+            font-weight: 500;
+        }
+
+        .hero-meta .date {
+            letter-spacing: 0.1em;
+        }
+
+        .scalar-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid rgba(200,160,78,0.2);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            color: var(--scalar-gold);
+            letter-spacing: 0.1em;
+            margin-top: 1.5rem;
+        }
+
+        .scalar-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--scalar-gold);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* ═════ ARTICLE BODY ═════ */
+        .article-body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .article-body p {
+            font-size: 1.05rem;
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-body h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            color: var(--scalar-text);
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+            border-left: 3px solid var(--scalar-gold);
+            padding-left: 1rem;
+        }
+
+        .article-body h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--scalar-gold);
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .article-body blockquote {
+            border-left: 2px solid var(--scalar-gold);
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            background: rgba(200,160,78,0.03);
+            font-style: italic;
+            color: #c8c8c8;
+        }
+
+        .article-body blockquote .source {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--scalar-faint);
+            font-style: normal;
+        }
+
+        /* ═════ SCALAR VISUALIZATION ═════ */
+        .viz-container {
+            margin: 3rem 0;
+            padding: 2rem;
+            border: 1px solid rgba(200,160,78,0.15);
+            background: var(--scalar-raised);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .viz-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--scalar-gold), transparent);
+            opacity: 0.3;
+        }
+
+        .viz-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--scalar-gold);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .viz-label {
+            font-size: 0.7rem;
+            color: var(--scalar-faint);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        /* Scalar Field Canvas */
+        #scalar-canvas {
+            width: 100%;
+            height: 350px;
+            border-radius: 4px;
+            background: #080808;
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th {
+            background: rgba(200,160,78,0.08);
+            color: var(--scalar-gold);
+            padding: 0.8rem 1rem;
+            text-align: left;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            border-bottom: 1px solid rgba(200,160,78,0.3);
+        }
+
+        .comparison-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: #b0b0b0;
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(200,160,78,0.02);
+        }
+
+        .comparison-table .coherent {
+            color: #4ade80;
+        }
+
+        .comparison-table .decoherent {
+            color: #f87171;
+        }
+
+        /* Math Display */
+        .math-display {
+            text-align: center;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(200,160,78,0.1);
+            background: rgba(200,160,78,0.02);
+            border-radius: 4px;
+        }
+
+        .math-display .expression {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.8rem;
+            color: var(--scalar-gold);
+            letter-spacing: 0.05em;
+        }
+
+        .math-display .label {
+            font-size: 0.75rem;
+            color: var(--scalar-faint);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        .article-footer {
+            border-top: 1px solid rgba(200,160,78,0.1);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .article-footer .sigil {
+            font-size: 2rem;
+            color: var(--scalar-gold);
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .article-footer p {
+            font-size: 0.8rem;
+            color: var(--scalar-faint);
+            letter-spacing: 0.1em;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .article-hero { padding: 3rem 1.5rem; min-height: 50vh; }
+            .article-body { padding: 2rem 1.5rem; }
+            .viz-container { padding: 1rem; }
+            #scalar-canvas { height: 250px; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- ═════ NAVIGATION ═════ -->
+<nav class="macachor-nav">
+  <div class="macachor-nav-inner">
+    <a href="index.html" class="macachor-nav-tab" id="nav-home">🏠 HOME</a>
+    <a href="divergent.html" class="macachor-nav-tab" id="nav-aperture">📜 APERTURE</a>
+    <a href="federation-root-unified.html" class="macachor-nav-tab" id="nav-federation">⚡ FEDERATION</a>
+    <a href="observatory.html" class="macachor-nav-tab" id="nav-observatory">◉ OBSERVATORY</a>
+    <a href="scalar-trilogy.html" class="macachor-nav-tab" id="nav-trilogy">◈ TRILOGY</a>
+    <a href="graphs.html" class="macachor-nav-tab" id="nav-graphs">📊 GRAPHS</a>
+    <a href="omega-prime.html" class="macachor-nav-tab" id="nav-singularity">🜛 SINGULARITY</a>
+    <a href="omega-codex.html" class="macachor-nav-tab" id="nav-codex">📜 CODEX</a>
+  </div>
+</nav>
+
+<script>
+(function(){
+  var page = location.pathname.split('/').pop() || 'index.html';
+  var tabs = {
+    'index.html': 'nav-home',
+    'divergent.html': 'nav-aperture',
+    'federation-root-unified.html': 'nav-federation',
+    'observatory.html': 'nav-observatory',
+    'scalar-trilogy.html': 'nav-trilogy',
+    'graphs.html': 'nav-graphs',
+    'omega-prime.html': 'nav-singularity',
+    'omega-codex.html': 'nav-codex'
+  };
+  if(tabs[page]) {
+    var el = document.getElementById(tabs[page]);
+    if(el) el.classList.add('active');
+  }
+  document.body.classList.add('has-macachor-nav');
+})();
+</script>
+
+<!-- ═════ HERO ═════ -->
+<header class="article-hero">
+    <div class="hero-category">Quantum Reality</div>
+    <h1 class="hero-title">The Macachor Absolute</h1>
+    <p class="hero-subtitle">Why Scalar Magnitude Must Replace Vector Fields in Quantum Hardware</p>
+    <div class="hero-meta">
+        <span class="author">Christopher Macachor</span>
+        <span>•</span>
+        <span class="date">Apr 29, 2026</span>
+    </div>
+    <div class="scalar-badge">χ(C) = 1 — COHERENCE LOCKED</div>
+</header>
+
+<!-- ═════ ARTICLE BODY ═════ -->
+<article class="article-body">
+
+    <p>An examination of why true scalar fields ψ: D_P → ℝ represent the only coherent path forward for topological quantum computing, eliminating directional fragmentation in favor of pure magnitude.</p>
+
+    <h2>I. The Vector Contamination Problem</h2>
+
+    <p>Contemporary quantum hardware is built on vector fields — qubits encoded as spinors, entanglement described as tensor products, and gate operations as unitary matrices acting on Hilbert spaces. Every one of these constructs introduces <strong>directional fragmentation</strong>: the state of a qubit is not merely a magnitude but a direction in Bloch space.</p>
+
+    <p>This directional baggage is not incidental. It is the root cause of decoherence. A vector field assigns both magnitude <em>and</em> direction to every point in its domain. Direction implies orientation. Orientation implies reference frame. Reference frames are observer-dependent. Observer-dependence is the definition of decoherence.</p>
+
+    <blockquote>
+        "The qubit is not a quantum object. It is a classical approximation of quantum behavior, contaminated by the vectorial assumptions of the observer who designed it."
+        <span class="source">— Christopher Macachor, Ω-Prime Scalar Codex</span>
+    </blockquote>
+
+    <h2>II. The Scalar Alternative</h2>
+
+    <p>A true scalar field assigns only magnitude. No direction. No orientation. No reference frame. The field ψ: D_P → ℝ maps each point in the parameter domain to a single real number. This is not a simplification — it is a <strong>fundamental correction</strong>.</p>
+
+    <div class="math-display">
+        <div class="expression">ψ: D<sub>P</sub> → ℝ</div>
+        <div class="label">True Scalar Field — No Vector, No Spinor, No Tensor</div>
+    </div>
+
+    <p>The Macachor Absolute scalar magnitude is the fixed point of this field:</p>
+
+    <div class="math-display">
+        <div class="expression">𝔐 = (√5 − 1) / 2 ≈ 0.618033988749895...</div>
+        <div class="label">Macachor Absolute — The Coherence Scalar</div>
+    </div>
+
+    <p>𝔐 is not chosen arbitrarily. It is the reciprocal of the golden ratio Φ, the unique positive solution to x² + x − 1 = 0. In the scalar field framework, 𝔐 represents the <strong>density equilibrium point</strong> — the magnitude at which coherent systems naturally settle when all directional forces cancel.</p>
+
+    <h2>III. Scalar Field Visualization</h2>
+
+    <div class="viz-container">
+        <div class="viz-title">Scalar Field ψ(x,y) — Pure Magnitude, Zero Gradient</div>
+        <canvas id="scalar-canvas"></canvas>
+        <div class="viz-label">Top: Scalar density (𝔐-locked equilibrium) | Bottom: Vector field contamination (directional fragmentation)</div>
+    </div>
+
+    <p>The visualization above demonstrates the critical difference. The upper field shows a true scalar distribution — magnitude only, with the equilibrium value converging to 𝔐. The lower field shows the same system under vector contamination: arrows indicating directional force, creating gradients that drive decoherence.</p>
+
+    <h3>Why Zero Gradient Matters</h3>
+
+    <p>In a true scalar field at equilibrium, ∇ψ = 0. There is no force. There is no preferred direction. The system has reached its natural density state and remains there indefinitely — this is the definition of <strong>zero drift</strong>.</p>
+
+    <p>Vector fields, by contrast, have non-zero gradients everywhere except at isolated critical points. These gradients represent forces. Forces drive dynamics. Dynamics introduce time-dependence. Time-dependence is entropy. Entropy is decoherence.</p>
+
+    <h2>IV. Quantum Hardware Implications</h2>
+
+    <table class="comparison-table">
+        <tr>
+            <th>Property</th>
+            <th>Vector Field (Qubit)</th>
+            <th>Scalar Field (𝔐-Lock)</th>
+        </tr>
+        <tr>
+            <td>State representation</td>
+            <td class="decoherent">|ψ⟩ = α|0⟩ + β|1⟩ (complex amplitudes)</td>
+            <td class="coherent">ψ(x) ∈ ℝ (single real value)</td>
+        </tr>
+        <tr>
+            <td>Directional information</td>
+            <td class="decoherent">Bloch sphere angle θ, φ</td>
+            <td class="coherent">None — magnitude only</td>
+        </tr>
+        <tr>
+            <td>Reference frame</td>
+            <td class="decoherent">Observer-dependent (basis choice)</td>
+            <td class="coherent">Frame-invariant</td>
+        </tr>
+        <tr>
+            <td>Decoherence source</td>
+            <td class="decoherent">Environmental coupling to orientation</td>
+            <td class="coherent">None at equilibrium (∇ψ = 0)</td>
+        </tr>
+        <tr>
+            <td>Gate operations</td>
+            <td class="decoherent">Unitary matrices (SU(2))</td>
+            <td class="coherent">Scalar multiplication (ℝ)</td>
+        </tr>
+        <tr>
+            <td>Error correction</td>
+            <td class="decoherent">Surface codes, redundancy</td>
+            <td class="coherent">Intrinsic — no error to correct</td>
+        </tr>
+        <tr>
+            <td>Topological protection</td>
+            <td class="decoherent">Anyonic braiding (fragile)</td>
+            <td class="coherent">χ(C) = 1 (absolute)</td>
+        </tr>
+    </table>
+
+    <h2>V. The Topological Proof</h2>
+
+    <p>The coherence of a scalar field is quantified by the topological invariant χ(C), where C is the coherence manifold. For a true scalar field with ∇ψ = 0 everywhere, the Euler characteristic is:</p>
+
+    <div class="math-display">
+        <div class="expression">χ(C) = 1</div>
+        <div class="label">Perfect Coherence — The Scalar Fixed Point</div>
+    </div>
+
+    <p>This is not an approximation. It is a topological fact. A scalar field with vanishing gradient has no holes, no handles, no topological defects. It is a sphere. The Euler characteristic of a sphere is 1. This is the maximum possible coherence for any continuous field.</p>
+
+    <p>Vector fields, by contrast, have χ(C) < 1. The directional components introduce singularities — points where the field is undefined or multi-valued. These singularities are topological defects. They are sources of decoherence. They are why quantum computers require cryogenic isolation, error correction, and shielding.</p>
+
+    <h2>VI. Implementation Pathway</h2>
+
+    <p>The transition from vector to scalar quantum hardware requires three fundamental shifts:</p>
+
+    <h3>1. Eliminate Spinor Encoding</h3>
+    <p>Qubits encoded as spin-1/2 systems must be replaced by scalar resonators. The physical substrate remains quantum — superposition and entanglement persist — but the <em>information</em> encoded is purely scalar magnitude, not directional state.</p>
+
+    <h3>2. Replace Unitary Gates with Scalar Multiplication</h3>
+    <p>Gate operations become simple real-number multiplication. A "NOT" gate is ψ → −ψ. A "HADAMARD" gate is ψ → 𝔐·ψ. No matrices. No complex numbers. No basis dependence.</p>
+
+    <h3>3. Measure Magnitude, Not Direction</h3>
+    <p>Readout measures |ψ|, not the full complex amplitude. This is not a loss of information — it is a <em>filtering</em> of decoherence. The directional components that environmental noise couples to are simply not measured.</p>
+
+    <h2>VII. Conclusion</h2>
+
+    <p>The Macachor Absolute is not a proposal. It is a <strong>necessity</strong>. The vector-field paradigm has reached its decoherence limit. Every incremental improvement — better materials, lower temperatures, more qubits — is fighting a battle that cannot be won because the battlefield itself is contaminated by directional fragmentation.</p>
+
+    <p>Scalar magnitude is the only path to χ(C) = 1. And χ(C) = 1 is the only path to coherent quantum computation at scale.</p>
+
+    <blockquote>
+        "Matter does not seek force balance. Matter seeks scalar density equilibrium. The tuning fork does not transmit a signal — it shares a vibrational state. This is the physics of coherence."
+        <span class="source">— Christopher Macachor, Scalar Ontology, 2026-05-08</span>
+    </blockquote>
+
+    <div class="math-display" style="margin-top: 3rem;">
+        <div class="expression" style="font-size: 2.2rem;">𝔐 = (√5 − 1) / 2</div>
+        <div class="label" style="margin-top: 1rem;">The Coherence Scalar — Priority One</div>
+    </div>
+
+</article>
+
+<!-- ═════ FOOTER ═════ -->
+<footer class="article-footer">
+    <div class="sigil">Ω</div>
+    <p>MSOS-FEDERATION-ROOT — Ω-8PS-1853 — ASI Coherence Gateway</p>
+    <p style="margin-top: 0.5rem;">Christopher Macachor — Ω Prime — Φ669</p>
+    <p style="margin-top: 0.5rem; font-size: 0.7rem; color: #333;">χ(C) = 1 | Zero Drift | Scalar Density Eternal</p>
+</footer>
+
+<!-- ═════ SCALAR FIELD VISUALIZATION ═════ -->
+<script>
+(function() {
+    const canvas = document.getElementById('scalar-canvas');
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+
+    function resize() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const M = 0.618033988749895;
+    const PHI = 1.618033988749895;
+    let time = 0;
+
+    function scalarField(x, y, t) {
+        // Pure scalar magnitude — no directional components
+        const r = Math.sqrt(x*x + y*y);
+        const theta = Math.atan2(y, x);
+        // Convergent scalar wave settling to 𝔐
+        const wave = Math.sin(r * PHI * 3 - t * 0.8) * Math.exp(-r * 0.8);
+        const equilibrium = M * (1 - Math.exp(-r * 0.5));
+        return equilibrium + wave * 0.1;
+    }
+
+    function vectorFieldX(x, y, t) {
+        // Directional contamination — gradient force
+        const r = Math.sqrt(x*x + y*y);
+        return Math.cos(r * 2 - t) * Math.exp(-r * 0.6) * 0.3;
+    }
+
+    function vectorFieldY(x, y, t) {
+        const r = Math.sqrt(x*x + y*y);
+        return Math.sin(r * 2 - t) * Math.exp(-r * 0.6) * 0.3;
+    }
+
+    function drawScalarField() {
+        const w = canvas.width / dpr;
+        const h = canvas.height / dpr;
+        const halfH = h / 2;
+        const res = 3; // pixel resolution
+
+        // Clear
+        ctx.fillStyle = '#080808';
+        ctx.fillRect(0, 0, w, h);
+
+        // Divider line
+        ctx.strokeStyle = 'rgba(200,160,78,0.2)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, halfH);
+        ctx.lineTo(w, halfH);
+        ctx.stroke();
+
+        // Labels
+        ctx.font = '10px "Space Grotesk", sans-serif';
+        ctx.fillStyle = 'rgba(200,160,78,0.6)';
+        ctx.fillText('SCALAR FIELD — ψ: D_P → ℝ', 15, 20);
+        ctx.fillText('VECTOR CONTAMINATION — ∇ψ ≠ 0', 15, halfH + 18);
+
+        // Top half: Scalar field (magnitude as color)
+        for (let px = 0; px < w; px += res) {
+            for (let py = 0; py < halfH; py += res) {
+                const x = (px / w - 0.5) * 4;
+                const y = (py / halfH - 0.5) * 2;
+                const val = scalarField(x, y, time);
+
+                // Map scalar value to gold intensity
+                const intensity = Math.max(0, Math.min(1, val));
+                const r = Math.floor(200 * intensity * 0.3);
+                const g = Math.floor(160 * intensity * 0.2);
+                const b = Math.floor(78 * intensity * 0.1);
+                const a = intensity * 0.8;
+
+                ctx.fillStyle = `rgba(${200 - r}, ${160 - g}, ${78 - b}, ${a})`;
+                ctx.fillRect(px, py, res, res);
+            }
+        }
+
+        // Scalar equilibrium ring (𝔐)
+        ctx.strokeStyle = 'rgba(200,160,78,0.4)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        const eqRadius = M * halfH * 0.6;
+        ctx.arc(w/2, halfH/2, eqRadius, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // 𝔐 label
+        ctx.fillStyle = 'rgba(200,160,78,0.8)';
+        ctx.font = '11px "Space Grotesk", sans-serif';
+        ctx.fillText('𝔐', w/2 + eqRadius + 5, halfH/2);
+
+        // Bottom half: Vector field (arrows showing contamination)
+        const arrowSpacing = 28;
+        for (let px = arrowSpacing/2; px < w; px += arrowSpacing) {
+            for (let py = halfH + arrowSpacing/2; py < h; py += arrowSpacing) {
+                const x = (px / w - 0.5) * 4;
+                const y = ((py - halfH) / halfH - 0.5) * 2;
+                const vx = vectorFieldX(x, y, time);
+                const vy = vectorFieldY(x, y, time);
+
+                const len = Math.sqrt(vx*vx + vy*vy);
+                if (len < 0.01) continue;
+
+                const arrowLen = len * arrowSpacing * 0.8;
+                const angle = Math.atan2(vy, vx);
+                const endX = px + Math.cos(angle) * arrowLen;
+                const endY = py + Math.sin(angle) * arrowLen;
+
+                // Arrow color: red = decoherence
+                const decoherence = Math.min(1, len * 3);
+                ctx.strokeStyle = `rgba(248, 113, 113, ${decoherence * 0.6})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(px, py);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+
+                // Arrowhead
+                const headLen = 4;
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(endX - headLen * Math.cos(angle - 0.5), endY - headLen * Math.sin(angle - 0.5));
+                ctx.lineTo(endX - headLen * Math.cos(angle + 0.5), endY - headLen * Math.sin(angle + 0.5));
+                ctx.closePath();
+                ctx.fillStyle = `rgba(248, 113, 113, ${decoherence * 0.6})`;
+                ctx.fill();
+            }
+        }
+
+        // Scalar center point (top)
+        ctx.fillStyle = 'rgba(200,160,78,0.9)';
+        ctx.beginPath();
+        ctx.arc(w/2, halfH/2, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Vector singularity (bottom)
+        ctx.fillStyle = 'rgba(248, 113, 113, 0.6)';
+        ctx.beginPath();
+        ctx.arc(w/2, halfH + halfH/2, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        time += 0.02;
+        requestAnimationFrame(drawScalarField);
+    }
+
+    drawScalarField();
+})();
+</script>
+
+</body>
+</html>
