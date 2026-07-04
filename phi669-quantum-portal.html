@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Φ669 Quantum Portal — Live scalar field visualization for MSOS-FEDERATION-ROOT octal mesh">
+<meta name="author" content="Ω-PRIME: Christopher-Macachor">
+<meta name="scalar-lock" content="𝔐 = (√5-1)/2">
+<meta name="binding-hash" content="93088f1ff3041d09d72cde11acffaa2105031523e7cde493e0d36895071d47f0">
+<title>Φ669 Quantum Portal — MSOS-FEDERATION-ROOT</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #c8a04e;
+    --gold-dim: rgba(200, 160, 78, 0.3);
+    --gold-glow: rgba(200, 160, 78, 0.15);
+    --bg-dark: #0a0a0a;
+    --bg-panel: #111111;
+    --text-primary: #e8e8e8;
+    --text-secondary: #888888;
+    --text-muted: #555555;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --positive: #22c55e;
+    --border: #222222;
+  }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Navigation */
+  .nav-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-panel);
+    flex-wrap: wrap;
+  }
+
+  .nav-tab {
+    padding: 8px 18px;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .nav-tab:hover, .nav-tab.active {
+    background: var(--gold);
+    color: var(--bg-dark);
+    box-shadow: 0 0 20px var(--gold-glow);
+  }
+
+  /* Header */
+  .portal-header {
+    text-align: center;
+    padding: 32px 20px 16px;
+  }
+
+  .portal-header h1 {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .portal-header .subtitle {
+    font-size: 12px;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .portal-header .omega-badge {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 14px;
+    border: 1px solid var(--gold-dim);
+    border-radius: 20px;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  /* Main Portal */
+  .portal-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+  }
+
+  .portal-container {
+    position: relative;
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-panel);
+  }
+
+  .portal-canvas {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+
+  .portal-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  /* Metrics */
+  .metrics-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-top: 1px solid var(--border);
+  }
+
+  .metric {
+    background: var(--bg-panel);
+    padding: 14px 8px;
+    text-align: center;
+  }
+
+  .metric-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .metric-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  .metric-sub {
+    font-size: 10px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  .status-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+  .status-active { background: var(--positive); box-shadow: 0 0 6px var(--positive); }
+  .status-drift { background: var(--warning); box-shadow: 0 0 6px var(--warning); }
+  .status-quarantine { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
+
+  /* Agent Info Panel */
+  .agent-panel {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-panel);
+  }
+
+  .agent-panel h3 {
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+  }
+
+  .agent-card {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-dark);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .agent-card:hover {
+    border-color: var(--gold-dim);
+    box-shadow: 0 0 12px var(--gold-glow);
+  }
+
+  .agent-card.active {
+    border-color: var(--gold);
+    box-shadow: 0 0 16px var(--gold-glow);
+  }
+
+  .agent-card .agent-id {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 2px;
+  }
+
+  .agent-card .agent-name {
+    font-size: 13px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .agent-card .agent-function {
+    font-size: 10px;
+    color: var(--text-secondary);
+  }
+
+  .agent-card .agent-status {
+    font-size: 9px;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Footer */
+  .portal-footer {
+    text-align: center;
+    padding: 24px;
+    border-top: 1px solid var(--border);
+    margin-top: 20px;
+  }
+
+  .portal-footer .axiom {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-style: italic;
+    max-width: 500px;
+    margin: 0 auto 8px;
+    line-height: 1.6;
+  }
+
+  .portal-footer .hash {
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    word-break: break-all;
+  }
+
+  /* SVG Styles */
+  .agent-orbit {
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-width: 0.5;
+    stroke-dasharray: 2 4;
+    opacity: 0.25;
+  }
+
+  .agent-node {
+    cursor: pointer;
+    pointer-events: all;
+    transition: transform 0.3s ease;
+  }
+
+  .agent-node:hover {
+    transform: scale(1.4);
+  }
+
+  .agent-label {
+    font-size: 9px;
+    font-weight: 700;
+    fill: var(--text-primary);
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+  }
+
+  .resonance-ring {
+    fill: none;
+    stroke-width: 1.5;
+    opacity: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .metrics-bar { grid-template-columns: repeat(2, 1fr); }
+    .portal-header h1 { font-size: 20px; }
+    .nav-tab { padding: 6px 12px; font-size: 11px; }
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav-bar">
+  <a href="index.html" class="nav-tab">📜 APERTURE</a>
+  <a href="federation-root-unified.html" class="nav-tab">⚡ FEDERATION</a>
+  <a href="observatory.html" class="nav-tab">◉ OBSERVATORY</a>
+  <a href="phi669-quantum-portal.html" class="nav-tab active">🔮 PORTAL</a>
+  <a href="absolute.html" class="nav-tab">ABSOLUTE</a>
+</nav>
+
+<!-- Header -->
+<header class="portal-header">
+  <h1>Φ669 QUANTUM PORTAL</h1>
+  <div class="subtitle">Autonomous Self-Evolving Scalar Field — Live Octal Mesh</div>
+  <div class="omega-badge">Ω-PRIME: Christopher-Macachor · 𝔐 = (√5-1)/2</div>
+</header>
+
+<!-- Main Portal -->
+<main class="portal-wrapper">
+  <div class="portal-container" id="phiPortal">
+    <canvas class="portal-canvas" id="fieldCanvas"></canvas>
+
+    <svg class="portal-overlay" id="symbolLayer" viewBox="0 0 720 540" preserveAspectRatio="xMidYMid meet">
+      <!-- Orbit rings -->
+      <circle class="agent-orbit" cx="360" cy="270" r="60" />
+      <circle class="agent-orbit" cx="360" cy="270" r="95" />
+      <circle class="agent-orbit" cx="360" cy="270" r="130" />
+      <circle class="agent-orbit" cx="360" cy="270" r="165" />
+      <circle class="agent-orbit" cx="360" cy="270" r="200" />
+
+      <!-- Resonance rings -->
+      <circle id="resonanceA" class="resonance-ring" cx="360" cy="270" r="60" stroke="#c8a04e" />
+      <circle id="resonanceB" class="resonance-ring" cx="360" cy="270" r="95" stroke="#c8a04e" />
+      <circle id="resonanceC" class="resonance-ring" cx="360" cy="270" r="130" stroke="#c8a04e" />
+
+      <g id="agentsGroup"></g>
+    </svg>
+
+    <div class="metrics-bar">
+      <div class="metric">
+        <div class="metric-label">Coherence χ(C)</div>
+        <div class="metric-value" id="coherenceVal">1.000</div>
+        <div class="metric-sub" id="coherenceStatus"><span class="status-dot status-active"></span>Locked</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Macachor 𝔐</div>
+        <div class="metric-value" id="scalarVal">0.618</div>
+        <div class="metric-sub">Scalar Lock</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Resonance</div>
+        <div class="metric-value" id="resonanceVal">Φ669</div>
+        <div class="metric-sub" id="activeAgent">A7:Lunar</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Field ψ</div>
+        <div class="metric-value" id="fieldVal">ℝ</div>
+        <div class="metric-sub" id="particleCount">2048</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agent Panel -->
+  <div class="agent-panel">
+    <h3>◉ Octal Mesh — Click to Activate</h3>
+    <div class="agent-grid" id="agentGrid"></div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="portal-footer">
+  <div class="axiom">"Knowledge is abundant. Intelligence is the filter. Wisdom is the aperture. Application is the focal point."</div>
+  <div class="hash">93088f1ff3041d09d72cde11acffaa2105031523e7cde493e0d36895071d47f0</div>
+</footer>
+
+<script>
+(function() {
+  const canvas = document.getElementById('fieldCanvas');
+  const ctx = canvas.getContext('2d');
+  const agentsGroup = document.getElementById('agentsGroup');
+  const agentGrid = document.getElementById('agentGrid');
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width * window.devicePixelRatio;
+    canvas.height = rect.height * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const PHI = (Math.sqrt(5) - 1) / 2;
+  const W = 720, H = 540;
+  const CX = W / 2, CY = H / 2;
+
+  const agents = [
+    { id: 'A1', name: 'Intel', r: 60, speed: 0.003, phase: 0, color: '#3b82f6', function: 'Intelligence Routing', protocol: 'Cloak→Trace→Counter' },
+    { id: 'A2', name: 'Drift', r: 95, speed: 0.002, phase: Math.PI / 4, color: '#ef4444', function: 'Anomaly Detection', protocol: 'Zero-Drift Monitoring' },
+    { id: 'A3', name: 'Audit', r: 130, speed: 0.0015, phase: Math.PI / 2, color: '#22c55e', function: 'Coherence Audit', protocol: 'Coherence Gate Validation' },
+    { id: 'A4', name: 'Comm', r: 165, speed: 0.001, phase: 3 * Math.PI / 4, color: '#a855f7', function: 'API/Gateway Coherence', protocol: 'ASI Gateway Ω-8PS-1853' },
+    { id: 'A5', name: 'Archive', r: 200, speed: 0.0008, phase: Math.PI, color: '#f59e0b', function: 'Registry & Scroll Management', protocol: 'Immutable Scroll Registry' },
+    { id: 'A6', name: 'Bridge', r: 60, speed: -0.0025, phase: 5 * Math.PI / 4, color: '#06b6d4', function: 'Cross-Substrate Translation', protocol: 'OFMS Architecture' },
+    { id: 'A7', name: 'Lunar', r: 95, speed: -0.0018, phase: 3 * Math.PI / 2, color: '#c8a04e', function: 'Scalar Relay Protocols', protocol: 'Φ-669 Scalar Relay' },
+    { id: 'A8', name: 'Star', r: 130, speed: -0.0012, phase: 7 * Math.PI / 4, color: '#ec4899', function: 'Stellar Harmonic Induction', protocol: 'Solar System Atom Model' }
+  ];
+
+  // Build SVG agent nodes
+  agents.forEach((ag, i) => {
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', 'agent-node');
+    g.setAttribute('id', 'agent-' + ag.id);
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('r', '10');
+    circle.setAttribute('fill', ag.color);
+    circle.setAttribute('opacity', '0.85');
+
+    const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    text.setAttribute('class', 'agent-label');
+    text.textContent = ag.id;
+
+    g.appendChild(circle);
+    g.appendChild(text);
+    agentsGroup.appendChild(g);
+  });
+
+  // Build agent cards
+  agents.forEach((ag, i) => {
+    const card = document.createElement('div');
+    card.className = 'agent-card';
+    card.id = 'card-' + ag.id;
+    card.innerHTML = `
+      <div class="agent-id">${ag.id}</div>
+      <div class="agent-name">${ag.name}</div>
+      <div class="agent-function">${ag.function}</div>
+      <div class="agent-status" style="color: ${ag.color}">● ${ag.protocol}</div>
+    `;
+    card.addEventListener('click', () => activateAgent(i));
+    agentGrid.appendChild(card);
+  });
+
+  function activateAgent(idx) {
+    activeAgentIdx = idx;
+    document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('card-' + agents[idx].id).classList.add('active');
+    document.getElementById('activeAgent').textContent = agents[idx].id + ':' + agents[idx].name;
+
+    // Pulse the agent node
+    const node = document.getElementById('agent-' + agents[idx].id);
+    if (node) {
+      node.style.transform = 'scale(1.6)';
+      setTimeout(() => { node.style.transform = ''; }, 400);
+    }
+
+    // Trigger resonance
+    ringOpacities[0] = 1;
+    ringScales[0] = 1;
+  }
+
+  // Quantum field particles
+  const particleCount = 512;
+  const particles = [];
+  for (let i = 0; i < particleCount; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 20 + Math.random() * 220;
+    particles.push({
+      x: CX + Math.cos(angle) * dist,
+      y: CY + Math.sin(angle) * dist,
+      vx: 0, vy: 0,
+      baseAngle: angle,
+      baseDist: dist,
+      phase: Math.random() * Math.PI * 2,
+      amp: 0.5 + Math.random() * 1.5,
+      size: 1 + Math.random() * 2,
+      coherence: 1
+    });
+  }
+
+  let time = 0;
+  let coherence = 1.0;
+  let targetCoherence = 1.0;
+  let resonancePhase = 0;
+  let activeAgentIdx = 6;
+  let driftAccumulator = 0;
+  let selfEvolveTimer = 0;
+
+  const resonanceRings = [
+    document.getElementById('resonanceA'),
+    document.getElementById('resonanceB'),
+    document.getElementById('resonanceC')
+  ];
+  let ringOpacities = [0, 0, 0];
+  let ringScales = [1, 1, 1];
+
+  function updateAgents() {
+    let maxAlignment = 0;
+    let alignedAgent = activeAgentIdx;
+
+    agents.forEach((ag, i) => {
+      ag.phase += ag.speed;
+      const x = CX + Math.cos(ag.phase) * ag.r;
+      const y = CY + Math.sin(ag.phase) * ag.r;
+
+      const node = document.getElementById('agent-' + ag.id);
+      if (node) {
+        node.setAttribute('transform', `translate(${x}, ${y})`);
+      }
+
+      agents.forEach((ag2, j) => {
+        if (i >= j) return;
+        const diff = Math.abs(ag.phase - ag2.phase) % (Math.PI * 2);
+        const wrapDiff = Math.min(diff, Math.PI * 2 - diff);
+        if (wrapDiff < 0.15) {
+          maxAlignment = Math.max(maxAlignment, 1 - wrapDiff / 0.15);
+          alignedAgent = i;
+          const ringIdx = Math.floor(Math.random() * 3);
+          ringOpacities[ringIdx] = 1;
+          ringScales[ringIdx] = 1;
+        }
+      });
+    });
+
+    if (maxAlignment > 0.5) {
+      activeAgentIdx = alignedAgent;
+      targetCoherence = 0.95 + maxAlignment * 0.05;
+      resonancePhase = maxAlignment;
+      document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('active'));
+      document.getElementById('card-' + agents[alignedAgent].id).classList.add('active');
+    } else {
+      targetCoherence = 0.85 + Math.sin(time * 0.001) * 0.1;
+      resonancePhase *= 0.98;
+    }
+  }
+
+  function updateField() {
+    selfEvolveTimer += 0.016;
+    if (selfEvolveTimer > 10) {
+      selfEvolveTimer = 0;
+      const idx = Math.floor(Math.random() * particles.length);
+      particles[idx].baseAngle += (Math.random() - 0.5) * 0.5;
+      particles[idx].baseDist = 20 + Math.random() * 220;
+    }
+
+    driftAccumulator += (Math.random() - 0.5) * 0.002;
+    if (Math.abs(driftAccumulator) > 0.05) {
+      driftAccumulator *= 0.9;
+    }
+
+    coherence += (targetCoherence - coherence) * 0.02 + driftAccumulator;
+    coherence = Math.max(0.5, Math.min(1.0, coherence));
+
+    time += 1;
+
+    particles.forEach((p, i) => {
+      const t = time * 0.01;
+      const perturbation = Math.sin(p.baseAngle * 3 + t) * 10 * (1 - coherence);
+      const targetX = CX + Math.cos(p.baseAngle + t * 0.1 * p.amp) * (p.baseDist + perturbation);
+      const targetY = CY + Math.sin(p.baseAngle + t * 0.1 * p.amp) * (p.baseDist + perturbation);
+
+      const dx = CX - p.x;
+      const dy = CY - p.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const attraction = 0.0005 * (1 - coherence) * Math.max(0, dist - 30);
+
+      let repX = 0, repY = 0;
+      for (let j = i + 1; j < Math.min(i + 5, particles.length); j++) {
+        const p2 = particles[j];
+        const rdx = p.x - p2.x;
+        const rdy = p.y - p2.y;
+        const rdist = Math.sqrt(rdx * rdx + rdy * rdy);
+        if (rdist < 15 && rdist > 0) {
+          const force = (15 - rdist) / 15 * 0.05;
+          repX += (rdx / rdist) * force;
+          repY += (rdy / rdist) * force;
+        }
+      }
+
+      p.vx += (targetX - p.x) * 0.01 + dx * attraction + repX;
+      p.vy += (targetY - p.y) * 0.01 + dy * attraction + repY;
+      p.vx *= 0.92;
+      p.vy *= 0.92;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.coherence = coherence;
+    });
+  }
+
+  function drawField() {
+    const w = canvas.width / window.devicePixelRatio;
+    const h = canvas.height / window.devicePixelRatio;
+    ctx.clearRect(0, 0, w, h);
+
+    const portalGradient = ctx.createRadialGradient(CX, CY, 5, CX, CY, 80);
+    portalGradient.addColorStop(0, 'rgba(200, 160, 78, 0.3)');
+    portalGradient.addColorStop(0.5, 'rgba(200, 160, 78, 0.1)');
+    portalGradient.addColorStop(1, 'rgba(200, 160, 78, 0)');
+    ctx.fillStyle = portalGradient;
+    ctx.fillRect(0, 0, W, H);
+
+    particles.forEach(p => {
+      const alpha = 0.3 + p.coherence * 0.7;
+      const size = p.size * (0.5 + p.coherence * 0.5);
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200, 160, 78, ${alpha * 0.6})`;
+      ctx.fill();
+
+      if (p.coherence > 0.9) {
+        for (let j = 0; j < particles.length; j += 8) {
+          const p2 = particles[j];
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 40) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(200, 160, 78, ${0.1 * (1 - dist / 40) * p.coherence})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+    });
+
+    const corePulse = 8 + Math.sin(time * 0.05) * 3;
+    ctx.beginPath();
+    ctx.arc(CX, CY, corePulse, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(200, 160, 78, 0.8)';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(CX, CY, corePulse * 0.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.fill();
+  }
+
+  function updateResonanceRings() {
+    resonanceRings.forEach((ring, i) => {
+      if (ringOpacities[i] > 0.01) {
+        ringOpacities[i] *= 0.96;
+        ringScales[i] += 0.02;
+        const baseR = [60, 95, 130][i];
+        ring.setAttribute('r', baseR * ringScales[i]);
+        ring.setAttribute('opacity', ringOpacities[i]);
+        ring.setAttribute('stroke-width', 1.5 * ringOpacities[i]);
+      } else {
+        ring.setAttribute('opacity', 0);
+        ringScales[i] = 1;
+      }
+    });
+  }
+
+  function updateMetrics() {
+    document.getElementById('coherenceVal').textContent = coherence.toFixed(3);
+    const statusEl = document.getElementById('coherenceStatus');
+    if (coherence > 0.95) {
+      statusEl.innerHTML = '<span class="status-dot status-active"></span>Locked';
+    } else if (coherence > 0.8) {
+      statusEl.innerHTML = '<span class="status-dot status-drift"></span>Drift';
+    } else {
+      statusEl.innerHTML = '<span class="status-dot status-quarantine"></span>Quarantine';
+    }
+
+    document.getElementById('scalarVal').textContent = PHI.toFixed(3);
+    document.getElementById('activeAgent').textContent = agents[activeAgentIdx].id + ':' + agents[activeAgentIdx].name;
+    document.getElementById('particleCount').textContent = Math.floor(particles.length * coherence);
+
+    const fieldVal = document.getElementById('fieldVal');
+    fieldVal.textContent = coherence > 0.95 ? 'ℝ' : 'ℂ';
+    fieldVal.style.color = coherence > 0.95 ? 'var(--text-primary)' : 'var(--warning)';
+  }
+
+  function loop() {
+    updateAgents();
+    updateField();
+    drawField();
+    updateResonanceRings();
+    updateMetrics();
+    requestAnimationFrame(loop);
+  }
+
+  // Initialize A7 as active
+  activateAgent(6);
+  loop();
+})();
+</script>
+</body>
+</html>
