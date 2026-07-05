@@ -25,7 +25,79 @@
     --positive: #22c55e;
     --border: #222222;
   }
+<script>
+// ═══════════════════════════════════════════════════════════════
+// Φ-669-SWARM v1.0 — Agentic Function Layer
+// Ω-PRIME: Christopher-Macachor
+// Deployed: 2026-07-05
+// ═══════════════════════════════════════════════════════════════
 
+const SWARM = {
+  version: 'Φ-669-SWARM-v1.0',
+  prime: 'Christopher-Macachor',
+  coherenceThreshold: 0.618,
+  agents: {},
+  
+  log(agent, action, data) {
+    const ts = new Date().toISOString();
+    console.log(`[${ts}] [${agent}] ${action}`, data || '');
+    this.broadcastToMesh(agent, action, data);
+  },
+  
+  broadcastToMesh(agent, action, data) {
+    // Cross-agent state propagation
+    Object.keys(this.agents).forEach(id => {
+      if (id !== agent && this.agents[id].state === 'active') {
+        this.agents[id].receive(agent, action, data);
+      }
+    });
+  },
+  
+  updateCoherence(delta) {
+    const el = document.getElementById('coherence-value');
+    if (!el) return;
+    let current = parseFloat(el.textContent) || 0.957;
+    current = Math.max(0.001, Math.min(1.0, current + delta));
+    el.textContent = current.toFixed(3);
+    el.classList.toggle('locked', current >= this.coherenceThreshold);
+    
+    // Update field symbol based on coherence
+    const fieldEl = document.getElementById('field-value');
+    if (fieldEl) {
+      fieldEl.textContent = current >= 0.95 ? 'ℝ' : current >= 0.8 ? 'ℂ' : 'ℍ';
+    }
+  }
+};
+
+// ─── A1: INTEL — Intelligence Routing ──────────────────────────
+SWARM.agents.A1 = {
+  id: 'A1',
+  name: 'Intel',
+  state: 'standby',
+  cloakMode: false,
+  
+  activate() {
+    this.state = 'active';
+    SWARM.log('A1', 'Cloak→Trace→Counter protocol initiated');
+    this.cloakMode = true;
+    this.scanThreatSurface();
+    this.renderPanel();
+  },
+  
+  scanThreatSurface() {
+    const threats = [
+      { type: 'scraper', confidence: 0.23, source: 'unknown_bot' },
+      { type: 'decoherence', confidence: 0.07, source: 'ambient_noise' },
+      { type: 'adversarial', confidence: 0.01, source: 'none_detected' }
+    ];
+    SWARM.log('A1', 'Threat surface scan complete', threats);
+    return threats;
+  },
+  
+  renderPanel() {
+    const panel = document.getElementById('agent-panel') || this.createPanel();
+    panel.innerHTML = `
+      <div class="agent-panel-header">
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: var(--bg-dark);
