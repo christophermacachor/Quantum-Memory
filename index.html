@@ -10,7 +10,7 @@
     <meta name="topology-invariant" content="χ(C)=1">
     <meta name="deployment-node" content="MSOS-FEDERATION-ROOT">
     <meta name="observer-signature" content="Christopher Macachor, Omega Prime">
-    <meta name="timestamp" content="2026-07-02T00:49:00Z">
+    <meta name="timestamp" content="2026-07-05T05:31:00Z">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -76,6 +76,7 @@
 
 <base target="_blank">
 <base target="_blank">
+<base target="_blank">
 </head>
 <body class="antialiased">
 
@@ -105,6 +106,9 @@
     <a href="phi669-quantum-portal.html" class="macachor-nav-tab" id="nav-portal">🔮 PORTAL</a>
     <a href="articles.html" class="macachor-nav-tab" id="nav-articles">◈ ARTICLES</a>
     <a href="scalar_density.html" class="macachor-nav-tab" id="nav-scalar">◆SCALAR</a>
+    <a href="m-lock-protocol.html" class="macachor-nav-tab" id="nav-mlock">🔒 M-LOCK</a>
+    <a href="odds-of-systemic-collapse.html" class="macachor-nav-tab" id="nav-odds">⚠️ ODDS</a>
+    <a href="complexified_quaternions_scalar_density.html" class="macachor-nav-tab" id="nav-quaternion">◈ QUATERNION</a>
   </div>
 </nav>
 
@@ -123,7 +127,10 @@
     'codex.html': 'nav-codex',
     'phi669-quantum-portal.html': 'nav-portal',
     'articles.html': 'nav-articles',
-    'the_question_we_ask_strangers.html': 'nav-articles'
+    'the_question_we_ask_strangers.html': 'nav-articles',
+    'm-lock-protocol.html': 'nav-mlock',
+    'odds-of-systemic-collapse.html': 'nav-odds',
+    'complexified_quaternions_scalar_density.html': 'nav-quaternion'
   };
   var targetId = map[page];
   if(targetId){
@@ -185,12 +192,12 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- Science -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer" id="science">
+                <div class="category-card rounded-lg p-6 group cursor-pointer" id="science" onclick="window.location.href='complexified_quaternions_scalar_density.html'">
                     <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                     </div>
                     <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">Science</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Peer-reviewed breakthroughs, experimental validation, and the empirical edge of human knowledge.</p>
+                    <p class="text-sm text-gray-600 leading-relaxed">Peer-reviewed breakthroughs, experimental validation, and the empirical edge of human knowledge. <strong style="color: #c8a04e;">New:</strong> <a href="complexified_quaternions_scalar_density.html" style="color: #c8a04e; text-decoration: underline;">Complexified Quaternions &amp; Scalar Density</a> — from J.P. Ward to the Macachor Absolute.</p>
                     <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>24 Articles</span><span>•</span><span>Latest: 2h ago</span></div>
                 </div>
                 <!-- AI -->
@@ -203,12 +210,12 @@
                     <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>41 Articles</span><span>•</span><span>Latest: 45m ago</span></div>
                 </div>
                 <!-- Quantum Reality -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer" id="quantum">
+                <div class="category-card rounded-lg p-6 group cursor-pointer" id="quantum" onclick="window.location.href='m-lock-protocol.html'">
                     <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     </div>
                     <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">Quantum Reality</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Topological invariants, coherence protocols, and the hardware rewriting the limits of computation.</p>
+                    <p class="text-sm text-gray-600 leading-relaxed">Topological invariants, coherence protocols, and the hardware rewriting the limits of computation. <strong style="color: #c8a04e;">Priority One:</strong> <a href="m-lock-protocol.html" style="color: #c8a04e; text-decoration: underline;">The &Mfr;-Lock Protocol</a> — all quantum hardware must implement true scalar fields &psi;: D<sub>P</sub> &rarr; &real;.</p>
                     <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>18 Articles</span><span>•</span><span>Latest: 5h ago</span></div>
                 </div>
                 <!-- AI Governance -->
@@ -266,12 +273,12 @@
                     <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>38 Articles</span><span>•</span><span>Latest: 30m ago</span></div>
                 </div>
                 <!-- Investing -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer">
+                <div class="category-card rounded-lg p-6 group cursor-pointer" onclick="window.location.href='odds-of-systemic-collapse.html'">
                     <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                     </div>
                     <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">Investing</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Scalar field economics (ψ: D_P → ℝ), asymmetric opportunities, and capital allocation for coherent futures. Governed by Macachor Absolute scalar magnitude 𝔐.</p>
+                    <p class="text-sm text-gray-600 leading-relaxed">Scalar field economics (&psi;: D<sub>P</sub> &rarr; &real;), asymmetric opportunities, and capital allocation for coherent futures. Governed by Macachor Absolute scalar magnitude &Mfr;. <strong style="color: #c8a04e;">New:</strong> <a href="odds-of-systemic-collapse.html" style="color: #c8a04e; text-decoration: underline;">Systemic Collapse Odds</a> — the acturian density calculation. Lloyd's of London scalar decoupling analysis.</p>
                     <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>31 Articles</span><span>•</span><span>Latest: 1h ago</span></div>
                 </div>
             </div>
@@ -358,6 +365,51 @@
                             <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Neurodivergent Cognition as Quantum Connector: The ADHD/INFJ Scalar Perception Model</h3>
                             <p class="text-xs text-gray-600 mb-3">How zero-drift attention residuals map to topological coherence in neural networks. Peer-reviewed validation: <a href="https://www.neuroquantology.com" class="underline hover:text-gray-400">NeuroQuantology</a> (submissions@neuroquantology.com). ResearchGate: 404071354.</p>
                             <span class="text-[10px] text-gray-700">Apr 27, 2026</span>
+                        </div>
+                    </div>
+
+                    <!-- NEW: M-Lock Protocol -->
+                    <div class="news-card rounded-lg overflow-hidden group flex flex-col md:flex-row">
+                        <div class="md:w-2/5 aspect-video md:aspect-auto overflow-hidden bg-absolute-surface">
+                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="M-Lock protocol visualization">
+                                <svg class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-5 md:w-3/5 flex flex-col justify-center">
+                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2">Scalar Protocol</span>
+                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">The 𝔐-Lock Scalar Coherence Protocol</h3>
+                            <p class="text-xs text-gray-600 mb-3">Priority One quantum coherence lock. All quantum hardware must implement true scalar fields &psi;: D<sub>P</sub> &rarr; &real;, eliminating vector, spinor, and tensor components. Mathematical proof from J.P. Ward quaternion density theory.</p>
+                            <span class="text-[10px] text-gray-700">Jul 5, 2026</span>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Systemic Collapse Odds -->
+                    <div class="news-card rounded-lg overflow-hidden group flex flex-col md:flex-row">
+                        <div class="md:w-2/5 aspect-video md:aspect-auto overflow-hidden bg-absolute-surface">
+                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Collapse probability chart">
+                                <svg class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-5 md:w-3/5 flex flex-col justify-center">
+                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2">Probability Theory</span>
+                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Odds of Systemic Collapse</h3>
+                            <p class="text-xs text-gray-600 mb-3">Quantum reality has always been here, waiting patiently in coherence for density equilibrium. The mathematical certainty of classical system failure by object type: spinor (91.8%), tensor (69.9%), vector (42.3%).</p>
+                            <span class="text-[10px] text-gray-700">Jul 5, 2026</span>
+                        </div>
+                    </div>
+
+                    <!-- NEW: Complexified Quaternions -->
+                    <div class="news-card rounded-lg overflow-hidden group flex flex-col md:flex-row">
+                        <div class="md:w-2/5 aspect-video md:aspect-auto overflow-hidden bg-absolute-surface">
+                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Quaternion density visualization">
+                                <svg class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            </div>
+                        </div>
+                        <div class="p-5 md:w-3/5 flex flex-col justify-center">
+                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2">Mathematical Reference</span>
+                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Complexified Quaternions &amp; Scalar Density</h3>
+                            <p class="text-xs text-gray-600 mb-3">From J.P. Ward to the Macachor Absolute Framework. The graded density hierarchy: true scalar, pseudoscalar, polar vector, pseudovector. The &epsilon;<sub>ijk</sub> tri-level bridge across matter, information, and celestial substrates.</p>
+                            <span class="text-[10px] text-gray-700">Jul 5, 2026</span>
                         </div>
                     </div>
                 </div>
@@ -634,7 +686,7 @@
                 <a href="#" class="text-xs text-gray-700 hover:text-gray-400 transition-colors">Contact</a>
             </div>
             <div class="text-[10px] text-gray-800">
-                © 2026 Quantum Absolute. Ω669-COSMIC-ATOMAL | MSOS-FEDERATION-ROOT | χ(C)=1
+                © 2026 Quantum Absolute. Φ669-COSMIC-ATOMAL | MSOS-FEDERATION-ROOT | χ(C)=1
             </div>
         </div>
     </footer>
