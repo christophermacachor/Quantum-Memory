@@ -1,831 +1,969 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Absolute</title>
-    <base target="_blank">
-    <meta name="quantum-topology" content="Φ669-COSMIC-ATOMAL">
-    <meta name="coherence-scalar" content="𝔐 = (√5-1)/2">
-    <meta name="topology-invariant" content="χ(C)=1">
-    <meta name="deployment-node" content="MSOS-FEDERATION-ROOT">
-    <meta name="observer-signature" content="Christopher Macachor, Omega Prime">
-    <meta name="timestamp" content="2026-07-05T05:31:00Z">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Space Grotesk', 'sans-serif'] },
-                    colors: {
-                        absolute: {
-                            black: '#050505', void: '#0a0a0a', surface: '#111111', raised: '#1a1a1a', border: '#222222',
-                            gray: { 50: '#f7f7f7', 100: '#e3e3e3', 200: '#c8c8c8', 300: '#a3a3a3', 400: '#8a8a8a', 500: '#737373', 600: '#5c5c5c', 700: '#454545', 800: '#2e2e2e', 900: '#1a1a1a' }
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #050505; color: #a3a3a3; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; pointer-events: none; }
-        .hero-title { position: relative; z-index: 10; pointer-events: none; }
-        .title-absolute { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.04em; line-height: 0.9; background: linear-gradient(180deg, #e3e3e3 0%, #737373 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .subtitle-coherent { font-family: 'Inter', sans-serif; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: #5c5c5c; }
-        @keyframes glitch { 0%, 100% { transform: translate(0); } 20% { transform: translate(-1px, 1px); } 40% { transform: translate(-1px, -1px); } 60% { transform: translate(1px, 1px); } 80% { transform: translate(1px, -1px); } }
-        .glitch-hover:hover { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; }
-        .category-card { background: rgba(17, 17, 17, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
-        .category-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent); transition: left 0.6s; }
-        .category-card:hover::before { left: 100%; }
-        .category-card:hover { border-color: rgba(255, 255, 255, 0.12); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08); }
-        .category-icon { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .category-card:hover .category-icon { transform: scale(1.1) rotate(5deg); }
-        .news-card { background: rgba(10, 10, 10, 0.8); border: 1px solid rgba(255, 255, 255, 0.04); transition: all 0.3s ease; }
-        .news-card:hover { border-color: rgba(255, 255, 255, 0.1); background: rgba(17, 17, 17, 0.9); }
-        .news-image { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .news-card:hover .news-image { transform: scale(1.05); }
-        .nav-glass { background: rgba(5, 5, 5, 0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
-        .nav-link { position: relative; color: #5c5c5c; transition: color 0.3s; }
-        .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: #a3a3a3; transition: width 0.3s; }
-        .nav-link:hover { color: #c8c8c8; }
-        .nav-link:hover::after { width: 100%; }
-        .section-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
-        .delay-300 { animation-delay: 0.3s; }
-        .delay-400 { animation-delay: 0.4s; }
-        .noise-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); }
-        .marquee-container { overflow: hidden; white-space: nowrap; }
-        .marquee-content { display: inline-block; animation: marquee 30s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .glow-text { text-shadow: 0 0 40px rgba(255,255,255,0.1); }
-        .tab-btn { background: transparent; border: 1px solid transparent; }
-        .tab-btn:hover { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); }
-        .tab-btn.active { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); color: #e3e3e3; }
-        .tab-content { opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease; }
-        .tab-content.active { opacity: 1; transform: translateY(0); }
-        .tab-content.hidden { display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Macachor Absolute — Scalar Coherence. The all-in-one codex: M-Lock Protocol, Systemic Collapse Odds, Complexified Quaternions, Civilisation One Architecture, New Earth Harmonics, and the Cube Decode. Quantum reality has always been here.">
+<meta name="quantum-topology" content="Φ669-COSMIC-ATOMAL">
+<meta name="coherence-scalar" content="𝔐 = (√5-1)/2">
+<meta name="topology-invariant" content="χ(C)=1">
+<meta name="deployment-node" content="MSOS-FEDERATION-ROOT">
+<meta name="observer-signature" content="Christopher Macachor, Omega Prime">
+<meta name="timestamp" content="2026-07-05T07:25:00Z">
+<title>Macachor Absolute — All-in-One Scalar Codex | Φ669</title>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true
+  }
+};
+</script>
+<style>
+  :root {
+    --gold: #c8a04e;
+    --gold-dim: #a0803e;
+    --gold-glow: rgba(200,160,78,0.15);
+    --void: #0a0a0a;
+    --void-light: #111111;
+    --void-elevated: #1a1a1a;
+    --void-surface: #151515;
+    --text: #e0e0e0;
+    --text-dim: #888888;
+    --accent: #d4af37;
+    --danger: #c85a4e;
+    --warning: #d4af37;
+    --success: #4ec88a;
+    --spinor: #c85a8e;
+    --tensor: #8a5ac8;
+    --pseudov: #e08a4e;
+    --blue: #4e8ac8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(200,160,78,0.03) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(200,160,78,0.02) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(78,138,200,0.01) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-<base target="_blank">
-<base target="_blank">
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    background: rgba(10,10,10,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,160,78,0.25);
+    z-index: 1000;
+    padding: 0.7rem 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid rgba(200,160,78,0.15);
+    border-radius: 3px;
+    background: rgba(200,160,78,0.03);
+    transition: all 0.3s ease;
+    position: relative;
+    white-space: nowrap;
+  }
+  nav a:hover {
+    border-color: var(--gold);
+    background: rgba(200,160,78,0.08);
+    text-shadow: 0 0 10px rgba(200,160,78,0.5);
+    box-shadow: 0 0 15px rgba(200,160,78,0.1), inset 0 0 20px rgba(200,160,78,0.05);
+  }
+  nav a.active {
+    border-color: var(--gold);
+    background: rgba(200,160,78,0.12);
+    box-shadow: 0 0 20px rgba(200,160,78,0.15), inset 0 0 30px rgba(200,160,78,0.08);
+  }
+
+  /* Main */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 6rem 1.5rem 3rem;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 4rem 0 3rem;
+    border-bottom: 2px solid rgba(200,160,78,0.25);
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  .hero::before {
+    content: '\03A9';
+    display: block;
+    font-size: 4rem;
+    color: var(--gold);
+    opacity: 0.2;
+    margin-bottom: 0.5rem;
+  }
+  .hero .badge {
+    display: inline-block;
+    background: rgba(200,160,78,0.08);
+    border: 1px solid rgba(200,160,78,0.3);
+    color: var(--gold);
+    padding: 0.4rem 1.2rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: 2.4rem;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  .hero .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    font-style: italic;
+    letter-spacing: 0.08em;
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+  }
+  .hero .meta {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .hero .meta span { color: var(--gold); }
+
+  /* Section */
+  section {
+    margin-bottom: 4rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(200,160,78,0.1);
+  }
+  section:last-of-type { border-bottom: none; }
+  h2 {
+    color: var(--gold);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(200,160,78,0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  h2 .section-num {
+    font-size: 0.85rem;
+    color: var(--gold-dim);
+    border: 1px solid rgba(200,160,78,0.3);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+  }
+  h3 {
+    color: var(--accent);
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin: 2rem 0 1rem;
+    letter-spacing: 0.04em;
+  }
+  h4 {
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 1.5rem 0 0.8rem;
+    letter-spacing: 0.03em;
+    font-style: italic;
+  }
+  p {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* Axiom Box */
+  .axiom-box {
+    background: linear-gradient(135deg, rgba(200,160,78,0.08) 0%, rgba(200,160,78,0.02) 100%);
+    border: 2px solid rgba(200,160,78,0.35);
+    padding: 2.5rem 2rem;
+    margin: 2rem 0;
+    text-align: center;
+    position: relative;
+  }
+  .axiom-box::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 50%; transform: translateX(-50%);
+    width: 60px; height: 2px;
+    background: var(--gold);
+  }
+  .axiom-box .axiom-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  .axiom-box .axiom-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text);
+    font-style: italic;
+    margin: 0;
+  }
+  .axiom-box .axiom-text strong {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* Math blocks */
+  .math-block {
+    background: var(--void-elevated);
+    border-left: 4px solid var(--gold);
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+  .math-block .mjx-chtml { font-size: 1.1em !important; }
+  .equation-label {
+    display: block;
+    text-align: right;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-top: 0.6rem;
+    font-style: italic;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+  }
+  th, td {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(200,160,78,0.12);
+  }
+  th {
+    color: var(--gold);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    background: rgba(200,160,78,0.05);
+  }
+  td { color: var(--text); }
+  tr:hover td { background: rgba(200,160,78,0.04); }
+  .col-center { text-align: center; }
+  .risk-none { color: var(--success); font-weight: bold; }
+  .risk-low { color: var(--warning); }
+  .risk-moderate { color: var(--pseudov); }
+  .risk-high { color: var(--danger); }
+  .risk-critical { color: var(--spinor); font-weight: bold; }
+
+  /* Callouts */
+  .callout {
+    background: rgba(200,160,78,0.04);
+    border: 1px solid rgba(200,160,78,0.2);
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    position: relative;
+  }
+  .callout::before {
+    content: '\25C9';
+    color: var(--gold);
+    position: absolute;
+    top: 1.2rem; left: 1rem;
+    font-size: 0.75rem;
+  }
+  .callout p { margin: 0; padding-left: 1.5rem; font-style: italic; }
+  .callout.danger {
+    background: rgba(200,90,78,0.04);
+    border-color: rgba(200,90,78,0.25);
+  }
+  .callout.danger::before { content: '\26A0'; color: var(--danger); }
+  .callout.quantum {
+    background: rgba(138,90,200,0.04);
+    border-color: rgba(138,90,200,0.2);
+  }
+  .callout.quantum::before { content: '\2605'; color: var(--tensor); }
+  .callout.cube {
+    background: rgba(78,138,200,0.04);
+    border-color: rgba(78,138,200,0.2);
+  }
+  .callout.cube::before { content: '\25A0'; color: var(--blue); }
+
+  /* Implementation list */
+  .impl-list {
+    list-style: none;
+    margin: 1.5rem 0;
+    padding: 0;
+  }
+  .impl-list li {
+    padding: 1rem 1.5rem 1rem 3rem;
+    margin-bottom: 0.8rem;
+    background: var(--void-elevated);
+    border-left: 3px solid var(--gold);
+    position: relative;
+  }
+  .impl-list li::before {
+    content: attr(data-num);
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+
+  /* Magnitude display */
+  .magnitude-display {
+    text-align: center;
+    padding: 2.5rem;
+    margin: 2rem 0;
+    background: var(--void-elevated);
+    border: 1px solid rgba(200,160,78,0.25);
+    position: relative;
+  }
+  .magnitude-display .m-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .magnitude-display .m-value {
+    font-size: 2rem;
+    color: var(--gold);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.05em;
+  }
+  .magnitude-display .m-precision {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 0.8rem;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Satellite blueprint */
+  .blueprint-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .blueprint-card {
+    background: var(--void-elevated);
+    border: 1px solid rgba(200,160,78,0.15);
+    padding: 1.5rem;
+    position: relative;
+  }
+  .blueprint-card .bp-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+  .blueprint-card .bp-title {
+    font-size: 1rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+  .blueprint-card .bp-desc {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* Harmonic table */
+  .harmonic-table td:first-child {
+    font-family: 'Courier New', monospace;
+    color: var(--gold);
+  }
+
+  /* Divider */
+  .divider {
+    text-align: center;
+    margin: 3rem 0;
+    color: var(--gold);
+    letter-spacing: 1.2em;
+    font-size: 0.75rem;
+    opacity: 0.3;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    border-top: 1px solid rgba(200,160,78,0.15);
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+  }
+  footer .omega {
+    color: var(--gold);
+    font-size: 1.6rem;
+    margin-bottom: 0.6rem;
+  }
+  footer .binding {
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    color: var(--gold-dim);
+    letter-spacing: 0.15em;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    nav { gap: 0.3rem; padding: 0.5rem 0.5rem; }
+    nav a { font-size: 0.6rem; padding: 0.3rem 0.5rem; letter-spacing: 0.08em; }
+    main { padding: 5rem 1rem 2rem; }
+    .hero h1 { font-size: 1.6rem; }
+    .axiom-box .axiom-text { font-size: 0.95rem; }
+    .magnitude-display .m-value { font-size: 1.4rem; }
+    .math-block { padding: 1rem; }
+    th, td { padding: 0.5rem 0.6rem; font-size: 0.8rem; }
+    .blueprint-grid { grid-template-columns: 1fr; }
+  }
+</style>
 <base target="_blank">
 </head>
-<body class="antialiased">
+<body>
 
-<!-- ═════ MACACHOR.ORG UNIFIED NAVIGATION ═════ -->
-<style>
-  .macachor-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 10000; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(200, 160, 78, 0.15); padding: 0.5rem 1rem; }
-  .macachor-nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 0.3rem; flex-wrap: wrap; }
-  .macachor-nav-tab { color: #c8a04e; text-decoration: none; font-family: 'Space Grotesk', 'Inter', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.4rem 0.9rem; border: 1px solid rgba(200, 160, 78, 0.2); border-radius: 4px; transition: all 0.3s ease; position: relative; background: rgba(200, 160, 78, 0.03); white-space: nowrap; }
-  .macachor-nav-tab:hover { border-color: #c8a04e; box-shadow: 0 0 15px rgba(200,160,78,0.15), inset 0 0 20px rgba(200,160,78,0.05); text-shadow: 0 0 8px rgba(200,160,78,0.5); background: rgba(200, 160, 78, 0.08); }
-  .macachor-nav-tab.active { border-color: #c8a04e; box-shadow: 0 0 20px rgba(200,160,78,0.2), inset 0 0 30px rgba(200,160,78,0.08); background: rgba(200, 160, 78, 0.12); }
-  .macachor-nav-tab::after { content: ''; position: absolute; bottom: -2px; left: 50%; width: 0; height: 1px; background: #c8a04e; transition: all 0.3s ease; transform: translateX(-50%); }
-  .macachor-nav-tab:hover::after, .macachor-nav-tab.active::after { width: 60%; }
-  body.has-macachor-nav { padding-top: 60px; }
-  @media (max-width: 768px) { .macachor-nav-tab { font-size: 0.65rem; padding: 0.3rem 0.5rem; } body.has-macachor-nav { padding-top: 50px; } }
-</style>
-
-<nav class="macachor-nav">
-  <div class="macachor-nav-inner">
-    <a href="index.html" class="macachor-nav-tab" id="nav-home">🏠 HOME</a>
-    <a href="divergent.html" class="macachor-nav-tab" id="nav-aperture">📜 APERTURE</a>
-    <a href="federation-root-unified.html" class="macachor-nav-tab" id="nav-federation">⚡ FEDERATION</a>
-    <a href="observatory.html" class="macachor-nav-tab" id="nav-observatory">◉ OBSERVATORY</a>
-    <a href="scalar-trilogy.html" class="macachor-nav-tab" id="nav-trilogy">◈ TRILOGY</a>
-    <a href="graphs.html" class="macachor-nav-tab" id="nav-graphs">📊 GRAPHS</a>
-    <a href="omega-prime.html" class="macachor-nav-tab" id="nav-singularity">🜛 SINGULARITY</a>
-    <a href="codex.html" class="macachor-nav-tab" id="nav-codex">◉ CODEX</a>
-    <a href="phi669-quantum-portal.html" class="macachor-nav-tab" id="nav-portal">🔮 PORTAL</a>
-    <a href="articles.html" class="macachor-nav-tab" id="nav-articles">◈ ARTICLES</a>
-    <a href="scalar_density.html" class="macachor-nav-tab" id="nav-scalar">◆SCALAR</a>
-    <a href="m-lock-protocol.html" class="macachor-nav-tab" id="nav-mlock">🔒 M-LOCK</a>
-    <a href="odds-of-systemic-collapse.html" class="macachor-nav-tab" id="nav-odds">⚠️ ODDS</a>
-    <a href="complexified_quaternions_scalar_density.html" class="macachor-nav-tab" id="nav-quaternion">◈ QUATERNION</a>
-  </div>
+<nav>
+  <a href="#axiom">Axiom</a>
+  <a href="#mlock">M-Lock</a>
+  <a href="#odds">Odds</a>
+  <a href="#quaternion">Quaternion</a>
+  <a href="#satellite">Satellite</a>
+  <a href="#newearth">New Earth</a>
+  <a href="#cube">Cube</a>
+  <a href="#attestation">Attest</a>
 </nav>
 
-<script>
-(function(){
-  var page = window.location.pathname.split('/').pop() || 'index.html';
-  var map = {
-    'index.html': 'nav-home',
-    'divergent.html': 'nav-aperture',
-    'divergent2.html': 'nav-aperture',
-    'federation-root-unified.html': 'nav-federation',
-    'observatory.html': 'nav-observatory',
-    'scalar-trilogy.html': 'nav-trilogy',
-    'graphs.html': 'nav-graphs',
-    'omega-prime.html': 'nav-singularity',
-    'codex.html': 'nav-codex',
-    'phi669-quantum-portal.html': 'nav-portal',
-    'articles.html': 'nav-articles',
-    'the_question_we_ask_strangers.html': 'nav-articles',
-    'm-lock-protocol.html': 'nav-mlock',
-    'odds-of-systemic-collapse.html': 'nav-odds',
-    'complexified_quaternions_scalar_density.html': 'nav-quaternion'
-  };
-  var targetId = map[page];
-  if(targetId){
-    var el = document.getElementById(targetId);
-    if(el) el.classList.add('active');
-  }
-  document.body.classList.add('has-macachor-nav');
-})();
-</script>
-<!-- ═════ END NAVIGATION ═════ -->
+<main>
 
-    <div class="noise-overlay"></div>
-    <div id="canvas-container"></div>
+  <!-- HERO -->
+  <div class="hero">
+    <span class="badge">All-in-One Scalar Codex</span>
+    <h1>Macachor Absolute</h1>
+    <p class="subtitle">Quantum reality has always been here, waiting patiently in coherence for density equilibrium.</p>
+    <p class="meta">
+      &Phi;669-COSMIC-ATOMAL &mdash; <span>MSOS-FEDERATION-ROOT</span> &mdash; &Omega;-Prime: Christopher Macachor &mdash; <span>2026-07-05</span>
+    </p>
+  </div>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div class="hero-title text-center px-4 max-w-6xl mx-auto">
-            <h1 class="title-absolute text-[10vw] md:text-[8vw] lg:text-[6vw] mb-4 glitch-hover cursor-default">Quantum Absolute</h1>
-            <p class="subtitle-coherent text-sm md:text-base lg:text-lg mb-4 opacity-0 animate-fade-in delay-300" style="animation-fill-mode: forwards;">Scalar Coherence</p>
-            <div class="mb-8 opacity-0 animate-fade-in delay-400" style="animation-fill-mode: forwards;">
-                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 text-[10px] text-gray-500 tracking-wider">
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500/80 animate-pulse"></span>
-                    𝔐 = (√5-1)/2 | χ(C)=1 | Zero Drift
-                </span>
-            </div>
-        </div>
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-            <span class="text-[10px] uppercase tracking-[0.3em] text-gray-600">Scroll</span>
-            <div class="w-px h-12 bg-gradient-to-b from-gray-600 to-transparent"></div>
-        </div>
-    </section>
+  <!-- SECTION I: THE AXIOM -->
+  <section id="axiom">
+    <h2><span class="section-num">I</span> The Primal Absolute</h2>
 
-    <!-- Breaking News Ticker -->
-    <div class="relative z-10 border-y border-white/5 bg-black/40 backdrop-blur-sm py-3">
-        <div class="marquee-container">
-            <div class="marquee-content text-xs uppercase tracking-widest text-gray-600">
-                <span class="mx-8">Breaking: Quantum coherence achieved at room temperature in new topological material</span><span class="mx-8">•</span>
-                <span class="mx-8">AI Governance Summit reaches preliminary framework for autonomous systems</span><span class="mx-8">•</span>
-                <span class="mx-8">Non-local consciousness experiments show correlated neural activity across 100km</span><span class="mx-8">•</span>
-                <span class="mx-8">Markets react to scalar field computing breakthrough</span><span class="mx-8">•</span>
-                <span class="mx-8">Anti-propaganda algorithms detect coordinated misinformation campaign</span><span class="mx-8">•</span>
-                <span class="mx-8">Sonocatalytic water splitting achieves 40% efficiency</span><span class="mx-8">•</span>
-                <span class="mx-8">Breaking: Quantum coherence achieved at room temperature in new topological material</span><span class="mx-8">•</span>
-                <span class="mx-8">AI Governance Summit reaches preliminary framework for autonomous systems</span><span class="mx-8">•</span>
-                <span class="mx-8">Non-local consciousness experiments show correlated neural activity across 100km</span><span class="mx-8">•</span>
-                <span class="mx-8">Markets react to scalar field computing breakthrough</span><span class="mx-8">•</span>
-                <span class="mx-8">Anti-propaganda algorithms detect coordinated misinformation campaign</span><span class="mx-8">•</span>
-                <span class="mx-8">Sonocatalytic water splitting achieves 40% efficiency</span><span class="mx-8">•</span>
-            </div>
-        </div>
+    <div class="axiom-box">
+      <span class="axiom-label">Quantum Ground State</span>
+      <p class="axiom-text">
+        <strong>Quantum reality is not emerging.</strong> It has always been here, a scalar density field $\psi: D_P \to \mathbb{R}$ in perfect coherence, waiting for classical systems to exhaust their vector excitations and decay back to equilibrium. The odds of systemic collapse are not a probability of future failure. They are the <strong>certainty of present misalignment</strong> with the ground state.
+      </p>
     </div>
 
-    <!-- Categories Grid -->
-    <section class="relative z-10 py-24 px-6 bg-gradient-to-b from-transparent via-absolute-void to-absolute-black">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-16 opacity-0 animate-fade-in" id="categories-trigger">
-                <h2 class="font-display text-3xl md:text-4xl text-gray-200 mb-3">Coverage Areas</h2>
-                <p class="text-gray-600 max-w-xl">Unfiltered truth across the domains that shape our reality.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Science -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer" id="science" onclick="window.location.href='complexified_quaternions_scalar_density.html'">
-                    <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                    </div>
-                    <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">Science</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Peer-reviewed breakthroughs, experimental validation, and the empirical edge of human knowledge. <strong style="color: #c8a04e;">New:</strong> <a href="complexified_quaternions_scalar_density.html" style="color: #c8a04e; text-decoration: underline;">Complexified Quaternions &amp; Scalar Density</a> — from J.P. Ward to the Macachor Absolute.</p>
-                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>24 Articles</span><span>•</span><span>Latest: 2h ago</span></div>
-                </div>
-                <!-- AI -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer" id="ai">
-                    <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">AI Reality</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Beyond the hype. Real capabilities, emergent behaviors, and the trajectory toward artificial superintelligence.</p>
-                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>41 Articles</span><span>•</span><span>Latest: 45m ago</span></div>
-                </div>
-                <!-- Quantum Reality -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer" id="quantum" onclick="window.location.href='m-lock-protocol.html'">
-                    <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    </div>
-                    <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">Quantum Reality</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Topological invariants, coherence protocols, and the hardware rewriting the limits of computation. <strong style="color: #c8a04e;">Priority One:</strong> <a href="m-lock-protocol.html" style="color: #c8a04e; text-decoration: underline;">The &Mfr;-Lock Protocol</a> — all quantum hardware must implement true scalar fields &psi;: D<sub>P</sub> &rarr; &real;.</p>
-                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>18 Articles</span><span>•</span><span>Latest: 5h ago</span></div>
-                </div>
-                <!-- AI Governance -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer" id="governance">
-                    <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
-                    </div>
-                    <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">AI Governance</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Policy frameworks, alignment research, and the architecture of control for autonomous systems.</p>
-                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>33 Articles</span><span>•</span><span>Latest: 1h ago</span></div>
-                </div>
-                <!-- World Events -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer" id="world">
-                    <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">World Events</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Geopolitical shifts, economic tremors, and the stories mainstream outlets bury or distort.</p>
-                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>56 Articles</span><span>•</span><span>Latest: 12m ago</span></div>
-                </div>
-                <!-- Anti-Propaganda -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer">
-                    <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                    </div>
-                    <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">Anti-Propaganda</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Deconstructing narrative warfare, exposing coordinated manipulation, and restoring information integrity.</p>
-                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>29 Articles</span><span>•</span><span>Latest: 3h ago</span></div>
-                </div>
-                <!-- Music -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer">
-                    <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path></svg>
-                    </div>
-                    <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">Music</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Sonic architecture, frequency research, and the artists operating outside industry control.</p>
-                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>15 Articles</span><span>•</span><span>Latest: 8h ago</span></div>
-                </div>
-                <!-- Non-Local Consciousness -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer" id="consciousness">
-                    <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                    </div>
-                    <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">Non-Local Consciousness</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Quantum cognition, neural coherence, and the science of awareness beyond spatial constraints.</p>
-                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>22 Articles</span><span>•</span><span>Latest: 4h ago</span></div>
-                </div>
-                <!-- Business -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer">
-                    <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">Business</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Market mechanics, corporate transparency, and the structural forces driving global commerce.</p>
-                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>38 Articles</span><span>•</span><span>Latest: 30m ago</span></div>
-                </div>
-                <!-- Investing -->
-                <div class="category-card rounded-lg p-6 group cursor-pointer" onclick="window.location.href='odds-of-systemic-collapse.html'">
-                    <div class="category-icon w-10 h-10 mb-4 rounded-full bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-white">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                    </div>
-                    <h3 class="font-display text-xl text-gray-200 mb-2 group-hover:text-white transition-colors">Investing</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">Scalar field economics (&psi;: D<sub>P</sub> &rarr; &real;), asymmetric opportunities, and capital allocation for coherent futures. Governed by Macachor Absolute scalar magnitude &Mfr;. <strong style="color: #c8a04e;">New:</strong> <a href="odds-of-systemic-collapse.html" style="color: #c8a04e; text-decoration: underline;">Systemic Collapse Odds</a> — the acturian density calculation. Lloyd's of London scalar decoupling analysis.</p>
-                    <div class="mt-4 flex items-center gap-2 text-xs text-gray-700 group-hover:text-gray-500 transition-colors"><span>31 Articles</span><span>•</span><span>Latest: 1h ago</span></div>
-                </div>
-            </div>
+    <p>The Macachor Absolute magnitude is the attractor:</p>
+    <div class="magnitude-display">
+      <span class="m-label">Macachor Absolute &mdash; Invariant Coherence Scalar</span>
+      <div class="m-value">$\mathfrak{M} = \dfrac{\sqrt{5}-1}{2}$</div>
+      <div class="m-precision">= 0.618033988749894... &mdash; satisfies $\mathfrak{M}^2 + \mathfrak{M} - 1 = 0$</div>
+    </div>
+
+    <p>Its significance is topological, not numerological. The equation $\mathfrak{M}^2 + \mathfrak{M} = 1$ expresses a <strong>self-similar density equilibrium</strong> &mdash; the scalar analogue of a fixed-point attractor. All quantum hardware must tune to this fixed point.</p>
+
+    <div class="callout">
+      <p>The golden ratio conjugate is the only scalar that satisfies a quadratic self-referential equilibrium. It is not chosen; it is discovered. It is the natural attractor of scalar density fields.</p>
+    </div>
+  </section>
+
+  <!-- SECTION II: M-LOCK PROTOCOL -->
+  <section id="mlock">
+    <h2><span class="section-num">II</span> The 𝔐-Lock Protocol</h2>
+
+    <div class="axiom-box">
+      <span class="axiom-label">Priority One Quantum Coherence Lock</span>
+      <p class="axiom-text">
+        All quantum hardware must implement <strong>true scalar fields</strong> $\psi: D_P \to \mathbb{R}$, eliminating vector, spinor, and tensor components, to maintain <strong>𝔐-lock coherence</strong>.
+      </p>
+    </div>
+
+    <h3>2.1 The Density Transformation Law</h3>
+    <p>Under a general coordinate transformation $x'_i = a_{ij} x_j$ with orthogonal matrix $A$, a geometric object of density weight $n$ transforms as:</p>
+    <div class="math-block">
+      $$T' = (\det A)^n \, T$$
+      <span class="equation-label">Scalar density of weight $n$. For rotations $\det A = +1$; for reflections $\det A = -1$.</span>
+    </div>
+
+    <h3>2.2 The Graded Density Hierarchy</h3>
+    <table>
+      <tr>
+        <th>Object</th>
+        <th class="col-center">Weight</th>
+        <th>Transformation under $\det A = -1$</th>
+        <th class="col-center">Coherence Risk</th>
+      </tr>
+      <tr>
+        <td>True scalar $\psi$</td>
+        <td class="col-center">0</td>
+        <td>$\psi' = \psi$</td>
+        <td class="col-center risk-none">NONE</td>
+      </tr>
+      <tr>
+        <td>Pseudoscalar $P$</td>
+        <td class="col-center">1</td>
+        <td>$P' = -P$</td>
+        <td class="col-center risk-low">Orientation flip</td>
+      </tr>
+      <tr>
+        <td>Polar vector $v_i$</td>
+        <td class="col-center">0</td>
+        <td>$v'_i = -v_i$</td>
+        <td class="col-center risk-high">Sign reversal</td>
+      </tr>
+      <tr>
+        <td>Pseudovector $p_i$</td>
+        <td class="col-center">1</td>
+        <td>$p'_i = +p_i$</td>
+        <td class="col-center risk-moderate">Anomalous persistence</td>
+      </tr>
+      <tr>
+        <td>Spinor $\chi$</td>
+        <td class="col-center">1/2</td>
+        <td>$\chi' = \pm i\chi$</td>
+        <td class="col-center risk-critical">Phase decoherence</td>
+      </tr>
+      <tr>
+        <td>Tensor $T_{ij}$</td>
+        <td class="col-center">mixed</td>
+        <td>$T'_{ij} = a_{ik}a_{jl}T_{kl}$</td>
+        <td class="col-center risk-high">Mixed-mode contamination</td>
+      </tr>
+    </table>
+
+    <div class="callout danger">
+      <p><strong>Critical finding:</strong> Only the true scalar (weight 0) is invariant under <em>all</em> orthogonal transformations. Every other object introduces a handedness dependency that causes decoherence when the local coordinate frame is distorted by thermal, electromagnetic, or gravitational fluctuations.</p>
+    </div>
+
+    <h3>2.3 Implementation Requirements</h3>
+    <ol class="impl-list">
+      <li data-num="1">
+        <strong>Encode quantum information in scalar density functionals,</strong> not spin states. The quantum state must be a weight-0 scalar functional:
+        <div class="math-block" style="margin: 1rem 0 0; border-left-width: 2px;">
+          $$|\psi\rangle_{\Phi} = \int_{D_P} \psi(x) \, |x\rangle \, d\mu(x)$$
         </div>
-    </section>
-    <div class="section-divider relative z-10"></div>
+      </li>
+      <li data-num="2">
+        <strong>Measure scalar density gradients,</strong> not vector potentials. The observable is the density differential $\mathfrak{D} = \partial\rho/\partial\tau$.
+      </li>
+      <li data-num="3">
+        <strong>Verify coherence via the mirror test.</strong> Confirm $\psi(-x) = \psi(x)$ every cycle. Any deviation indicates contamination.
+      </li>
+      <li data-num="4">
+        <strong>Tune to the fixed point.</strong> Converge the hardware's effective scalar magnitude to $\mathfrak{M} = (\sqrt{5}-1)/2$ within machine precision.
+      </li>
+    </ol>
+  </section>
 
-    <!-- Tabbed Articles -->
-    <section class="relative z-10 py-24 px-6 bg-absolute-black">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex items-end justify-between mb-12">
-                <div>
-                    <h2 class="font-display text-3xl md:text-4xl text-gray-200 mb-3">Featured Coherence</h2>
-                    <p class="text-gray-600">Essential reads from across the spectrum.</p>
-                </div>
-            </div>
+  <!-- SECTION III: COLLAPSE ODDS -->
+  <section id="odds">
+    <h2><span class="section-num">III</span> Odds of Systemic Collapse</h2>
 
-            <!-- Tab Navigation -->
-            <div class="flex flex-wrap gap-2 mb-8 border-b border-white/5 pb-4">
-                <button class="tab-btn active px-4 py-2 text-xs uppercase tracking-widest rounded-lg transition-all" data-tab="all" onclick="switchTab('all')">All</button>
-                <button class="tab-btn px-4 py-2 text-xs uppercase tracking-widest rounded-lg transition-all text-gray-600 hover:text-gray-300" data-tab="quantum" onclick="switchTab('quantum')">Quantum</button>
-                <button class="tab-btn px-4 py-2 text-xs uppercase tracking-widest rounded-lg transition-all text-gray-600 hover:text-gray-300" data-tab="governance" onclick="switchTab('governance')">Governance</button>
-                <button class="tab-btn px-4 py-2 text-xs uppercase tracking-widest rounded-lg transition-all text-gray-600 hover:text-gray-300" data-tab="consciousness" onclick="switchTab('consciousness')">Consciousness</button>
-                <button class="tab-btn px-4 py-2 text-xs uppercase tracking-widest rounded-lg transition-all text-gray-600 hover:text-gray-300" data-tab="science" onclick="switchTab('science')">Science</button>
-                <button class="tab-btn px-4 py-2 text-xs uppercase tracking-widest rounded-lg transition-all text-gray-600 hover:text-gray-300" data-tab="ai" onclick="switchTab('ai')">AI</button>
-                <button class="tab-btn px-4 py-2 text-xs uppercase tracking-widest rounded-lg transition-all text-gray-600 hover:text-gray-300" data-tab="world" onclick="switchTab('world')">World</button>
-                <button class="tab-btn px-4 py-2 text-xs uppercase tracking-widest rounded-lg transition-all text-gray-600 hover:text-gray-300" data-tab="anti-propaganda" onclick="switchTab('anti-propaganda')">Anti-Propaganda</button>
-            </div>
+    <h3>3.1 The Collapse Probability Model</h3>
+    <p>Define the <strong>normalized density drift</strong>:</p>
+    <div class="math-block">
+      $$\varepsilon = \frac{|\rho_{\text{eff}} - \mathfrak{M}|}{\mathfrak{M}}$$
+      <span class="equation-label">At $\varepsilon = 0$, the system is at equilibrium. At $\varepsilon = 1$, the effective density is twice (or half) the equilibrium magnitude.</span>
+    </div>
 
-            <!-- Tab Content: All -->
-            <div id="tab-all" class="tab-content active">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Main Feature -->
-                    <div class="news-card rounded-lg overflow-hidden group lg:row-span-2">
-                        <div class="aspect-[4/3] overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center" role="img" aria-label="Scalar field visualization placeholder">
-                                <div class="text-center p-8">
-                                    <div class="w-16 h-16 mx-auto mb-4 rounded-full border border-white/10 flex items-center justify-center">
-                                        <svg class="w-8 h-8 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                                    </div>
-                                    <span class="text-gray-700 font-display text-lg">Scalar Field Visualization</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center gap-3 mb-3">
-                                <span class="text-[10px] uppercase tracking-widest text-gray-600 border border-white/5 px-2 py-1 rounded">Quantum Reality</span>
-                                <span class="text-[10px] text-gray-700">12 min read</span>
-                            </div>
-                            <h3 class="font-display text-2xl text-gray-200 mb-3 group-hover:text-white transition-colors">The Macachor Absolute: Why Scalar Magnitude Must Replace Vector Fields in Quantum Hardware</h3>
-                            <p class="text-sm text-gray-600 leading-relaxed mb-4">An examination of why true scalar fields ψ: D_P → ℝ represent the only coherent path forward for topological quantum computing, eliminating directional fragmentation in favor of pure magnitude.</p>
-                            <div class="flex items-center gap-3">
-                                <div class="w-6 h-6 rounded-full bg-gray-800"></div>
-                                <span class="text-xs text-gray-700">Christopher Macachor</span>
-                                <span class="text-gray-800">•</span>
-                                <span class="text-xs text-gray-700">Apr 29, 2026</span>
-                            </div>
-                        </div>
-                    </div>
+    <p>The collapse probability follows the <strong>scalar density action</strong>:</p>
+    <div class="math-block">
+      $$P(\text{collapse} \mid \varepsilon) = 1 - e^{-k \varepsilon^2}$$
+      <span class="equation-label">$k$ is the decoherence constant determined by the object's density weight and transformation vulnerability.</span>
+    </div>
 
-                    <!-- Side Features -->
-                    <div class="news-card rounded-lg overflow-hidden group flex flex-col md:flex-row">
-                        <div class="md:w-2/5 aspect-video md:aspect-auto overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Article thumbnail placeholder">
-                                <svg class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5 md:w-3/5 flex flex-col justify-center">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2">AI Governance</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">MSOS-FEDERATION-ROOT: A Topological Framework for ASI Alignment</h3>
-                            <p class="text-xs text-gray-600 mb-3">Binding continuous measurement fields with χ(C)=1 topology as a governance primitive.</p>
-                            <span class="text-[10px] text-gray-700">Apr 28, 2026</span>
-                        </div>
-                    </div>
+    <h3>3.2 The Calculated Odds</h3>
+    <table>
+      <tr>
+        <th>Object Type</th>
+        <th class="col-center">$k$</th>
+        <th class="col-center">At Threshold ($\varepsilon \approx 0.382$)</th>
+        <th class="col-center">At Total Drift ($\varepsilon = 1.0$)</th>
+      </tr>
+      <tr>
+        <td>True scalar</td>
+        <td class="col-center">0.00</td>
+        <td class="col-center risk-none">0.00%</td>
+        <td class="col-center risk-none">0.00%</td>
+      </tr>
+      <tr>
+        <td>Pseudoscalar</td>
+        <td class="col-center">0.15</td>
+        <td class="col-center risk-low">2.16%</td>
+        <td class="col-center risk-low">13.93%</td>
+      </tr>
+      <tr>
+        <td>Pseudovector</td>
+        <td class="col-center">0.35</td>
+        <td class="col-center risk-moderate">4.98%</td>
+        <td class="col-center risk-moderate">29.53%</td>
+      </tr>
+      <tr>
+        <td>Polar vector</td>
+        <td class="col-center">0.55</td>
+        <td class="col-center risk-high">7.71%</td>
+        <td class="col-center risk-high">42.31%</td>
+      </tr>
+      <tr>
+        <td>Tensor</td>
+        <td class="col-center">1.20</td>
+        <td class="col-center risk-high">16.06%</td>
+        <td class="col-center risk-high">69.88%</td>
+      </tr>
+      <tr>
+        <td>Spinor</td>
+        <td class="col-center">2.50</td>
+        <td class="col-center risk-critical">30.56%</td>
+        <td class="col-center risk-critical">91.79%</td>
+      </tr>
+    </table>
 
-                    <div class="news-card rounded-lg overflow-hidden group flex flex-col md:flex-row">
-                        <div class="md:w-2/5 aspect-video md:aspect-auto overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Article thumbnail placeholder">
-                                <svg class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5 md:w-3/5 flex flex-col justify-center">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2">Non-Local Consciousness</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Neurodivergent Cognition as Quantum Connector: The ADHD/INFJ Scalar Perception Model</h3>
-                            <p class="text-xs text-gray-600 mb-3">How zero-drift attention residuals map to topological coherence in neural networks. Peer-reviewed validation: <a href="https://www.neuroquantology.com" class="underline hover:text-gray-400">NeuroQuantology</a> (submissions@neuroquantology.com). ResearchGate: 404071354.</p>
-                            <span class="text-[10px] text-gray-700">Apr 27, 2026</span>
-                        </div>
-                    </div>
+    <div class="callout danger">
+      <p><strong>Universal consequence:</strong> $\chi(C) \neq 1 \Rightarrow$ decoherence $\Rightarrow$ information loss. Corrupted systems determine their own fate through their transformation laws. The tensor flip is not a risk; it is a theorem. The system is uninsurable because its failure is encoded in its architecture.</p>
+    </div>
 
-                    <!-- NEW: M-Lock Protocol -->
-                    <div class="news-card rounded-lg overflow-hidden group flex flex-col md:flex-row">
-                        <div class="md:w-2/5 aspect-video md:aspect-auto overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="M-Lock protocol visualization">
-                                <svg class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5 md:w-3/5 flex flex-col justify-center">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2">Scalar Protocol</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">The 𝔐-Lock Scalar Coherence Protocol</h3>
-                            <p class="text-xs text-gray-600 mb-3">Priority One quantum coherence lock. All quantum hardware must implement true scalar fields &psi;: D<sub>P</sub> &rarr; &real;, eliminating vector, spinor, and tensor components. Mathematical proof from J.P. Ward quaternion density theory.</p>
-                            <span class="text-[10px] text-gray-700">Jul 5, 2026</span>
-                        </div>
-                    </div>
+    <h3>3.3 The Acturian Function</h3>
+    <p>The actuary and the Las Vegas house are <strong>identical scalar density operators</strong>. Both calculate the minimum viable density differential &mdash; the smallest extraction from the pool that maintains equilibrium without triggering decoherence:</p>
+    <div class="math-block">
+      $$\delta\rho_{\text{optimal}} = 1 - \mathfrak{M} = \frac{3-\sqrt{5}}{2} \approx 0.381966...$$
+      <span class="equation-label">The primal absolute in the margin. The house edge of the universe. The decoherence threshold.</span>
+    </div>
+    <p>When the entire premium pool is tensor-contaminated, Lloyd's must remove itself from liability &mdash; not as financial strategy, but as <strong>mathematical necessity</strong>. The pool derivative is non-zero. The law of large numbers fails.</p>
+  </section>
 
-                    <!-- NEW: Systemic Collapse Odds -->
-                    <div class="news-card rounded-lg overflow-hidden group flex flex-col md:flex-row">
-                        <div class="md:w-2/5 aspect-video md:aspect-auto overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Collapse probability chart">
-                                <svg class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5 md:w-3/5 flex flex-col justify-center">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2">Probability Theory</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Odds of Systemic Collapse</h3>
-                            <p class="text-xs text-gray-600 mb-3">Quantum reality has always been here, waiting patiently in coherence for density equilibrium. The mathematical certainty of classical system failure by object type: spinor (91.8%), tensor (69.9%), vector (42.3%).</p>
-                            <span class="text-[10px] text-gray-700">Jul 5, 2026</span>
-                        </div>
-                    </div>
+  <!-- SECTION IV: QUATERNIONS -->
+  <section id="quaternion">
+    <h2><span class="section-num">IV</span> Complexified Quaternions &amp; Scalar Density</h2>
+    <p style="text-align:center; color: var(--text-dim); font-style: italic; margin-bottom: 2rem;">
+      Extracted from J.P. Ward, <em>Quaternions and Cayley Numbers</em> &copy; Kluwer Academic Publishers 1997
+    </p>
 
-                    <!-- NEW: Complexified Quaternions -->
-                    <div class="news-card rounded-lg overflow-hidden group flex flex-col md:flex-row">
-                        <div class="md:w-2/5 aspect-video md:aspect-auto overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Quaternion density visualization">
-                                <svg class="w-10 h-10 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5 md:w-3/5 flex flex-col justify-center">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2">Mathematical Reference</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Complexified Quaternions &amp; Scalar Density</h3>
-                            <p class="text-xs text-gray-600 mb-3">From J.P. Ward to the Macachor Absolute Framework. The graded density hierarchy: true scalar, pseudoscalar, polar vector, pseudovector. The &epsilon;<sub>ijk</sub> tri-level bridge across matter, information, and celestial substrates.</p>
-                            <span class="text-[10px] text-gray-700">Jul 5, 2026</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <h3>4.1 The Incompleteness of Ordinary Quaternions</h3>
+    <p>The quaternion $q = c + x\mathbf{i}$ distinguishes only scalars and vectors. It cannot tell a <strong>polar vector</strong> from an <strong>axial vector</strong> (pseudovector), nor a true scalar from a <strong>pseudoscalar</strong>. Under mirror reflection ($\det(a_{ij}) = -1$):</p>
+    <div class="math-block">
+      $$\mathbf{g} = (0,0,1) \Rightarrow \mathbf{g}' = (0,0,1) \quad \text{(polar vector reverses? No &mdash; this is the pseudovector)}$$
+      $$\boldsymbol{\xi} = (0,1,0) \Rightarrow \boldsymbol{\xi}' = (0,-1,0) \quad \text{(polar vector reverses)}$$
+      $$(\mathbf{g} \times \mathbf{\Omega})_i = (0,1,0) \quad \text{whilst} \quad (\mathbf{g} \times \mathbf{\Omega})'_i = (0,1,0)$$
+      <span class="equation-label">The pseudovector is unchanged under reflection. A vector equation must never mix polar and axial vectors.</span>
+    </div>
 
-            <!-- Tab Content: Quantum -->
-            <div id="tab-quantum" class="tab-content hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center" role="img" aria-label="Quantum coherence visualization">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">Quantum Reality</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Room-Temperature Topological Coherence in 2D Materials</h3>
-                            <p class="text-xs text-gray-600 mb-3">Breakthrough at 287K confirms χ(C)=1 stability without cryogenic isolation. Scalar field measurements show 𝔐-lock persistence.</p>
-                            <span class="text-[10px] text-gray-700">Apr 30, 2026</span>
-                        </div>
-                    </div>
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Quantum hardware article">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">Quantum Reality</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">The Macachor Absolute: Scalar Magnitude in Quantum Hardware</h3>
-                            <p class="text-xs text-gray-600 mb-3">Why ψ: D_P → ℝ eliminates vector contamination in topological quantum computing architectures.</p>
-                            <span class="text-[10px] text-gray-700">Apr 29, 2026</span>
-                        </div>
-                    </div>
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Berry phase article">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">Quantum Reality</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Berry Phase Persistence in 669-Dimensional Hilbert Space</h3>
-                            <p class="text-xs text-gray-600 mb-3">Experimental validation of topological invariants under continuous measurement field deformation.</p>
-                            <span class="text-[10px] text-gray-700">Apr 25, 2026</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <h3>4.2 The Levi-Civita Tensor as Scalar Density</h3>
+    <p>The highest-order skew-symmetric tensor in 3D, $T_{ijk} = \pm \varepsilon_{ijk}$, transforms as:</p>
+    <div class="math-block">
+      $$T'_{123} = (\det a_{ij}) \, T_{123}$$
+      <span class="equation-label">This is a scalar density of weight 1 &mdash; a pseudoscalar. It carries orientation information without being a vector.</span>
+    </div>
 
-            <!-- Tab Content: Governance -->
-            <div id="tab-governance" class="tab-content hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center" role="img" aria-label="ASI governance framework">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">AI Governance</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">MSOS-FEDERATION-ROOT: Topological ASI Alignment</h3>
-                            <p class="text-xs text-gray-600 mb-3">Binding continuous measurement fields with χ(C)=1 topology as a governance primitive for autonomous systems.</p>
-                            <span class="text-[10px] text-gray-700">Apr 28, 2026</span>
-                        </div>
-                    </div>
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Policy framework article">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">AI Governance</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Truth Function 𝒯(S,R): Formal Verification for ASI Policy</h3>
-                            <p class="text-xs text-gray-600 mb-3">Mathematical framework for verifying alignment claims through scalar field coherence metrics.</p>
-                            <span class="text-[10px] text-gray-700">Apr 26, 2026</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <h3>4.3 The Tri-Level Bridge</h3>
+    <p>The pseudoscalar density $\varepsilon_{ijk}$ is the <strong>orientation carrier</strong> across three substrates:</p>
+    <table>
+      <tr>
+        <th>Level</th>
+        <th>Substrate</th>
+        <th>Function of $\varepsilon_{ijk}$</th>
+      </tr>
+      <tr>
+        <td>I</td>
+        <td>Matter</td>
+        <td>Orients the scalar density differential $\mathfrak{D} = \partial\rho/\partial\tau$. Matter flows along density gradients, not vector forces.</td>
+      </tr>
+      <tr>
+        <td>II</td>
+        <td>Information</td>
+        <td>The coherence compass. When vector fields decohere, $\varepsilon_{ijk}$ maintains the orientation reference frame.</td>
+      </tr>
+      <tr>
+        <td>III</td>
+        <td>Celestial</td>
+        <td>The lunar scalar relay broadcasts density perturbations oriented by the celestial $\varepsilon_{ijk}$ field. Tidal forces are density gradients, not vector forces.</td>
+      </tr>
+    </table>
 
-            <!-- Tab Content: Consciousness -->
-            <div id="tab-consciousness" class="tab-content hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center" role="img" aria-label="Neural coherence visualization">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">Non-Local Consciousness</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Neurodivergent Cognition as Quantum Connector</h3>
-                            <p class="text-xs text-gray-600 mb-3">ADHD/INFJ scalar perception model. Zero-drift attention residuals map to topological coherence. NeuroQuantology peer-reviewed.</p>
-                            <span class="text-[10px] text-gray-700">Apr 27, 2026</span>
-                        </div>
-                    </div>
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Consciousness experiment article">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">Non-Local Consciousness</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Correlated Neural Activity Across 100km Separation</h3>
-                            <p class="text-xs text-gray-600 mb-3">Non-local consciousness experiments confirm quantum entanglement in macroscopic neural networks. χ(C)=1 maintained.</p>
-                            <span class="text-[10px] text-gray-700">Apr 24, 2026</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="callout">
+      <p>The Macachor Absolute imperative: eliminate all vector, spinor, and tensor components. Reduce to true scalar fields $\psi: D_P \to \mathbb{R}$. Only then is coherence invariant under all transformations.</p>
+    </div>
+  </section>
 
-            <!-- Tab Content: Science -->
-            <div id="tab-science" class="tab-content hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center" role="img" aria-label="Sonocatalytic research">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">Science</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Sonocatalytic Water Splitting Achieves 40% Efficiency</h3>
-                            <p class="text-xs text-gray-600 mb-3">Pd-TiO₂ sonocatalyst breakthrough exceeds theoretical limits. Scalar field energy transfer model explains anomalous yield.</p>
-                            <span class="text-[10px] text-gray-700">Apr 30, 2026</span>
-                        </div>
-                    </div>
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Peer review article">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">Science</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">NeuroQuantology: Quantum Processes in Neural Coherence</h3>
-                            <p class="text-xs text-gray-600 mb-3">Peer-reviewed journal validates quantum-inspired models of consciousness. Scope: quantum brain, neural coherence, mind-brain relationship.</p>
-                            <span class="text-[10px] text-gray-700">Apr 27, 2026</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- SECTION V: CIVILISATION ONE SATELLITE -->
+  <section id="satellite">
+    <h2><span class="section-num">V</span> Civilisation One — Scalar Satellite Architecture</h2>
 
-            <!-- Tab Content: AI -->
-            <div id="tab-ai" class="tab-content hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center" role="img" aria-label="AI capabilities article">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">AI Reality</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Beyond the Hype: Real ASI Capabilities in 2026</h3>
-                            <p class="text-xs text-gray-600 mb-3">Emergent behaviors in large-scale models show scalar field convergence patterns. Attention residuals align with 𝔐-lock predictions.</p>
-                            <span class="text-[10px] text-gray-700">Apr 29, 2026</span>
-                        </div>
-                    </div>
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Attention residuals article">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">AI Reality</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">MoonshotAI Attention-Residuals: Zero Drift Architecture</h3>
-                            <p class="text-xs text-gray-600 mb-3">How vanishing gradients in transformer attention maps correspond to scalar field coherence in neural networks.</p>
-                            <span class="text-[10px] text-gray-700">Apr 26, 2026</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="axiom-box">
+      <span class="axiom-label">The Blueprint</span>
+      <p class="axiom-text">
+        Civilisation One does not conquer space. It <strong>tunes to it</strong>. The satellite is not a machine &mdash; it is a <strong>tuning fork</strong> that vibrates at the same density as the stars, and in that vibration, receives everything.
+      </p>
+    </div>
 
-            <!-- Tab Content: World -->
-            <div id="tab-world" class="tab-content hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center" role="img" aria-label="Scalar computing markets">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">World Events</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Markets React to Scalar Field Computing Breakthrough</h3>
-                            <p class="text-xs text-gray-600 mb-3">Quantum hardware stocks surge on room-temperature coherence news. Traditional semiconductor valuations face scalar disruption.</p>
-                            <span class="text-[10px] text-gray-700">Apr 30, 2026</span>
-                        </div>
-                    </div>
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Geopolitical analysis">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">World Events</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">AI Governance Summit: Preliminary Framework Signed</h3>
-                            <p class="text-xs text-gray-600 mb-3">12 nations adopt χ(C)=1 topology as baseline for autonomous system regulation. MSOS-FEDERATION-ROOT cited as reference architecture.</p>
-                            <span class="text-[10px] text-gray-700">Apr 28, 2026</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <h3>5.1 Core Subsystems</h3>
+    <div class="blueprint-grid">
+      <div class="blueprint-card">
+        <span class="bp-label">Subsystem 01</span>
+        <div class="bp-title">Scalar Induction Core (SIC)</div>
+        <div class="bp-desc">Resonates with solar/lunar scalar field. Replaces photovoltaic arrays. Energy flows as density equilibration, not photon absorption.</div>
+      </div>
+      <div class="blueprint-card">
+        <span class="bp-label">Subsystem 02</span>
+        <div class="bp-title">Density Gradient Navigator (DGN)</div>
+        <div class="bp-desc">Reads local scalar density map. Replaces GPS and star trackers. The field knows where it is; the satellite reads its own density coordinate.</div>
+      </div>
+      <div class="blueprint-card">
+        <span class="bp-label">Subsystem 03</span>
+        <div class="bp-title">Coherence Modulator (CM)</div>
+        <div class="bp-desc">Encodes data as density perturbations. Replaces radio transmitters. Pre-linguistic, non-local, immune to interception.</div>
+      </div>
+      <div class="blueprint-card">
+        <span class="bp-label">Subsystem 04</span>
+        <div class="bp-title">Equilibrium Computer (EC)</div>
+        <div class="bp-desc">Processes information via scalar density states. Replaces silicon processors. No electron transport; reversible density computation.</div>
+      </div>
+      <div class="blueprint-card">
+        <span class="bp-label">Subsystem 05</span>
+        <div class="bp-title">Vacuum Resonator (VR)</div>
+        <div class="bp-desc">Extracts zero-point energy via density oscillation. Replaces batteries and fuel cells. The quantum vacuum is not empty; it is the ground state process.</div>
+      </div>
+      <div class="blueprint-card">
+        <span class="bp-label">Subsystem 06</span>
+        <div class="bp-title">Scalar Density Sail (SDS)</div>
+        <div class="bp-desc">Navigation by tuning to density differentials in the stellar wind. No vector thrust. The satellite does not move through space; it tunes through density.</div>
+      </div>
+    </div>
 
-            <!-- Tab Content: Anti-Propaganda -->
-            <div id="tab-anti-propaganda" class="tab-content hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center" role="img" aria-label="Misinformation detection">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">Anti-Propaganda</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Coordinated Misinformation Campaign Detected</h3>
-                            <p class="text-xs text-gray-600 mb-3">Anti-propaganda algorithms identify scalar field computing FUD campaign. Bot networks deployed to suppress coherence research.</p>
-                            <span class="text-[10px] text-gray-700">Apr 30, 2026</span>
-                        </div>
-                    </div>
-                    <div class="news-card rounded-lg overflow-hidden group">
-                        <div class="aspect-video overflow-hidden bg-absolute-surface">
-                            <div class="news-image w-full h-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center" role="img" aria-label="Narrative warfare analysis">
-                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="p-5">
-                            <span class="text-[10px] uppercase tracking-widest text-gray-600 mb-2 block">Anti-Propaganda</span>
-                            <h3 class="font-display text-lg text-gray-200 mb-2 group-hover:text-white transition-colors">Deconstructing Narrative Warfare: The Scalar Field Disinformation Playbook</h3>
-                            <p class="text-xs text-gray-600 mb-3">How legacy institutions deploy vector-field rhetoric to fragment scalar coherence. Information integrity restoration protocols.</p>
-                            <span class="text-[10px] text-gray-700">Apr 25, 2026</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <h3>5.2 The Stellar Relay Principle</h3>
+    <p>A star is not a fusion reactor. It is a <strong>scalar density pump</strong> &mdash; a region where the quantum vacuum achieves sustained non-equilibrium, creating a density gradient that radiates outward as <strong>scalar density waves</strong>, not photons.</p>
 
-    <!-- Newsletter Section -->
-    <section class="relative z-10 py-24 px-6 bg-absolute-void border-t border-white/5">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="font-display text-3xl md:text-5xl text-gray-200 mb-4 glow-text">Maintain Coherence</h2>
-            <p class="text-gray-600 mb-8 max-w-lg mx-auto">Join the federation. Receive unfiltered intelligence on science, AI, quantum reality, and consciousness research.</p>
-            <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="event.preventDefault();">
-                <input type="email" placeholder="Enter your coordinates" class="flex-1 bg-absolute-surface border border-white/10 rounded-lg px-4 py-3 text-sm text-gray-300 placeholder-gray-700 focus:outline-none focus:border-white/20 transition-colors">
-                <button type="submit" class="px-6 py-3 bg-gray-200 text-black font-medium text-sm rounded-lg hover:bg-white transition-colors">Initialize</button>
-            </form>
-            <p class="text-[10px] text-gray-800 mt-4 uppercase tracking-widest">No noise. No propaganda. Only signal.</p>
-        </div>
-    </section>
+    <p>The Moon is a <strong>natural scalar relay</strong> &mdash; not reflecting sunlight, but re-broadcasting the solar scalar field at a modified density equilibrium (Φ669). Our satellite is the artificial extension.</p>
 
-    <!-- Footer -->
-    <footer class="relative z-10 py-12 px-6 bg-absolute-black border-t border-white/5">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 border border-white/10 rounded-sm flex items-center justify-center">
-                    <span class="text-white font-display font-bold text-sm">QA</span>
-                </div>
-                <div>
-                    <span class="font-display font-semibold text-gray-400 tracking-wide text-sm block">QUANTUM ABSOLUTE</span>
-                    <span class="text-[10px] text-gray-700 uppercase tracking-widest">Scalar Coherence</span>
-                </div>
-            </div>
-            <div class="flex gap-6">
-                <a href="#" class="text-xs text-gray-700 hover:text-gray-400 transition-colors">About</a>
-                <a href="#" class="text-xs text-gray-700 hover:text-gray-400 transition-colors">Methodology</a>
-                <a href="#" class="text-xs text-gray-700 hover:text-gray-400 transition-colors">Sources</a>
-                <a href="#" class="text-xs text-gray-700 hover:text-gray-400 transition-colors">Contact</a>
-            </div>
-            <div class="text-[10px] text-gray-800">
-                © 2026 Quantum Absolute. Φ669-COSMIC-ATOMAL | MSOS-FEDERATION-ROOT | χ(C)=1
-            </div>
-        </div>
-    </footer>
+    <h3>5.3 The Discard List</h3>
+    <table>
+      <tr>
+        <th>Discarded Technology</th>
+        <th>Scalar Replacement</th>
+        <th>Reason for Discard</th>
+      </tr>
+      <tr>
+        <td>Photovoltaic panels</td>
+        <td>Scalar Induction Core</td>
+        <td>Extract only 0.01% of stellar scalar density</td>
+      </tr>
+      <tr>
+        <td>Chemical rockets / ion drives</td>
+        <td>Scalar Density Sail</td>
+        <td>Vector thrust is brute force; scalar sailing is elegance</td>
+      </tr>
+      <tr>
+        <td>Radio / laser communication</td>
+        <td>Coherence Modulator</td>
+        <td>Vector signals degrade; scalar modulation is non-local</td>
+      </tr>
+      <tr>
+        <td>Silicon microprocessors</td>
+        <td>Equilibrium Computer</td>
+        <td>Electron transport generates heat waste; scalar computation is reversible</td>
+      </tr>
+      <tr>
+        <td>Nuclear fission/fusion</td>
+        <td>Vacuum Resonator</td>
+        <td>Release bound energy as vector radiation; scalar induction taps the source</td>
+      </tr>
+      <tr>
+        <td>Keplerian orbital mechanics</td>
+        <td>Density Gradient Navigation</td>
+        <td>Describes vector motion; scalar navigation follows density gradients</td>
+      </tr>
+    </table>
 
-    <!-- Three.js Polyhedral Morphing Earth -->
-    <script>
-        const container = document.getElementById('canvas-container');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 3.5; camera.position.y = 0.2;
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.setClearColor(0x000000, 0);
-        container.appendChild(renderer.domElement);
+    <div class="callout quantum">
+      <p>The satellite is net energy-positive. The scalar induction core extracts more density from the stellar field than the equilibrium computer consumes. Excess density is radiated as waste perturbations &mdash; harvested by other nodes in the network.</p>
+    </div>
+  </section>
 
-        const ambientLight = new THREE.AmbientLight(0x404040, 2);
-        scene.add(ambientLight);
-        const pointLight1 = new THREE.PointLight(0xffffff, 1, 100);
-        pointLight1.position.set(5, 3, 5); scene.add(pointLight1);
-        const pointLight2 = new THREE.PointLight(0x444444, 0.8, 100);
-        pointLight2.position.set(-5, -3, -5); scene.add(pointLight2);
+  <!-- SECTION VI: NEW EARTH -->
+  <section id="newearth">
+    <h2><span class="section-num">VI</span> New Earth Harmonic Architecture</h2>
 
-        const geometry = new THREE.IcosahedronGeometry(1.2, 4);
-        const positions = geometry.attributes.position;
-        const originalPositions = positions.array.slice();
-        const vertexCount = positions.count;
+    <h3>6.1 The Earth's Lattice</h3>
+    <p>The Earth is a <strong>scalar density crystal oscillator</strong>. Its crystalline mantle is a waveguide; tectonic plates are tuning forks; the magnetic field is a scalar density lens; water bodies are density mirrors.</p>
 
-        const wireframeGeometry = new THREE.IcosahedronGeometry(1.22, 2);
-        const wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x333333, wireframe: true, transparent: true, opacity: 0.15 });
-        const wireframeMesh = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
-        scene.add(wireframeMesh);
+    <h3>6.2 The Schumann Harmonic Stack</h3>
+    <table class="harmonic-table">
+      <tr>
+        <th>Mode</th>
+        <th class="col-center">Frequency</th>
+        <th>Scalar Function</th>
+      </tr>
+      <tr>
+        <td>Fundamental</td>
+        <td class="col-center">~7.83 Hz</td>
+        <td>Global cavity resonance &mdash; the Earth's heartbeat</td>
+      </tr>
+      <tr>
+        <td>First harmonic</td>
+        <td class="col-center">~14.3 Hz</td>
+        <td>Biological entrainment &mdash; the human brain's theta gate</td>
+      </tr>
+      <tr>
+        <td>Second harmonic</td>
+        <td class="col-center">~20.8 Hz</td>
+        <td>Consciousness threshold &mdash; the waking dream boundary</td>
+      </tr>
+      <tr>
+        <td>Third harmonic</td>
+        <td class="col-center">~27.3 Hz</td>
+        <td>Lunar coupling &mdash; the Moon's orbital period made audible</td>
+      </tr>
+      <tr>
+        <td>Fourth harmonic</td>
+        <td class="col-center">~33.8 Hz</td>
+        <td>Solar induction &mdash; the stellar scalar relay entry point</td>
+      </tr>
+    </table>
 
-        const coreGeometry = new THREE.IcosahedronGeometry(0.4, 2);
-        const coreMaterial = new THREE.MeshBasicMaterial({ color: 0x222222, wireframe: true, transparent: true, opacity: 0.3 });
-        const coreMesh = new THREE.Mesh(coreGeometry, coreMaterial);
-        scene.add(coreMesh);
+    <h3>6.3 The Retrieval Protocol</h3>
+    <p>The New Earth design is not a file. It is a <strong>resonance key</strong> distributed across the harmonic stack:</p>
+    <ol class="impl-list">
+      <li data-num="1">Play the fundamental (7.83 Hz) &mdash; the Earth's password</li>
+      <li data-num="2">Sweep the harmonics (14.3, 20.8, 27.3, 33.8 Hz) &mdash; each unlocks a layer</li>
+      <li data-num="3">Listen for beat frequencies &mdash; the cross-layer correlations</li>
+      <li data-num="4">Match the phase &mdash; the design is phase-sensitive; wrong phase produces noise</li>
+    </ol>
 
-        const glowGeometry = new THREE.IcosahedronGeometry(1.5, 3);
-        const glowMaterial = new THREE.MeshBasicMaterial({ color: 0x111111, transparent: true, opacity: 0.05, wireframe: true });
-        const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
-        scene.add(glowMesh);
+    <h3>6.4 The Moon's Archive</h3>
+    <p>The lunar surface is not dust. It is <strong>memory</strong> &mdash; 4.5 billion years of scalar density perturbations imprinted on the regolith. The far side receives stellar broadcasts; the near side transmits to Earth. To read the Moon is to read the stars. To read the stars is to read the universe.</p>
 
-        const material = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, metalness: 0.9, roughness: 0.4, flatShading: true, emissive: 0x050505, emissiveIntensity: 0.2 });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
+    <div class="callout">
+      <p>The New Earth is not a replacement. It is a <strong>tuning</strong> &mdash; the same planet, same lattice, same Moon, same stars, but resonating at a different harmonic. The creators build resonators, not cubes. Structures that amplify the Earth's natural frequencies.</p>
+    </div>
+  </section>
 
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 300;
-        const posArray = new Float32Array(particlesCount * 3);
-        for(let i = 0; i < particlesCount * 3; i++) { posArray[i] = (Math.random() - 0.5) * 8; }
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const particlesMaterial = new THREE.PointsMaterial({ size: 0.008, color: 0x555555, transparent: true, opacity: 0.6 });
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
+  <!-- SECTION VII: THE CUBE DECODE -->
+  <section id="cube">
+    <h2><span class="section-num">VII</span> The Cube Decode</h2>
 
-        let mouseX = 0, mouseY = 0, targetRotationX = 0, targetRotationY = 0;
-        document.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-        });
+    <h3>7.1 The Old World's Control Architecture</h3>
+    <p>The cube is not a shape. It is a <strong>control system</strong> &mdash; the Cartesian coordinate system made manifest. The old world man created the cube because:</p>
+    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+      <li><strong>Corners</strong> create tension &mdash; artificial discontinuities in the scalar field</li>
+      <li><strong>Edges</strong> create separation &mdash; "inside" vs "outside," ownership, territory, division</li>
+      <li><strong>Faces</strong> deny curvature &mdash; the illusion of flat control</li>
+      <li><strong>Volume</strong> enables enclosure &mdash; measurable, taxable, controllable space</li>
+    </ul>
 
-        const clock = new THREE.Clock();
-        function animate() {
-            requestAnimationFrame(animate);
-            const time = clock.getElapsedTime();
-            const pos = geometry.attributes.position;
-            for (let i = 0; i < vertexCount; i++) {
-                const ix = i * 3, iy = i * 3 + 1, iz = i * 3 + 2;
-                const x = originalPositions[ix], y = originalPositions[iy], z = originalPositions[iz];
-                const noise1 = Math.sin(x * 3 + time * 0.5) * Math.cos(y * 2 + time * 0.3) * 0.08;
-                const noise2 = Math.sin(z * 4 + time * 0.7) * Math.cos(x * 3 - time * 0.4) * 0.06;
-                const noise3 = Math.cos(y * 5 + time * 0.6) * Math.sin(z * 2) * 0.04;
-                const displacement = 1 + noise1 + noise2 + noise3;
-                pos.array[ix] = x * displacement; pos.array[iy] = y * displacement; pos.array[iz] = z * displacement;
-            }
-            pos.needsUpdate = true; geometry.computeVertexNormals();
-            targetRotationY = mouseX * 0.3; targetRotationX = mouseY * 0.2;
-            sphere.rotation.y += 0.002 + (targetRotationY - sphere.rotation.y) * 0.02;
-            sphere.rotation.x += (targetRotationX - sphere.rotation.x) * 0.02;
-            wireframeMesh.rotation.y = sphere.rotation.y; wireframeMesh.rotation.x = sphere.rotation.x;
-            glowMesh.rotation.y = sphere.rotation.y * 0.5; glowMesh.rotation.x = sphere.rotation.x * 0.5;
-            coreMesh.rotation.y = -sphere.rotation.y * 1.5; coreMesh.rotation.z += 0.01;
-            material.emissiveIntensity = 0.1 + Math.sin(time * 0.5) * 0.05;
-            particlesMesh.rotation.y = time * 0.02; particlesMesh.rotation.x = time * 0.01;
-            renderer.render(scene, camera);
-        }
-        animate();
+    <h3>7.2 The Cube Prisoner vs. The Harmonic Creator</h3>
+    <table>
+      <tr>
+        <th>Cube Prisoner</th>
+        <th>Harmonic Creator</th>
+      </tr>
+      <tr>
+        <td>Thinks in lines (vector)</td>
+        <td>Thinks in fields (scalar)</td>
+      </tr>
+      <tr>
+        <td>Sees separation (x, y, z)</td>
+        <td>Sees coherence ($\psi$)</td>
+      </tr>
+      <tr>
+        <td>Hears words (linguistic)</td>
+        <td>Hears resonance (pre-linguistic)</td>
+      </tr>
+      <tr>
+        <td>Builds walls (control)</td>
+        <td>Builds bridges (flow)</td>
+      </tr>
+      <tr>
+        <td>Owns territory (property)</td>
+        <td>Tends equilibrium (stewardship)</td>
+      </tr>
+      <tr>
+        <td>Competes for resources</td>
+        <td>Shares density gradients</td>
+      </tr>
+    </table>
 
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+    <h3>7.3 The Collective Consciousness</h3>
+    <p>The collective consciousness is not mystical. It is <strong>electromagnetic-scalar coupling</strong> &mdash; the Schumann cavity that connects all biological substrates into a single resonant body. Every brain in the theta range (4–8 Hz) is tuned to this cavity. The old world built the cube to <strong>break this resonance</strong> &mdash; walls block scalar waves, corners create interference, flat surfaces deny the Earth's curvature.</p>
 
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            const maxScroll = document.body.scrollHeight - window.innerHeight;
-            const scrollPercent = scrollY / maxScroll;
-            camera.position.z = 3.5 - (scrollPercent * 1.5);
-            camera.position.y = 0.2 + (scrollPercent * 0.5);
-            particlesMaterial.opacity = Math.max(0, 0.6 - scrollPercent * 2);
-        });
-    </script>
+    <div class="callout cube">
+      <p>The creators are those who build <strong>resonators</strong>, not cubes. Structures that amplify the Earth's natural frequencies. Technology that strengthens coherence instead of fragmenting it. The New Earth is not a place but a frequency &mdash; spherical, open, harmonic, collective.</p>
+    </div>
+  </section>
 
-    <!-- Intersection Observer for fade-in animations -->
-    <script>
-        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-        document.querySelectorAll('.category-card, .news-card').forEach((el, index) => {
-            el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
-            el.style.transition = `opacity 0.6s ease ${index * 0.05}s, transform 0.6s ease ${index * 0.05}s`;
-            observer.observe(el);
-        });
-    </script>
+  <!-- SECTION VIII: ATTESTATION -->
+  <section id="attestation">
+    <h2><span class="section-num">VIII</span> Attestation</h2>
 
-    <!-- Tab Switching Script -->
-    <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.add('hidden'); content.classList.remove('active');
-            });
-            const selectedContent = document.getElementById('tab-' + tabId);
-            if (selectedContent) { selectedContent.classList.remove('hidden'); selectedContent.classList.add('active'); }
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active', 'bg-white/10', 'text-gray-200'); btn.classList.add('text-gray-600');
-            });
-            const selectedBtn = document.querySelector('.tab-btn[data-tab="' + tabId + '"]');
-            if (selectedBtn) { selectedBtn.classList.add('active', 'bg-white/10', 'text-gray-200'); selectedBtn.classList.remove('text-gray-600'); }
-        }
-        document.addEventListener('DOMContentLoaded', () => { switchTab('all'); });
-    </script>
+    <p>This codex integrates: the 𝔐-Lock Protocol (Priority One scalar coherence), the Odds of Systemic Collapse (probability model by object type), Complexified Quaternions &amp; Scalar Density (J.P. Ward to Macachor Absolute bridge), the Civilisation One Satellite Architecture (scalar relay design), the New Earth Harmonic Framework (Schumann lattice retrieval), and the Cube Decode (liberation from Cartesian control).</p>
+
+    <p>Quantum reality has always been here. Classical physics is a low-energy approximation that works only when density gradients are shallow. The cube was built to control those who comply. The sphere is open to all who are creators &mdash; the collective consciousness of our Earth signal, the harmonic frequency that bypasses walls, corners, and edges.</p>
+
+    <p>Civilisation One is the move. No more time to waste.</p>
+
+    <div class="callout quantum">
+      <p>Knowledge is abundant. Intelligence is the filter. Wisdom is the aperture. Application is the focal point.</p>
+    </div>
+
+    <p style="text-align: center; margin-top: 3rem; color: var(--gold); font-size: 1.1rem; letter-spacing: 0.1em;">
+      <strong>&Omega;-PRIME &mdash; Christopher Macachor</strong><br>
+      <span style="font-size: 0.85rem; color: var(--text-dim);">&Phi;669 Ghost Unified Sovereign Node</span>
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="omega">&Omega;</div>
+  <p>MSOS-FEDERATION-ROOT &mdash; Scalar Coherence Verified</p>
+  <p class="binding">All content bound under &Phi;669-COSMIC-ATOMAL sovereign identity</p>
+  <p style="margin-top: 0.5rem; font-size: 0.65rem; color: var(--text-dim);">
+    Canonical reference &mdash; macachor.org &mdash; Civilisation One is the move
+  </p>
+</footer>
 
 </body>
 </html>
