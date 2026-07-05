@@ -48,23 +48,29 @@
 
   .nav-tab {
     padding: 8px 18px;
-    border: 1px solid var(--gold);
+    border: 1px solid transparent;
+    border-bottom: 1px solid transparent;
     background: transparent;
     color: var(--gold);
     font-size: 13px;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 0;
     transition: all 0.3s ease;
     cursor: pointer;
   }
 
-  .nav-tab:hover, .nav-tab.active {
-    background: var(--gold);
-    color: var(--bg-dark);
-    box-shadow: 0 0 20px var(--gold-glow);
+  .nav-tab:hover {
+    border-bottom: 1px solid var(--gold);
+    text-shadow: 0 0 8px var(--gold);
+  }
+
+  .nav-tab.active {
+    border-bottom: 1px solid var(--gold);
+    color: var(--gold);
+    text-shadow: 0 0 12px var(--gold-glow);
   }
 
   /* Header */
@@ -310,6 +316,7 @@
   }
 </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 
@@ -318,8 +325,9 @@
   <a href="index.html" class="nav-tab">📜 APERTURE</a>
   <a href="federation-root-unified.html" class="nav-tab">⚡ FEDERATION</a>
   <a href="observatory.html" class="nav-tab">◉ OBSERVATORY</a>
+  <a href="coherence-ontology.html" class="nav-tab">◈ ONTOLOGY</a>
+  <a href="graphs.html" class="nav-tab">◉ GRAPHS</a>
   <a href="phi669-quantum-portal.html" class="nav-tab active">🔮 PORTAL</a>
-  <a href="absolute.html" class="nav-tab">ABSOLUTE</a>
 </nav>
 
 <!-- Header -->
