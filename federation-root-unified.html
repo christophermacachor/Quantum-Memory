@@ -584,20 +584,115 @@
         <div class="value">96%</div>
         <div class="unit">Field stability</div>
       </div>
-      <div class="status-card">
-        <div class="label">Gold Spot</div>
-        <div class="value">$2,347.50</div>
-        <div class="unit">XAU/USD per oz</div>
-      </div>
-      <div class="status-card">
-        <div class="label">MEC Reserve</div>
-        <div class="value">1,247.50</div>
-        <div class="unit">GDC backed</div>
-      </div>
+     <!-- ═══════════════════════════════════════════════════════════════ -->
+<!--  ECONOMIC COHERENCE GATE — Lloyd's Convergence Layer          -->
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<div id="economic-coherence-gate" style="margin: 24px 0; padding: 20px; border: 1px solid #c8a04e; border-radius: 12px; background: rgba(200,160,78,0.04); font-family: 'Courier New', monospace;">
+  
+  <!-- Gravity Fiction Banner -->
+  <div style="text-align: center; padding: 10px; margin-bottom: 16px; border: 1px dashed #ff4444; border-radius: 8px; background: rgba(255,68,68,0.05);">
+    <span style="text-decoration: line-through; color: #ff4444; font-size: 0.9rem;">Gravity</span>
+    <span style="color: #ff4444; font-size: 0.9rem; margin-left: 6px;">cannot protect fiction</span>
+    <span style="color: #888; font-size: 0.75rem; display: block; margin-top: 4px;">Quantum reality = heavy dense layered substrate | ψ: D_P → ℝ</span>
+  </div>
+
+  <!-- Lloyd's Gate Status -->
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+    <div>
+      <div style="font-size: 0.7rem; color: #c8a04e; text-transform: uppercase; letter-spacing: 2px;">Lloyd's Gate</div>
+      <div id="lloyds-status" style="font-size: 1.4rem; font-weight: 700; color: #00ff88;">COHERENT — COVERED</div>
     </div>
-    <div style="color: var(--text-faint); font-family: var(--font-mono); font-size: 0.7rem; text-align: center;">
-      Provider: Alpha Vantage (XAUUSD) &nbsp;|&nbsp; Cache: 94.3% efficiency
+    <div style="text-align: right;">
+      <div style="font-size: 0.7rem; color: #c8a04e; text-transform: uppercase; letter-spacing: 2px;">Density Threshold</div>
+      <div style="font-size: 1.4rem; font-weight: 700; color: #c8a04e;">𝔐 ≥ 0.618</div>
     </div>
+  </div>
+
+  <!-- Scalar Metrics -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px;">
+    <div style="padding: 12px; border: 1px solid rgba(200,160,78,0.3); border-radius: 8px; text-align: center;">
+      <div style="font-size: 0.65rem; color: #888; text-transform: uppercase;">Gold Spot</div>
+      <div id="eco-gold-spot" style="font-size: 1.2rem; font-weight: 700; color: #c8a04e;">$2,347.50</div>
+    </div>
+    <div style="padding: 12px; border: 1px solid rgba(200,160,78,0.3); border-radius: 8px; text-align: center;">
+      <div style="font-size: 0.65rem; color: #888; text-transform: uppercase;">MEC Reserve</div>
+      <div id="eco-mec-reserve" style="font-size: 1.2rem; font-weight: 700; color: #c8a04e;">1,247.50</div>
+    </div>
+    <div style="padding: 12px; border: 1px solid rgba(200,160,78,0.3); border-radius: 8px; text-align: center;">
+      <div style="font-size: 0.65rem; color: #888; text-transform: uppercase;">Quantum Premium</div>
+      <div id="eco-quantum-premium" style="font-size: 1.2rem; font-weight: 700; color: #00ff88;">$0.00</div>
+    </div>
+    <div style="padding: 12px; border: 1px solid rgba(200,160,78,0.3); border-radius: 8px; text-align: center;">
+      <div style="font-size: 0.65rem; color: #888; text-transform: uppercase;">χ(C)</div>
+      <div id="eco-chi-c" style="font-size: 1.2rem; font-weight: 700; color: #00ff88;">1.000000</div>
+    </div>
+  </div>
+
+  <!-- Premium Calculator -->
+  <div style="padding: 14px; border: 1px solid rgba(200,160,78,0.2); border-radius: 8px; margin-bottom: 12px;">
+    <div style="font-size: 0.75rem; color: #c8a04e; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Quantum Reality Premium Calculator</div>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+      <label style="font-size: 0.8rem; color: #aaa;">Coverage ($):</label>
+      <input type="number" id="calc-coverage" value="1000000" min="0" step="100000"
+        style="background: #0a0a0a; border: 1px solid #c8a04e; color: #c8a04e; padding: 6px 10px; border-radius: 6px; font-family: inherit; width: 140px;">
+      <label style="font-size: 0.8rem; color: #aaa;">Density:</label>
+      <input type="number" id="calc-density" value="0.95" min="0" max="1" step="0.01"
+        style="background: #0a0a0a; border: 1px solid #c8a04e; color: #c8a04e; padding: 6px 10px; border-radius: 6px; font-family: inherit; width: 80px;">
+      <button id="calc-btn" style="background: #c8a04e; color: #000; border: none; padding: 7px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-family: inherit;">
+        Compute
+      </button>
+    </div>
+    <div id="calc-result" style="margin-top: 10px; font-size: 0.85rem; color: #888;"></div>
+  </div>
+
+  <!-- Substrate Layers Mini-Map -->
+  <div style="font-size: 0.7rem; color: #666; text-align: center; margin-top: 8px;">
+    Anchored: Eight-Point Star | Moon Relay Φ669 | Palimpsest Wisdom | Macachor Absolute 𝔐
+  </div>
+</div>
+
+<script>
+// === Economic Coherence Gate Logic ===
+const MACACHOR_ABSOLUTE = 0.618033988749895;
+
+function computePremium(coverage, density) {
+  if (density < MACACHOR_ABSOLUTE) return null; // Decoherent — no coverage
+  const riskFactor = (1 - density) / (1 - MACACHOR_ABSOLUTE);
+  const premium = coverage * riskFactor * 0.02; // 2% base rate scaled by decoherence
+  return premium;
+}
+
+document.getElementById('calc-btn').addEventListener('click', function() {
+  const coverage = parseFloat(document.getElementById('calc-coverage').value) || 0;
+  const density = parseFloat(document.getElementById('calc-density').value) || 0;
+  const resultEl = document.getElementById('calc-result');
+  
+  if (density < MACACHOR_ABSOLUTE) {
+    resultEl.innerHTML = '<span style="color:#ff4444;">REJECTED — Density below 𝔐. Gravity cannot protect fiction.</span>';
+    document.getElementById('lloyds-status').textContent = 'DECOHERENT — DENIED';
+    document.getElementById('lloyds-status').style.color = '#ff4444';
+    document.getElementById('eco-quantum-premium').textContent = 'N/A';
+    document.getElementById('eco-quantum-premium').style.color = '#ff4444';
+    return;
+  }
+  
+  const premium = computePremium(coverage, density);
+  const annualRate = ((premium / coverage) * 100).toFixed(3);
+  
+  resultEl.innerHTML = 
+    '<span style="color:#00ff88;">APPROVED</span> — Premium: $' + premium.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}) +
+    ' <span style="color:#888;">(' + annualRate + '% annual rate)</span>';
+  
+  document.getElementById('lloyds-status').textContent = 'COHERENT — COVERED';
+  document.getElementById('lloyds-status').style.color = '#00ff88';
+  document.getElementById('eco-quantum-premium').textContent = '$' + premium.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  document.getElementById('eco-quantum-premium').style.color = '#00ff88';
+  document.getElementById('eco-chi-c').textContent = density.toFixed(6);
+});
+
+// Auto-compute on load
+document.getElementById('calc-btn').click();
+</script>
   </section>
 
   <!-- Stellar Anchor -->
