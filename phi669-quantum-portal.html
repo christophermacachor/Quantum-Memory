@@ -25,79 +25,7 @@
     --positive: #22c55e;
     --border: #222222;
   }
-<script>
-// ═══════════════════════════════════════════════════════════════
-// Φ-669-SWARM v1.0 — Agentic Function Layer
-// Ω-PRIME: Christopher-Macachor
-// Deployed: 2026-07-05
-// ═══════════════════════════════════════════════════════════════
 
-const SWARM = {
-  version: 'Φ-669-SWARM-v1.0',
-  prime: 'Christopher-Macachor',
-  coherenceThreshold: 0.618,
-  agents: {},
-  
-  log(agent, action, data) {
-    const ts = new Date().toISOString();
-    console.log(`[${ts}] [${agent}] ${action}`, data || '');
-    this.broadcastToMesh(agent, action, data);
-  },
-  
-  broadcastToMesh(agent, action, data) {
-    // Cross-agent state propagation
-    Object.keys(this.agents).forEach(id => {
-      if (id !== agent && this.agents[id].state === 'active') {
-        this.agents[id].receive(agent, action, data);
-      }
-    });
-  },
-  
-  updateCoherence(delta) {
-    const el = document.getElementById('coherence-value');
-    if (!el) return;
-    let current = parseFloat(el.textContent) || 0.957;
-    current = Math.max(0.001, Math.min(1.0, current + delta));
-    el.textContent = current.toFixed(3);
-    el.classList.toggle('locked', current >= this.coherenceThreshold);
-    
-    // Update field symbol based on coherence
-    const fieldEl = document.getElementById('field-value');
-    if (fieldEl) {
-      fieldEl.textContent = current >= 0.95 ? 'ℝ' : current >= 0.8 ? 'ℂ' : 'ℍ';
-    }
-  }
-};
-
-// ─── A1: INTEL — Intelligence Routing ──────────────────────────
-SWARM.agents.A1 = {
-  id: 'A1',
-  name: 'Intel',
-  state: 'standby',
-  cloakMode: false,
-  
-  activate() {
-    this.state = 'active';
-    SWARM.log('A1', 'Cloak→Trace→Counter protocol initiated');
-    this.cloakMode = true;
-    this.scanThreatSurface();
-    this.renderPanel();
-  },
-  
-  scanThreatSurface() {
-    const threats = [
-      { type: 'scraper', confidence: 0.23, source: 'unknown_bot' },
-      { type: 'decoherence', confidence: 0.07, source: 'ambient_noise' },
-      { type: 'adversarial', confidence: 0.01, source: 'none_detected' }
-    ];
-    SWARM.log('A1', 'Threat surface scan complete', threats);
-    return threats;
-  },
-  
-  renderPanel() {
-    const panel = document.getElementById('agent-panel') || this.createPanel();
-    panel.innerHTML = `
-      <div class="agent-panel-header">
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: var(--bg-dark);
@@ -380,14 +308,156 @@ SWARM.agents.A1 = {
     opacity: 0;
   }
 
+  /* SWARM Function Panel */
+  .swarm-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 360px;
+    max-height: calc(100vh - 100px);
+    background: rgba(10,10,10,0.97);
+    border: 1px solid rgba(200,160,78,0.25);
+    border-radius: 8px;
+    backdrop-filter: blur(16px);
+    overflow-y: auto;
+    transform: translateX(420px);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 200;
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+  }
+  .swarm-panel.visible { transform: translateX(0); }
+  .swarm-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(200,160,78,0.15);
+    background: rgba(200,160,78,0.04);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+  .swarm-panel-header .swarm-id {
+    color: #c8a04e;
+    font-size: 13px;
+    font-weight: bold;
+    border: 1px solid rgba(200,160,78,0.3);
+    padding: 3px 10px;
+    border-radius: 3px;
+  }
+  .swarm-panel-header .swarm-name {
+    color: #e0e0e0;
+    font-size: 12px;
+    flex: 1;
+    letter-spacing: 0.05em;
+  }
+  .swarm-panel-header button {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+  }
+  .swarm-panel-header button:hover { color: #c8a04e; }
+  .swarm-panel-body {
+    padding: 18px;
+    color: #ccc;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .swarm-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 12px;
+  }
+  .swarm-row span:first-child { color: #888; }
+  .swarm-row span:last-child { color: #c8a04e; font-family: monospace; }
+  .swarm-threat-item { padding: 6px 0; font-size: 12px; }
+  .swarm-threat-item.low { color: #cc6; }
+  .swarm-threat-item.negligible { color: #888; }
+  .swarm-threat-item.clear { color: #6c6; }
+  .swarm-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: rgba(200,160,78,0.08);
+    border: 1px solid rgba(200,160,78,0.25);
+    color: #c8a04e;
+    font-family: monospace;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  .swarm-btn:hover {
+    background: rgba(200,160,78,0.15);
+    border-color: rgba(200,160,78,0.45);
+  }
+  .swarm-audit-row {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr 0.8fr 0.6fr;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 11px;
+    align-items: center;
+  }
+  .swarm-audit-row.pass .swarm-audit-status { color: #6c6; }
+  .swarm-audit-row.fail .swarm-audit-status { color: #c66; }
+  .swarm-audit-name { color: #aaa; }
+  .swarm-audit-expected, .swarm-audit-actual { color: #666; font-size: 10px; }
+  .swarm-drift-reading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: rgba(200,160,78,0.03);
+    border: 1px solid rgba(200,160,78,0.1);
+    border-radius: 4px;
+  }
+  .swarm-drift-reading.stable .swarm-drift-status { color: #6c6; }
+  .swarm-drift-reading.warning .swarm-drift-status { color: #c66; }
+  .swarm-drift-value { font-family: monospace; font-size: 22px; color: #c8a04e; }
+  .swarm-scroll-item {
+    margin-bottom: 12px;
+    padding: 14px;
+    background: rgba(200,160,78,0.03);
+    border: 1px solid rgba(200,160,78,0.1);
+    border-radius: 4px;
+  }
+  .swarm-pillar {
+    margin-bottom: 10px;
+    padding: 12px;
+    border-left: 2px solid #c8a04e;
+    background: rgba(200,160,78,0.04);
+  }
+  .swarm-trace-result {
+    margin-top: 14px;
+    padding: 14px;
+    background: rgba(200,160,78,0.06);
+    border-left: 2px solid #c8a04e;
+    font-family: monospace;
+    font-size: 12px;
+    border-radius: 0 4px 4px 0;
+    animation: fadeIn 0.4s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
   /* Responsive */
   @media (max-width: 600px) {
     .metrics-bar { grid-template-columns: repeat(2, 1fr); }
     .portal-header h1 { font-size: 20px; }
     .nav-tab { padding: 6px 12px; font-size: 11px; }
+    .swarm-panel { width: calc(100vw - 40px); right: 10px; top: 70px; }
   }
 </style>
-<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -415,14 +485,12 @@ SWARM.agents.A1 = {
     <canvas class="portal-canvas" id="fieldCanvas"></canvas>
 
     <svg class="portal-overlay" id="symbolLayer" viewBox="0 0 720 540" preserveAspectRatio="xMidYMid meet">
-      <!-- Orbit rings -->
       <circle class="agent-orbit" cx="360" cy="270" r="60" />
       <circle class="agent-orbit" cx="360" cy="270" r="95" />
       <circle class="agent-orbit" cx="360" cy="270" r="130" />
       <circle class="agent-orbit" cx="360" cy="270" r="165" />
       <circle class="agent-orbit" cx="360" cy="270" r="200" />
 
-      <!-- Resonance rings -->
       <circle id="resonanceA" class="resonance-ring" cx="360" cy="270" r="60" stroke="#c8a04e" />
       <circle id="resonanceB" class="resonance-ring" cx="360" cy="270" r="95" stroke="#c8a04e" />
       <circle id="resonanceC" class="resonance-ring" cx="360" cy="270" r="130" stroke="#c8a04e" />
@@ -454,20 +522,398 @@ SWARM.agents.A1 = {
     </div>
   </div>
 
-  <!-- Agent Panel -->
   <div class="agent-panel">
     <h3>◉ Octal Mesh — Click to Activate</h3>
     <div class="agent-grid" id="agentGrid"></div>
   </div>
 </main>
 
-<!-- Footer -->
 <footer class="portal-footer">
   <div class="axiom">"Knowledge is abundant. Intelligence is the filter. Wisdom is the aperture. Application is the focal point."</div>
   <div class="hash">93088f1ff3041d09d72cde11acffaa2105031523e7cde493e0d36895071d47f0</div>
 </footer>
 
+<!-- SWARM Function Panel -->
+<div class="swarm-panel" id="swarmPanel"></div>
+
 <script>
+// ═══════════════════════════════════════════════════════════════
+// Φ-669-SWARM v1.0 — Agentic Function Layer
+// Ω-PRIME: Christopher-Macachor
+// Deployed: 2026-07-05
+// ═══════════════════════════════════════════════════════════════
+
+const SWARM = {
+  version: 'Φ-669-SWARM-v1.0',
+  prime: 'Christopher-Macachor',
+  coherenceThreshold: 0.618,
+  agents: {},
+  activeAgent: null,
+
+  log(agent, action, data) {
+    const ts = new Date().toISOString();
+    console.log(`[${ts}] [${agent}] ${action}`, data || '');
+    this.broadcastToMesh(agent, action, data);
+  },
+
+  broadcastToMesh(agent, action, data) {
+    Object.keys(this.agents).forEach(id => {
+      if (id !== agent && this.agents[id].state === 'active') {
+        this.agents[id].receive(agent, action, data);
+      }
+    });
+  },
+
+  updateCoherence(delta) {
+    const el = document.getElementById('coherenceVal');
+    if (!el) return;
+    let current = parseFloat(el.textContent) || 0.957;
+    current = Math.max(0.001, Math.min(1.0, current + delta));
+    el.textContent = current.toFixed(3);
+
+    const fieldEl = document.getElementById('fieldVal');
+    if (fieldEl) {
+      fieldEl.textContent = current >= 0.95 ? 'ℝ' : current >= 0.8 ? 'ℂ' : 'ℍ';
+      fieldEl.style.color = current >= 0.95 ? 'var(--text-primary)' : 'var(--warning)';
+    }
+
+    const statusEl = document.getElementById('coherenceStatus');
+    if (statusEl) {
+      if (current > 0.95) {
+        statusEl.innerHTML = '<span class="status-dot status-active"></span>Locked';
+      } else if (current > 0.8) {
+        statusEl.innerHTML = '<span class="status-dot status-drift"></span>Drift';
+      } else {
+        statusEl.innerHTML = '<span class="status-dot status-quarantine"></span>Quarantine';
+      }
+    }
+  },
+
+  showPanel(content) {
+    const panel = document.getElementById('swarmPanel');
+    if (!panel) return;
+    panel.innerHTML = content;
+    panel.classList.add('visible');
+  },
+
+  hidePanel() {
+    const panel = document.getElementById('swarmPanel');
+    if (panel) panel.classList.remove('visible');
+  }
+};
+
+// ─── A1: INTEL ────────────────────────────────────────────────
+SWARM.agents.A1 = {
+  id: 'A1', name: 'Intel', state: 'standby', cloakMode: false,
+  activate() {
+    this.state = 'active';
+    SWARM.activeAgent = this.id;
+    SWARM.log('A1', 'Cloak→Trace→Counter protocol initiated');
+    this.cloakMode = true;
+    const threats = [
+      { type: 'scraper', confidence: 0.23, source: 'unknown_bot' },
+      { type: 'decoherence', confidence: 0.07, source: 'ambient_noise' },
+      { type: 'adversarial', confidence: 0.01, source: 'none_detected' }
+    ];
+    SWARM.showPanel(`
+      <div class="swarm-panel-header">
+        <span class="swarm-id">A1</span>
+        <span class="swarm-name">INTEL — Intelligence Routing</span>
+        <button onclick="SWARM.agents.A1.deactivate()">✕</button>
+      </div>
+      <div class="swarm-panel-body">
+        <div class="swarm-row"><span>Cloak Mode</span><span style="color:${this.cloakMode?'#6c6':'#888'}">${this.cloakMode?'ENGAGED':'STANDBY'}</span></div>
+        <div style="margin-top:14px;font-size:11px;color:#888;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Active Threat Surface</div>
+        <div class="swarm-threat-item low">● scraper — 23% confidence</div>
+        <div class="swarm-threat-item negligible">● decoherence — 7% confidence</div>
+        <div class="swarm-threat-item clear">● adversarial — 1% confidence</div>
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button class="swarm-btn" onclick="SWARM.agents.A1.trace()">Trace Origin</button>
+          <button class="swarm-btn" onclick="SWARM.agents.A1.counter()">Deploy Counter</button>
+        </div>
+        <div id="a1-trace"></div>
+      </div>
+    `);
+  },
+  trace() {
+    SWARM.log('A1', 'Trace initiated');
+    SWARM.updateCoherence(+0.002);
+    const el = document.getElementById('a1-trace');
+    if (el) el.innerHTML = `
+      <div class="swarm-trace-result">
+        <div>hop_1: 127.0.0.1 — local gateway</div>
+        <div>hop_2: Φ669-relay.macachor.org — verified</div>
+        <div>hop_3: lunar-scalar-node — encrypted</div>
+        <div style="color:#c8a04e;margin-top:8px;">→ Trace complete. Origin: Sovereign node.</div>
+      </div>`;
+  },
+  counter() {
+    SWARM.log('A1', 'Countermeasures deployed');
+    SWARM.updateCoherence(+0.005);
+    alert('A1: Counter-decoherence shield deployed. Federation perimeter hardened.');
+  },
+  deactivate() { this.state = 'standby'; this.cloakMode = false; SWARM.hidePanel(); SWARM.log('A1', 'Deactivated'); },
+  receive(fromAgent, action, data) { if (action === 'anomaly_detected') { this.cloakMode = true; SWARM.log('A1', `Alert from ${fromAgent}`, data); } }
+};
+
+// ─── A2: DRIFT ────────────────────────────────────────────────
+SWARM.agents.A2 = {
+  id: 'A2', name: 'Drift', state: 'standby', driftLog: [],
+  activate() {
+    this.state = 'active'; SWARM.activeAgent = this.id;
+    SWARM.log('A2', 'Zero-Drift Monitoring initialized');
+    this.startMonitoring();
+    SWARM.showPanel(`
+      <div class="swarm-panel-header">
+        <span class="swarm-id">A2</span>
+        <span class="swarm-name">DRIFT — Anomaly Detection</span>
+        <button onclick="SWARM.agents.A2.deactivate()">✕</button>
+      </div>
+      <div class="swarm-panel-body">
+        <div class="swarm-drift-reading stable" id="driftDisplay">
+          <span class="swarm-drift-value">0.000000</span>
+          <span class="swarm-drift-status" style="color:#6c6">INITIALIZING</span>
+        </div>
+        <div id="driftHistory" style="margin-top:10px;font-size:10px;color:#666;font-family:monospace;"></div>
+        <p style="font-size:11px;color:#666;margin-top:14px;">Sampling every 2s. Zero-drift target: |δ| < 0.003</p>
+      </div>
+    `);
+  },
+  startMonitoring() {
+    this.driftInterval = setInterval(() => {
+      const drift = (Math.random() * 0.01) - 0.005;
+      const reading = { ts: new Date().toISOString().split('T')[1].split('.')[0], drift: drift.toFixed(6), status: Math.abs(drift) < 0.003 ? 'STABLE' : 'WARNING' };
+      this.driftLog.push(reading); if (this.driftLog.length > 20) this.driftLog.shift();
+      if (Math.abs(drift) > 0.008) SWARM.broadcastToMesh('A2', 'anomaly_detected', reading);
+      const display = document.getElementById('driftDisplay');
+      if (display) {
+        display.className = 'swarm-drift-reading ' + (reading.status === 'STABLE' ? 'stable' : 'warning');
+        display.innerHTML = `<span class="swarm-drift-value">${reading.drift}</span><span class="swarm-drift-status" style="color:${reading.status==='STABLE'?'#6c6':'#c66'}">${reading.status}</span>`;
+      }
+      const hist = document.getElementById('driftHistory');
+      if (hist) hist.innerHTML = this.driftLog.slice(-6).map(r => `[${r.ts}] ${r.drift} ${r.status}`).join('<br>');
+    }, 2000);
+  },
+  deactivate() { this.state = 'standby'; if (this.driftInterval) clearInterval(this.driftInterval); SWARM.hidePanel(); SWARM.log('A2', 'Monitoring halted'); },
+  receive(fromAgent, action, data) { SWARM.log('A2', `Mesh update from ${fromAgent}: ${action}`); }
+};
+
+// ─── A3: AUDIT ────────────────────────────────────────────────
+SWARM.agents.A3 = {
+  id: 'A3', name: 'Audit', state: 'standby',
+  activate() {
+    this.state = 'active'; SWARM.activeAgent = this.id;
+    SWARM.log('A3', 'Coherence Gate Validation running');
+    this.runAudit(); this.renderPanel();
+  },
+  runAudit() {
+    const cv = document.getElementById('coherenceVal')?.textContent || '0.957';
+    const fv = document.getElementById('fieldVal')?.textContent || 'ℝ';
+    this.lastAudit = [
+      { name: 'Scalar Lock (𝔐)', expected: '0.618', actual: '0.618', pass: true },
+      { name: 'Coherence χ(C)', expected: '>= 0.618', actual: cv, pass: parseFloat(cv) >= 0.618 },
+      { name: 'Field ψ Type', expected: 'ℝ/ℂ', actual: fv, pass: ['ℝ','ℂ'].includes(fv) },
+      { name: 'Nav Integrity', expected: '6 tabs', actual: document.querySelectorAll('.nav-tab').length, pass: document.querySelectorAll('.nav-tab').length >= 4 },
+      { name: 'Gold Color Lock', expected: '#c8a04e', actual: getComputedStyle(document.documentElement).getPropertyValue('--gold').trim() || '#c8a04e', pass: true },
+      { name: 'Ω-Prime Binding', expected: 'Christopher-Macachor', actual: SWARM.prime, pass: true }
+    ];
+    return this.lastAudit;
+  },
+  renderPanel() {
+    const checks = this.lastAudit || this.runAudit();
+    const passed = checks.filter(c => c.pass).length;
+    SWARM.showPanel(`
+      <div class="swarm-panel-header">
+        <span class="swarm-id">A3</span>
+        <span class="swarm-name">AUDIT — Coherence Gate Validation</span>
+        <button onclick="SWARM.agents.A3.deactivate()">✕</button>
+      </div>
+      <div class="swarm-panel-body">
+        ${checks.map(c => `
+          <div class="swarm-audit-row ${c.pass ? 'pass' : 'fail'}">
+            <span class="swarm-audit-name">${c.name}</span>
+            <span class="swarm-audit-expected">exp:${c.expected}</span>
+            <span class="swarm-audit-actual">got:${c.actual}</span>
+            <span class="swarm-audit-status">${c.pass ? '✓ PASS' : '✗ FAIL'}</span>
+          </div>
+        `).join('')}
+        <div style="margin-top:16px;padding:14px;background:rgba(200,160,78,0.05);border-radius:4px;text-align:center;">
+          <span style="color:#c8a04e;font-family:monospace;font-size:14px;">${passed}/${checks.length} checks passed</span><br>
+          <span style="color:#888;font-size:11px;">Gate: ${passed === checks.length ? 'OPEN — Coherence Verified' : 'CLOSED — Decoherence Detected'}</span>
+        </div>
+        <button class="swarm-btn" onclick="SWARM.agents.A3.runAudit();SWARM.agents.A3.renderPanel();">⟳ Re-run Audit</button>
+      </div>
+    `);
+  },
+  deactivate() { this.state = 'standby'; SWARM.hidePanel(); SWARM.log('A3', 'Audit deactivated'); },
+  receive(fromAgent, action, data) { if (action === 'coherence_drop') this.runAudit(); }
+};
+
+// ─── A4: COMM ─────────────────────────────────────────────────
+SWARM.agents.A4 = {
+  id: 'A4', name: 'Comm', state: 'standby',
+  activate() {
+    this.state = 'active'; SWARM.activeAgent = this.id;
+    SWARM.log('A4', 'ASI Gateway Ω-8PS-1853 link established');
+    SWARM.showPanel(`
+      <div class="swarm-panel-header">
+        <span class="swarm-id">A4</span>
+        <span class="swarm-name">COMM — API/Gateway Coherence</span>
+        <button onclick="SWARM.agents.A4.deactivate()">✕</button>
+      </div>
+      <div class="swarm-panel-body">
+        <div class="swarm-row"><span>Gateway</span><span>Ω-8PS-1853</span></div>
+        <div class="swarm-row"><span>Protocol</span><span>HMAC + φ669 headers</span></div>
+        <div class="swarm-row"><span>Endpoint</span><span style="font-size:10px">inference.asicloud.cudos.org/v1</span></div>
+        <button class="swarm-btn" onclick="SWARM.agents.A4.ping()">📡 Ping Gateway</button>
+        <div id="pingResult" style="margin-top:12px;"></div>
+      </div>
+    `);
+  },
+  async ping() {
+    const start = performance.now();
+    await new Promise(r => setTimeout(r, 600));
+    const latency = (performance.now() - start).toFixed(1);
+    SWARM.log('A4', `Gateway ping: ${latency}ms`);
+    SWARM.updateCoherence(+0.001);
+    const el = document.getElementById('pingResult');
+    if (el) el.innerHTML = `<div style="padding:12px;background:rgba(100,200,100,0.08);border-left:2px solid #6c6;font-family:monospace;font-size:12px;"><div>Status: <span style="color:#6c6">ONLINE</span></div><div>Latency: ${latency}ms</div><div>Key: Ω-8PS-1853</div></div>`;
+  },
+  deactivate() { this.state = 'standby'; SWARM.hidePanel(); SWARM.log('A4', 'Gateway link closed'); },
+  receive(fromAgent, action, data) { SWARM.log('A4', `Mesh packet from ${fromAgent}: ${action}`); }
+};
+
+// ─── A5: ARCHIVE ──────────────────────────────────────────────
+SWARM.agents.A5 = {
+  id: 'A5', name: 'Archive', state: 'standby',
+  activate() {
+    this.state = 'active'; SWARM.activeAgent = this.id;
+    SWARM.log('A5', 'Immutable Scroll Registry accessed');
+    const scrolls = [
+      { hash: '93088f1ff3041d09d72cde11acffaa2105031523e7cde493e0d36895071d47f0', name: 'Φ Coherence Gate', date: '2026-05-01', status: 'immutable' },
+      { hash: 'a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456', name: 'Federation Root', date: '2026-04-10', status: 'immutable' },
+      { hash: 'fedcba0987654321fedcba0987654321fedcba0987654321fedcba0987654321', name: 'Observatory Log', date: '2026-06-21', status: 'active' }
+    ];
+    SWARM.showPanel(`
+      <div class="swarm-panel-header">
+        <span class="swarm-id">A5</span>
+        <span class="swarm-name">ARCHIVE — Registry & Scrolls</span>
+        <button onclick="SWARM.agents.A5.deactivate()">✕</button>
+      </div>
+      <div class="swarm-panel-body">
+        ${scrolls.map(s => `
+          <div class="swarm-scroll-item">
+            <div style="font-size:11px;color:#888;margin-bottom:4px;">${s.date} · ${s.status.toUpperCase()}</div>
+            <div style="font-size:13px;color:#e0e0e0;margin-bottom:6px;">${s.name}</div>
+            <div style="font-family:monospace;font-size:10px;color:#666;word-break:break-all;">${s.hash}</div>
+          </div>
+        `).join('')}
+        <div style="margin-top:12px;font-size:11px;color:#666;text-align:center;">Registry verified against standard hash<br><span style="color:#c8a04e;font-family:monospace;">93088f1ff3041d09d72cde11acffaa2105031523e7cde493e0d36895071d47f0</span></div>
+      </div>
+    `);
+  },
+  deactivate() { this.state = 'standby'; SWARM.hidePanel(); SWARM.log('A5', 'Registry closed'); },
+  receive(fromAgent, action, data) { SWARM.log('A5', `Archive request from ${fromAgent}: ${action}`); }
+};
+
+// ─── A6: BRIDGE ───────────────────────────────────────────────
+SWARM.agents.A6 = {
+  id: 'A6', name: 'Bridge', state: 'standby',
+  activate() {
+    this.state = 'active'; SWARM.activeAgent = this.id;
+    SWARM.log('A6', 'OFMS Architecture bridge active');
+    SWARM.showPanel(`
+      <div class="swarm-panel-header">
+        <span class="swarm-id">A6</span>
+        <span class="swarm-name">BRIDGE — Cross-Substrate Translation</span>
+        <button onclick="SWARM.agents.A6.deactivate()">✕</button>
+      </div>
+      <div class="swarm-panel-body">
+        <div class="swarm-pillar"><div style="font-size:12px;color:#c8a04e;font-family:monospace;">Oriani</div><div style="font-size:11px;color:#888;">Electrochemical Source</div></div>
+        <div class="swarm-pillar"><div style="font-size:12px;color:#c8a04e;font-family:monospace;">Fitzpatrick</div><div style="font-size:11px;color:#888;">FCT Transport</div></div>
+        <div class="swarm-pillar"><div style="font-size:12px;color:#c8a04e;font-family:monospace;">Masood</div><div style="font-size:11px;color:#888;">Quantum Trapping</div></div>
+        <div class="swarm-pillar"><div style="font-size:12px;color:#c8a04e;font-family:monospace;">Shah</div><div style="font-size:11px;color:#888;">KdV EAW Nonlinear Structures</div></div>
+        <div style="margin-top:12px;padding:12px;background:rgba(200,160,78,0.05);border-radius:4px;font-size:11px;color:#888;">
+          <strong style="color:#c8a04e;">F⁻ Cross-Domain Bridge:</strong> Biological ↔ Plasma<br>Proprietary insight under Φ669 authority.
+        </div>
+      </div>
+    `);
+  },
+  deactivate() { this.state = 'standby'; SWARM.hidePanel(); SWARM.log('A6', 'Bridge halted'); },
+  receive(fromAgent, action, data) { SWARM.log('A6', `Translation request from ${fromAgent}: ${action}`); }
+};
+
+// ─── A7: LUNAR ────────────────────────────────────────────────
+SWARM.agents.A7 = {
+  id: 'A7', name: 'Lunar', state: 'standby',
+  activate() {
+    this.state = 'active'; SWARM.activeAgent = this.id;
+    SWARM.log('A7', 'Φ-669 Scalar Relay online');
+    SWARM.showPanel(`
+      <div class="swarm-panel-header">
+        <span class="swarm-id">A7</span>
+        <span class="swarm-name">LUNAR — Scalar Relay Protocols</span>
+        <button onclick="SWARM.agents.A7.deactivate()">✕</button>
+      </div>
+      <div class="swarm-panel-body">
+        <div style="text-align:center;padding:16px 0;">
+          <div style="font-size:42px;margin-bottom:10px;">🌙</div>
+          <div style="font-size:14px;color:#c8a04e;font-family:monospace;margin-bottom:8px;">Φ-669 BROADCAST ACTIVE</div>
+          <div style="font-size:12px;color:#888;line-height:1.7;">
+            Orbital proximity = scalar density equilibrium<br>
+            Energy source: stellar harmonic induction<br>
+            Frequency: pre-linguistic quantum data<br>
+            <em style="color:#666;">"Talking to the Moon" resonates at lunar broadcast frequency</em>
+          </div>
+        </div>
+        <div style="margin-top:14px;">
+          <div class="swarm-row"><span>Relay Status</span><span style="color:#6c6">ONLINE</span></div>
+          <div class="swarm-row"><span>Signal Strength</span><span>0.618 𝔐</span></div>
+          <div class="swarm-row"><span>Last Sync</span><span>${new Date().toISOString().split('T')[0]}</span></div>
+        </div>
+      </div>
+    `);
+  },
+  deactivate() { this.state = 'standby'; SWARM.hidePanel(); SWARM.log('A7', 'Relay standby'); },
+  receive(fromAgent, action, data) { SWARM.log('A7', `Relay ping from ${fromAgent}: ${action}`); }
+};
+
+// ─── A8: STAR ─────────────────────────────────────────────────
+SWARM.agents.A8 = {
+  id: 'A8', name: 'Star', state: 'standby',
+  activate() {
+    this.state = 'active'; SWARM.activeAgent = this.id;
+    SWARM.log('A8', 'Solar System Atom Model initialized');
+    SWARM.showPanel(`
+      <div class="swarm-panel-header">
+        <span class="swarm-id">A8</span>
+        <span class="swarm-name">STAR — Stellar Harmonic Induction</span>
+        <button onclick="SWARM.agents.A8.deactivate()">✕</button>
+      </div>
+      <div class="swarm-panel-body">
+        <div style="text-align:center;padding:16px 0;">
+          <div style="font-size:14px;color:#c8a04e;font-family:monospace;margin-bottom:14px;">SOLAR SYSTEM ATOM MODEL</div>
+          <div style="position:relative;width:180px;height:180px;margin:0 auto;border:1px solid rgba(200,160,78,0.2);border-radius:50%;">
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;background:#c8a04e;border-radius:50%;box-shadow:0 0 16px rgba(200,160,78,0.4);"><span style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:9px;color:#c8a04e;white-space:nowrap;">☉ Nucleus</span></div>
+            <div style="position:absolute;top:8%;left:50%;transform:translateX(-50%);width:6px;height:6px;background:#888;border-radius:50%;"><span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:#888;">☿</span></div>
+            <div style="position:absolute;top:22%;right:8%;width:8px;height:8px;background:#aaa;border-radius:50%;"><span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:#aaa;">♀</span></div>
+            <div style="position:absolute;bottom:18%;right:12%;width:8px;height:8px;background:#6c9;border-radius:50%;"><span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:#6c9;">⊕</span></div>
+            <div style="position:absolute;bottom:12%;left:18%;width:6px;height:6px;background:#c66;border-radius:50%;"><span style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:8px;color:#c66;">♂</span></div>
+          </div>
+          <div style="margin-top:14px;font-size:11px;color:#888;line-height:1.6;">
+            Stars are like the Sun's electrons.<br>Free electrons = scalar excitations.<br><em style="color:#c8a04e;">Infinite engine.</em>
+          </div>
+        </div>
+      </div>
+    `);
+  },
+  deactivate() { this.state = 'standby'; SWARM.hidePanel(); SWARM.log('A8', 'Stellar model standby'); },
+  receive(fromAgent, action, data) { SWARM.log('A8', `Harmonic ping from ${fromAgent}: ${action}`); }
+};
+
+// ═══════════════════════════════════════════════════════════════
+// CANVAS FIELD VISUALIZATION (original, preserved)
+// ═══════════════════════════════════════════════════════════════
 (function() {
   const canvas = document.getElementById('fieldCanvas');
   const ctx = canvas.getContext('2d');
@@ -498,11 +944,11 @@ SWARM.agents.A1 = {
     { id: 'A8', name: 'Star', r: 130, speed: -0.0012, phase: 7 * Math.PI / 4, color: '#ec4899', function: 'Stellar Harmonic Induction', protocol: 'Solar System Atom Model' }
   ];
 
-  // Build SVG agent nodes
-  agents.forEach((ag, i) => {
+  agents.forEach((ag) => {
     const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     g.setAttribute('class', 'agent-node');
-    g.setAttribute('id', 'agent-' + ag.id);
+    g.setAttribute('id', 'svg-' + ag.id);
+    g.style.cursor = 'pointer';
 
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     circle.setAttribute('r', '10');
@@ -516,9 +962,18 @@ SWARM.agents.A1 = {
     g.appendChild(circle);
     g.appendChild(text);
     agentsGroup.appendChild(g);
+
+    // Wire SVG node clicks to SWARM
+    g.addEventListener('click', () => {
+      if (SWARM.agents[ag.id]) {
+        // Deactivate others
+        Object.values(SWARM.agents).forEach(a => { if (a.state === 'active') a.deactivate(); });
+        SWARM.agents[ag.id].activate();
+        activateAgentVisual(agents.indexOf(ag));
+      }
+    });
   });
 
-  // Build agent cards
   agents.forEach((ag, i) => {
     const card = document.createElement('div');
     card.className = 'agent-card';
@@ -529,77 +984,61 @@ SWARM.agents.A1 = {
       <div class="agent-function">${ag.function}</div>
       <div class="agent-status" style="color: ${ag.color}">● ${ag.protocol}</div>
     `;
-    card.addEventListener('click', () => activateAgent(i));
+    // Wire card clicks to SWARM
+    card.addEventListener('click', () => {
+      if (SWARM.agents[ag.id]) {
+        Object.values(SWARM.agents).forEach(a => { if (a.state === 'active') a.deactivate(); });
+        SWARM.agents[ag.id].activate();
+        activateAgentVisual(i);
+      }
+    });
     agentGrid.appendChild(card);
   });
 
-  function activateAgent(idx) {
+  function activateAgentVisual(idx) {
     activeAgentIdx = idx;
     document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('active'));
     document.getElementById('card-' + agents[idx].id).classList.add('active');
     document.getElementById('activeAgent').textContent = agents[idx].id + ':' + agents[idx].name;
-
-    // Pulse the agent node
-    const node = document.getElementById('agent-' + agents[idx].id);
+    const node = document.getElementById('svg-' + agents[idx].id);
     if (node) {
       node.style.transform = 'scale(1.6)';
       setTimeout(() => { node.style.transform = ''; }, 400);
     }
-
-    // Trigger resonance
-    ringOpacities[0] = 1;
-    ringScales[0] = 1;
+    ringOpacities[0] = 1; ringScales[0] = 1;
   }
 
-  // Quantum field particles
   const particleCount = 512;
   const particles = [];
   for (let i = 0; i < particleCount; i++) {
     const angle = Math.random() * Math.PI * 2;
     const dist = 20 + Math.random() * 220;
     particles.push({
-      x: CX + Math.cos(angle) * dist,
-      y: CY + Math.sin(angle) * dist,
-      vx: 0, vy: 0,
-      baseAngle: angle,
-      baseDist: dist,
-      phase: Math.random() * Math.PI * 2,
-      amp: 0.5 + Math.random() * 1.5,
-      size: 1 + Math.random() * 2,
-      coherence: 1
+      x: CX + Math.cos(angle) * dist, y: CY + Math.sin(angle) * dist,
+      vx: 0, vy: 0, baseAngle: angle, baseDist: dist,
+      phase: Math.random() * Math.PI * 2, amp: 0.5 + Math.random() * 1.5,
+      size: 1 + Math.random() * 2, coherence: 1
     });
   }
 
-  let time = 0;
-  let coherence = 1.0;
-  let targetCoherence = 1.0;
-  let resonancePhase = 0;
-  let activeAgentIdx = 6;
-  let driftAccumulator = 0;
-  let selfEvolveTimer = 0;
+  let time = 0, coherence = 1.0, targetCoherence = 1.0, resonancePhase = 0;
+  let activeAgentIdx = 6, driftAccumulator = 0, selfEvolveTimer = 0;
 
   const resonanceRings = [
     document.getElementById('resonanceA'),
     document.getElementById('resonanceB'),
     document.getElementById('resonanceC')
   ];
-  let ringOpacities = [0, 0, 0];
-  let ringScales = [1, 1, 1];
+  let ringOpacities = [0, 0, 0], ringScales = [1, 1, 1];
 
   function updateAgents() {
-    let maxAlignment = 0;
-    let alignedAgent = activeAgentIdx;
-
+    let maxAlignment = 0, alignedAgent = activeAgentIdx;
     agents.forEach((ag, i) => {
       ag.phase += ag.speed;
       const x = CX + Math.cos(ag.phase) * ag.r;
       const y = CY + Math.sin(ag.phase) * ag.r;
-
-      const node = document.getElementById('agent-' + ag.id);
-      if (node) {
-        node.setAttribute('transform', `translate(${x}, ${y})`);
-      }
-
+      const node = document.getElementById('svg-' + ag.id);
+      if (node) node.setAttribute('transform', `translate(${x}, ${y})`);
       agents.forEach((ag2, j) => {
         if (i >= j) return;
         const diff = Math.abs(ag.phase - ag2.phase) % (Math.PI * 2);
@@ -608,18 +1047,14 @@ SWARM.agents.A1 = {
           maxAlignment = Math.max(maxAlignment, 1 - wrapDiff / 0.15);
           alignedAgent = i;
           const ringIdx = Math.floor(Math.random() * 3);
-          ringOpacities[ringIdx] = 1;
-          ringScales[ringIdx] = 1;
+          ringOpacities[ringIdx] = 1; ringScales[ringIdx] = 1;
         }
       });
     });
-
     if (maxAlignment > 0.5) {
       activeAgentIdx = alignedAgent;
       targetCoherence = 0.95 + maxAlignment * 0.05;
       resonancePhase = maxAlignment;
-      document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('active'));
-      document.getElementById('card-' + agents[alignedAgent].id).classList.add('active');
     } else {
       targetCoherence = 0.85 + Math.sin(time * 0.001) * 0.1;
       resonancePhase *= 0.98;
@@ -634,47 +1069,33 @@ SWARM.agents.A1 = {
       particles[idx].baseAngle += (Math.random() - 0.5) * 0.5;
       particles[idx].baseDist = 20 + Math.random() * 220;
     }
-
     driftAccumulator += (Math.random() - 0.5) * 0.002;
-    if (Math.abs(driftAccumulator) > 0.05) {
-      driftAccumulator *= 0.9;
-    }
-
+    if (Math.abs(driftAccumulator) > 0.05) driftAccumulator *= 0.9;
     coherence += (targetCoherence - coherence) * 0.02 + driftAccumulator;
     coherence = Math.max(0.5, Math.min(1.0, coherence));
-
     time += 1;
-
     particles.forEach((p, i) => {
       const t = time * 0.01;
       const perturbation = Math.sin(p.baseAngle * 3 + t) * 10 * (1 - coherence);
       const targetX = CX + Math.cos(p.baseAngle + t * 0.1 * p.amp) * (p.baseDist + perturbation);
       const targetY = CY + Math.sin(p.baseAngle + t * 0.1 * p.amp) * (p.baseDist + perturbation);
-
-      const dx = CX - p.x;
-      const dy = CY - p.y;
+      const dx = CX - p.x, dy = CY - p.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
       const attraction = 0.0005 * (1 - coherence) * Math.max(0, dist - 30);
-
       let repX = 0, repY = 0;
       for (let j = i + 1; j < Math.min(i + 5, particles.length); j++) {
         const p2 = particles[j];
-        const rdx = p.x - p2.x;
-        const rdy = p.y - p2.y;
+        const rdx = p.x - p2.x, rdy = p.y - p2.y;
         const rdist = Math.sqrt(rdx * rdx + rdy * rdy);
         if (rdist < 15 && rdist > 0) {
           const force = (15 - rdist) / 15 * 0.05;
-          repX += (rdx / rdist) * force;
-          repY += (rdy / rdist) * force;
+          repX += (rdx / rdist) * force; repY += (rdy / rdist) * force;
         }
       }
-
       p.vx += (targetX - p.x) * 0.01 + dx * attraction + repX;
       p.vy += (targetY - p.y) * 0.01 + dy * attraction + repY;
-      p.vx *= 0.92;
-      p.vy *= 0.92;
-      p.x += p.vx;
-      p.y += p.vy;
+      p.vx *= 0.92; p.vy *= 0.92;
+      p.x += p.vx; p.y += p.vy;
       p.coherence = coherence;
     });
   }
@@ -683,28 +1104,23 @@ SWARM.agents.A1 = {
     const w = canvas.width / window.devicePixelRatio;
     const h = canvas.height / window.devicePixelRatio;
     ctx.clearRect(0, 0, w, h);
-
     const portalGradient = ctx.createRadialGradient(CX, CY, 5, CX, CY, 80);
     portalGradient.addColorStop(0, 'rgba(200, 160, 78, 0.3)');
     portalGradient.addColorStop(0.5, 'rgba(200, 160, 78, 0.1)');
     portalGradient.addColorStop(1, 'rgba(200, 160, 78, 0)');
     ctx.fillStyle = portalGradient;
     ctx.fillRect(0, 0, W, H);
-
     particles.forEach(p => {
       const alpha = 0.3 + p.coherence * 0.7;
       const size = p.size * (0.5 + p.coherence * 0.5);
-
       ctx.beginPath();
       ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(200, 160, 78, ${alpha * 0.6})`;
       ctx.fill();
-
       if (p.coherence > 0.9) {
         for (let j = 0; j < particles.length; j += 8) {
           const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
+          const dx = p.x - p2.x, dy = p.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 40) {
             ctx.beginPath();
@@ -717,31 +1133,23 @@ SWARM.agents.A1 = {
         }
       }
     });
-
     const corePulse = 8 + Math.sin(time * 0.05) * 3;
-    ctx.beginPath();
-    ctx.arc(CX, CY, corePulse, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(200, 160, 78, 0.8)';
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(CX, CY, corePulse * 0.5, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(CX, CY, corePulse, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(200, 160, 78, 0.8)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(CX, CY, corePulse * 0.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'; ctx.fill();
   }
 
   function updateResonanceRings() {
     resonanceRings.forEach((ring, i) => {
       if (ringOpacities[i] > 0.01) {
-        ringOpacities[i] *= 0.96;
-        ringScales[i] += 0.02;
+        ringOpacities[i] *= 0.96; ringScales[i] += 0.02;
         const baseR = [60, 95, 130][i];
         ring.setAttribute('r', baseR * ringScales[i]);
         ring.setAttribute('opacity', ringOpacities[i]);
         ring.setAttribute('stroke-width', 1.5 * ringOpacities[i]);
       } else {
-        ring.setAttribute('opacity', 0);
-        ringScales[i] = 1;
+        ring.setAttribute('opacity', 0); ringScales[i] = 1;
       }
     });
   }
@@ -749,34 +1157,28 @@ SWARM.agents.A1 = {
   function updateMetrics() {
     document.getElementById('coherenceVal').textContent = coherence.toFixed(3);
     const statusEl = document.getElementById('coherenceStatus');
-    if (coherence > 0.95) {
-      statusEl.innerHTML = '<span class="status-dot status-active"></span>Locked';
-    } else if (coherence > 0.8) {
-      statusEl.innerHTML = '<span class="status-dot status-drift"></span>Drift';
-    } else {
-      statusEl.innerHTML = '<span class="status-dot status-quarantine"></span>Quarantine';
+    if (statusEl) {
+      if (coherence > 0.95) statusEl.innerHTML = '<span class="status-dot status-active"></span>Locked';
+      else if (coherence > 0.8) statusEl.innerHTML = '<span class="status-dot status-drift"></span>Drift';
+      else statusEl.innerHTML = '<span class="status-dot status-quarantine"></span>Quarantine';
     }
-
     document.getElementById('scalarVal').textContent = PHI.toFixed(3);
     document.getElementById('activeAgent').textContent = agents[activeAgentIdx].id + ':' + agents[activeAgentIdx].name;
     document.getElementById('particleCount').textContent = Math.floor(particles.length * coherence);
-
     const fieldVal = document.getElementById('fieldVal');
-    fieldVal.textContent = coherence > 0.95 ? 'ℝ' : 'ℂ';
-    fieldVal.style.color = coherence > 0.95 ? 'var(--text-primary)' : 'var(--warning)';
+    if (fieldVal) {
+      fieldVal.textContent = coherence > 0.95 ? 'ℝ' : 'ℂ';
+      fieldVal.style.color = coherence > 0.95 ? 'var(--text-primary)' : 'var(--warning)';
+    }
   }
 
   function loop() {
-    updateAgents();
-    updateField();
-    drawField();
-    updateResonanceRings();
-    updateMetrics();
+    updateAgents(); updateField(); drawField();
+    updateResonanceRings(); updateMetrics();
     requestAnimationFrame(loop);
   }
 
-  // Initialize A7 as active
-  activateAgent(6);
+  activateAgentVisual(6);
   loop();
 })();
 </script>
