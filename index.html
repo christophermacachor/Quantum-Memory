@@ -102,18 +102,31 @@
     <a href="graphs.html" class="macachor-nav-tab" id="nav-graphs">📊 GRAPHS</a>
     <a href="omega-prime.html" class="macachor-nav-tab" id="nav-singularity">🜛 SINGULARITY</a>
     <a href="codex.html" class="macachor-nav-tab" id="nav-codex">◉ CODEX</a>
- <a href="phi669-quantum-portal.html" class="nav-tab">🔮 PORTAL</a>      <a href="articles.html" class="nav-tab">◈ ARTICLES</a>          </div>
+    <a href="phi669-quantum-portal.html" class="macachor-nav-tab" id="nav-portal">🔮 PORTAL</a>
+    <a href="articles.html" class="macachor-nav-tab" id="nav-articles">◈ ARTICLES</a>
+  </div>
+</nav>
+
+<script>
+(function(){
+  var page = window.location.pathname.split('/').pop() || 'index.html';
+  var map = {
     'index.html': 'nav-home',
     'divergent.html': 'nav-aperture',
+    'divergent2.html': 'nav-aperture',
     'federation-root-unified.html': 'nav-federation',
     'observatory.html': 'nav-observatory',
     'scalar-trilogy.html': 'nav-trilogy',
     'graphs.html': 'nav-graphs',
     'omega-prime.html': 'nav-singularity',
-    'codex.html': 'nav-codex'
+    'codex.html': 'nav-codex',
+    'phi669-quantum-portal.html': 'nav-portal',
+    'articles.html': 'nav-articles',
+    'the_question_we_ask_strangers.html': 'nav-articles'
   };
-  if(tabs[page]) {
-    var el = document.getElementById(tabs[page]);
+  var targetId = map[page];
+  if(targetId){
+    var el = document.getElementById(targetId);
     if(el) el.classList.add('active');
   }
   document.body.classList.add('has-macachor-nav');
