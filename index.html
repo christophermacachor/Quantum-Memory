@@ -43,7 +43,33 @@ window.MathJax = {
     --blue: #4e8ac8;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; }    <!-- ... existing content above ... -->
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- Φ669 zbMATH PERMANENT CORNER TAB — Coherence Mesh Search    -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <style>
+      .zbmath-widget {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        font-family: 'Cinzel', 'Georgia', serif;
+      }
+      /* ... rest of CSS from previous message ... */
+    </style>
+    
+    <div class="zbmath-widget">
+      <!-- ... widget HTML ... -->
+    </div>
+    
+    <script>
+      /* ... widget JS ... */
+    </script>
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+</body>
+</html>
   body {
     background: var(--void);
     color: var(--text);
