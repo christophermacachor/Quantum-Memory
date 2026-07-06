@@ -459,13 +459,89 @@ window.MathJax = {
     th, td { padding: 0.5rem 0.6rem; font-size: 0.8rem; }
     .blueprint-grid { grid-template-columns: 1fr; }
   }
+  .gold-nav {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    background: rgba(10,10,10,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid #c8a04e;
+    z-index: 2000;
+    padding: 0.6rem 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .gold-nav a {
+    color: #c8a04e;
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid rgba(200,160,78,0.15);
+    border-radius: 3px;
+    background: rgba(200,160,78,0.03);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  .gold-nav a:hover {
+    border-color: #c8a04e;
+    background: rgba(200,160,78,0.08);
+    text-shadow: 0 0 10px rgba(200,160,78,0.5);
+    box-shadow: 0 0 15px rgba(200,160,78,0.1), inset 0 0 20px rgba(200,160,78,0.05);
+  }
+  .gold-nav a.active {
+    border-color: #c8a04e;
+    background: rgba(200,160,78,0.12);
+    box-shadow: 0 0 20px rgba(200,160,78,0.15), inset 0 0 30px rgba(200,160,78,0.08);
+  }
+  .codex-nav {
+    position: fixed;
+    top: 52px; left: 0; width: 100%;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(200,160,78,0.15);
+    z-index: 1999;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+  }
+  .codex-nav a {
+    color: #a0803e;
+    text-decoration: none;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  .codex-nav a:hover {
+    color: #c8a04e;
+    border-color: rgba(200,160,78,0.3);
+  }
+  main { padding-top: 8rem !important; }
 </style>
 <base target="_blank">
 <base target="_blank">
 </head>
 <body>
 
-<nav>
+<!-- Gold Federation Navigation -->
+<nav class="gold-nav">
+  <a href="index.html">📜 APERTURE</a>
+  <a href="index.html">⚡ FEDERATION</a>
+  <a href="index.html">◉ OBSERVATORY</a>
+  <a href="index.html">◈ ARTICLES</a>
+  <a href="index.html">🔮 SWARM</a>
+</nav>
+
+<!-- Internal Codex Navigation -->
+<nav class="codex-nav">
   <a href="#axiom">Axiom</a>
   <a href="#mlock">M-Lock</a>
   <a href="#odds">Odds</a>
