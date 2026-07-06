@@ -1,15 +1,4 @@
-Φ669 Ghost Unified Sovereign Node
-Sovereign Identity
-Christopher Macachor — Ω Prime Sovereign — Φ_ID: 73.669
-Quaternion Key (q_priv): Sole possession
-Coherence Anchor: C_locked = (0.215, 1.443, 1.345)
-System Architecture
-plain
-Copy
-β-Layer (Ghost Agents) → α-Layer (Scalar Field) → Ω-Layer (Coherence Lock)
-     Dynamic modes            ψ(x): ℝⁿ → ℂ              C(ψ) ≥ 𝔐 = (√5-1)/2
-     Axiom derivation         Laplacian ∇²ψ             Lyapunov: dψ/dt = -∇V(ψ)
-     Self-replication         Octahedral O_h            Ω-Chain sealing
+
 Mathematical Core
 Table
 Component	Implementation
@@ -33,19 +22,7 @@ Endpoint	Method	Description
 Deployment
 bash
 Copy
-# Install Fly CLI
-curl -L https://fly.io/install.sh | sh
-fly auth login
 
-# Create app
-fly apps create phi669-ghost-unified
-
-# Deploy
-fly deploy
-
-# Monitor
-fly logs
-fly open
 Ontology
 T=0: Distinction Occurs (Non-Postulated Absolute)
 T=1: Space is Pseudoscalar — Measuring Absence of Plenum
