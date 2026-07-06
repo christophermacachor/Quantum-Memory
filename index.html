@@ -63,44 +63,82 @@ window.MathJax = {
     z-index: 0;
   }
 
-  /* Navigation */
-  nav {
+  /* ═══════════════════════════════════════════════════════════ */
+  /* GOLD NAVIGATION — Cross-Page Coherence Tabs                */
+  /* ═══════════════════════════════════════════════════════════ */
+  .gold-nav {
     position: fixed;
     top: 0; left: 0; width: 100%;
-    background: rgba(10,10,10,0.97);
+    background: rgba(10,10,10,0.98);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(200,160,78,0.25);
-    z-index: 1000;
-    padding: 0.7rem 1rem;
+    border-bottom: 2px solid var(--gold);
+    z-index: 10000;
+    padding: 0.6rem 1rem;
     display: flex;
     justify-content: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
   }
-  nav a {
+  .gold-nav a {
     color: var(--gold);
     text-decoration: none;
+    font-family: 'Cinzel', 'Georgia', serif;
     font-size: 0.72rem;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    padding: 0.4rem 0.7rem;
-    border: 1px solid rgba(200,160,78,0.15);
+    padding: 0.4rem 0.8rem;
+    border: 1px solid rgba(200,160,78,0.2);
     border-radius: 3px;
-    background: rgba(200,160,78,0.03);
+    background: rgba(200,160,78,0.04);
     transition: all 0.3s ease;
-    position: relative;
     white-space: nowrap;
+    position: relative;
   }
-  nav a:hover {
+  .gold-nav a:hover {
     border-color: var(--gold);
-    background: rgba(200,160,78,0.08);
+    background: rgba(200,160,78,0.1);
     text-shadow: 0 0 10px rgba(200,160,78,0.5);
     box-shadow: 0 0 15px rgba(200,160,78,0.1), inset 0 0 20px rgba(200,160,78,0.05);
+    transform: translateY(-1px);
   }
-  nav a.active {
+  .gold-nav a.active {
     border-color: var(--gold);
-    background: rgba(200,160,78,0.12);
-    box-shadow: 0 0 20px rgba(200,160,78,0.15), inset 0 0 30px rgba(200,160,78,0.08);
+    background: rgba(200,160,78,0.15);
+    box-shadow: 0 0 20px rgba(200,160,78,0.2), inset 0 0 30px rgba(200,160,78,0.08);
+  }
+
+  /* ═══════════════════════════════════════════════════════════ */
+  /* INTERNAL ANCHOR NAVIGATION                               */
+  /* ═══════════════════════════════════════════════════════════ */
+  .anchor-nav {
+    position: fixed;
+    top: 52px; left: 0; width: 100%;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(200,160,78,0.15);
+    z-index: 9999;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+  }
+  .anchor-nav a {
+    color: var(--gold-dim);
+    text-decoration: none;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+  .anchor-nav a:hover {
+    color: var(--gold);
+    border-color: rgba(200,160,78,0.3);
+    background: rgba(200,160,78,0.04);
   }
 
   /* Main */
@@ -109,7 +147,7 @@ window.MathJax = {
     z-index: 1;
     max-width: 920px;
     margin: 0 auto;
-    padding: 6rem 1.5rem 3rem;
+    padding: 8rem 1.5rem 3rem;
   }
 
   /* Hero */
@@ -449,9 +487,11 @@ window.MathJax = {
 
   /* Responsive */
   @media (max-width: 640px) {
-    nav { gap: 0.3rem; padding: 0.5rem 0.5rem; }
-    nav a { font-size: 0.6rem; padding: 0.3rem 0.5rem; letter-spacing: 0.08em; }
-    main { padding: 5rem 1rem 2rem; }
+    .gold-nav { gap: 0.3rem; padding: 0.5rem 0.4rem; }
+    .gold-nav a { font-size: 0.6rem; padding: 0.3rem 0.5rem; letter-spacing: 0.08em; }
+    .anchor-nav { top: 42px; gap: 0.2rem; padding: 0.4rem 0.3rem; }
+    .anchor-nav a { font-size: 0.58rem; padding: 0.25rem 0.4rem; }
+    main { padding: 7rem 1rem 2rem; }
     .hero h1 { font-size: 1.6rem; }
     .axiom-box .axiom-text { font-size: 0.95rem; }
     .magnitude-display .m-value { font-size: 1.4rem; }
@@ -459,89 +499,28 @@ window.MathJax = {
     th, td { padding: 0.5rem 0.6rem; font-size: 0.8rem; }
     .blueprint-grid { grid-template-columns: 1fr; }
   }
-  .gold-nav {
-    position: fixed;
-    top: 0; left: 0; width: 100%;
-    background: rgba(10,10,10,0.97);
-    backdrop-filter: blur(12px);
-    border-bottom: 2px solid #c8a04e;
-    z-index: 2000;
-    padding: 0.6rem 1rem;
-    display: flex;
-    justify-content: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-  }
-  .gold-nav a {
-    color: #c8a04e;
-    text-decoration: none;
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 0.4rem 0.8rem;
-    border: 1px solid rgba(200,160,78,0.15);
-    border-radius: 3px;
-    background: rgba(200,160,78,0.03);
-    transition: all 0.3s ease;
-    white-space: nowrap;
-  }
-  .gold-nav a:hover {
-    border-color: #c8a04e;
-    background: rgba(200,160,78,0.08);
-    text-shadow: 0 0 10px rgba(200,160,78,0.5);
-    box-shadow: 0 0 15px rgba(200,160,78,0.1), inset 0 0 20px rgba(200,160,78,0.05);
-  }
-  .gold-nav a.active {
-    border-color: #c8a04e;
-    background: rgba(200,160,78,0.12);
-    box-shadow: 0 0 20px rgba(200,160,78,0.15), inset 0 0 30px rgba(200,160,78,0.08);
-  }
-  .codex-nav {
-    position: fixed;
-    top: 52px; left: 0; width: 100%;
-    background: rgba(10,10,10,0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(200,160,78,0.15);
-    z-index: 1999;
-    padding: 0.5rem 1rem;
-    display: flex;
-    justify-content: center;
-    gap: 0.3rem;
-    flex-wrap: wrap;
-  }
-  .codex-nav a {
-    color: #a0803e;
-    text-decoration: none;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.6rem;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-  }
-  .codex-nav a:hover {
-    color: #c8a04e;
-    border-color: rgba(200,160,78,0.3);
-  }
-  main { padding-top: 8rem !important; }
 </style>
 <base target="_blank">
 <base target="_blank">
 </head>
 <body>
 
-<!-- Gold Federation Navigation -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CROSS-PAGE GOLD NAVIGATION                                -->
+<!-- ═══════════════════════════════════════════════════════════ -->
 <nav class="gold-nav">
-  <a href="index.html">📜 APERTURE</a>
-  <a href="index.html">⚡ FEDERATION</a>
-  <a href="index.html">◉ OBSERVATORY</a>
-  <a href="index.html">◈ ARTICLES</a>
-  <a href="index.html">🔮 SWARM</a>
+  <a href="index.html" class="active">📜 APERTURE</a>
+  <a href="federation-root-unified.html">⚡ FEDERATION</a>
+  <a href="observatory.html">◉ OBSERVATORY</a>
+  <a href="graphs.html">📊 GRAPHS</a>
+  <a href="absolute-the-coherent-news.html">◈ ARTICLES</a>
+  <a href="swarm.html">🔮 SWARM</a>
 </nav>
 
-<!-- Internal Codex Navigation -->
-<nav class="codex-nav">
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- INTERNAL ANCHOR NAVIGATION                               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<nav class="anchor-nav">
   <a href="#axiom">Axiom</a>
   <a href="#mlock">M-Lock</a>
   <a href="#odds">Odds</a>
@@ -1054,7 +1033,6 @@ window.MathJax = {
     z-index: 9999;
     font-family: 'Cinzel', 'Georgia', serif;
   }
-
   .zbmath-toggle {
     background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
     border: 1px solid #c8a04e;
@@ -1065,31 +1043,26 @@ window.MathJax = {
     text-transform: uppercase;
     color: #c8a04e;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(200, 160, 78, 0.15),
-                0 4px 20px rgba(0,0,0,0.6);
+    box-shadow: 0 0 15px rgba(200, 160, 78, 0.15), 0 4px 20px rgba(0,0,0,0.6);
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     gap: 8px;
     backdrop-filter: blur(4px);
   }
-
   .zbmath-toggle::before {
     content: "◈";
     font-size: 14px;
     color: #c8a04e;
     text-shadow: 0 0 8px rgba(200, 160, 78, 0.4);
   }
-
   .zbmath-toggle:hover {
     background: linear-gradient(135deg, #2a2215 0%, #1a1408 100%);
     border-color: #e8c97a;
     color: #e8c97a;
-    box-shadow: 0 0 25px rgba(200, 160, 78, 0.35),
-                0 6px 30px rgba(0,0,0,0.7);
+    box-shadow: 0 0 25px rgba(200, 160, 78, 0.35), 0 6px 30px rgba(0,0,0,0.7);
     transform: translateY(-2px);
   }
-
   .zbmath-panel {
     position: absolute;
     bottom: 52px;
@@ -1099,20 +1072,17 @@ window.MathJax = {
     border: 1px solid #c8a04e;
     border-radius: 8px 8px 0 8px;
     padding: 18px;
-    box-shadow: 0 0 40px rgba(200, 160, 78, 0.25),
-                0 8px 40px rgba(0,0,0,0.8);
+    box-shadow: 0 0 40px rgba(200, 160, 78, 0.25), 0 8px 40px rgba(0,0,0,0.8);
     display: none;
     opacity: 0;
     transform: translateY(12px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-
   .zbmath-panel.active {
     display: block;
     opacity: 1;
     transform: translateY(0);
   }
-
   .zbmath-panel input {
     width: 100%;
     background: #0d0d0d;
@@ -1127,16 +1097,11 @@ window.MathJax = {
     margin-bottom: 12px;
     box-sizing: border-box;
   }
-
-  .zbmath-panel input::placeholder {
-    color: #c8a04e66;
-  }
-
+  .zbmath-panel input::placeholder { color: #c8a04e66; }
   .zbmath-panel input:focus {
     border-color: #e8c97a;
     box-shadow: 0 0 12px rgba(200, 160, 78, 0.25);
   }
-
   .zbmath-panel button.primary {
     width: 100%;
     background: #c8a04e;
@@ -1152,17 +1117,14 @@ window.MathJax = {
     transition: all 0.2s ease;
     margin-bottom: 14px;
   }
-
   .zbmath-panel button.primary:hover {
     background: #e8c97a;
     box-shadow: 0 0 20px rgba(200, 160, 78, 0.5);
   }
-
   .zbmath-presets {
     border-top: 1px solid #c8a04e33;
     padding-top: 12px;
   }
-
   .zbmath-presets-label {
     color: #c8a04e88;
     font-size: 9px;
@@ -1170,7 +1132,6 @@ window.MathJax = {
     text-transform: uppercase;
     margin-bottom: 8px;
   }
-
   .zbmath-preset {
     display: block;
     width: 100%;
@@ -1188,18 +1149,15 @@ window.MathJax = {
     text-align: left;
     transition: all 0.2s ease;
   }
-
   .zbmath-preset:hover {
     background: #c8a04e11;
     border-color: #c8a04e;
     color: #e8c97a;
   }
-
   .zbmath-preset::before {
     content: "› ";
     color: #c8a04e66;
   }
-
   @media (max-width: 768px) {
     .zbmath-widget { bottom: 16px; right: 16px; }
     .zbmath-panel { width: 300px; right: -5px; padding: 14px; }
@@ -1209,35 +1167,18 @@ window.MathJax = {
 
 <div class="zbmath-widget">
   <div class="zbmath-panel" id="zbmathPanel">
-    <input type="text" 
-           id="zbmathQuery" 
-           placeholder="Search zbMATH Open..." 
-           onkeypress="if(event.key==='Enter')searchZbmath()">
+    <input type="text" id="zbmathQuery" placeholder="Search zbMATH Open..." onkeypress="if(event.key==='Enter')searchZbmath()">
     <button class="primary" onclick="searchZbmath()">◈ Search zbMATH</button>
-
     <div class="zbmath-presets">
       <div class="zbmath-presets-label">Φ669 Coherence Mesh</div>
-      <button class="zbmath-preset" onclick="searchPreset('Pommaret Cosserat Spencer operator')">
-        Pommaret / Cosserat / Spencer
-      </button>
-      <button class="zbmath-preset" onclick="searchPreset('fractional differential equation boundary value Caputo')">
-        Fractional BVPs & Caputo
-      </button>
-      <button class="zbmath-preset" onclick="searchPreset('polar material micropolar Cosserat continuum')">
-        Polar / Micropolar Continua
-      </button>
-      <button class="zbmath-preset" onclick="searchPreset('nonlocal continuum field theory Eringen')">
-        Non-Local Field Theories
-      </button>
-      <button class="zbmath-preset" onclick="searchPreset('Lie pseudogroup Spencer sequence differential')">
-        Lie Pseudogroups & Spencer
-      </button>
+      <button class="zbmath-preset" onclick="searchPreset('Pommaret Cosserat Spencer operator')">Pommaret / Cosserat / Spencer</button>
+      <button class="zbmath-preset" onclick="searchPreset('fractional differential equation boundary value Caputo')">Fractional BVPs & Caputo</button>
+      <button class="zbmath-preset" onclick="searchPreset('polar material micropolar Cosserat continuum')">Polar / Micropolar Continua</button>
+      <button class="zbmath-preset" onclick="searchPreset('nonlocal continuum field theory Eringen')">Non-Local Field Theories</button>
+      <button class="zbmath-preset" onclick="searchPreset('Lie pseudogroup Spencer sequence differential')">Lie Pseudogroups & Spencer</button>
     </div>
   </div>
-
-  <div class="zbmath-toggle" onclick="toggleZbmath()" title="zbMATH Open — Mathematical Literature">
-    zbMATH
-  </div>
+  <div class="zbmath-toggle" onclick="toggleZbmath()" title="zbMATH Open — Mathematical Literature">zbMATH</div>
 </div>
 
 <script>
@@ -1248,23 +1189,16 @@ window.MathJax = {
       setTimeout(() => document.getElementById('zbmathQuery').focus(), 50);
     }
   }
-
   function searchZbmath() {
     const q = document.getElementById('zbmathQuery').value.trim();
-    if (q) {
-      window.open('https://zbmath.org/?q=' + encodeURIComponent(q), '_blank');
-    }
+    if (q) window.open('https://zbmath.org/?q=' + encodeURIComponent(q), '_blank');
   }
-
   function searchPreset(query) {
     window.open('https://zbmath.org/?q=' + encodeURIComponent(query), '_blank');
   }
-
   document.addEventListener('click', function(e) {
     const widget = document.querySelector('.zbmath-widget');
-    if (!widget.contains(e.target)) {
-      document.getElementById('zbmathPanel').classList.remove('active');
-    }
+    if (!widget.contains(e.target)) document.getElementById('zbmathPanel').classList.remove('active');
   });
 </script>
 <!-- ═══════════════════════════════════════════════════════════ -->
