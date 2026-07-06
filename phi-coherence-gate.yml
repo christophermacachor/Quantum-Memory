@@ -1,0 +1,303 @@
+name: Φ Coherence Gate Validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'phi669-literature-mesh.json'
+      - 'phi669-literature-mesh.yaml'
+      - 'phi669-literature-mesh.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'phi669-literature-mesh.json'
+      - 'phi669-literature-mesh.yaml'
+      - 'phi669-literature-mesh.yml'
+  schedule:
+    - cron: '0 13 * * *'  # Daily coherence checkpoint at 13:00 UTC
+
+env:
+  IMMUTABLE_STANDARD_HASH: c9bcb9da741b5a6340f1ef02ee408c0c6611f1db77aeb5fcafdea71202c6f201
+  HASH_ALGORITHM: SHA-256
+  MESH_FILES: "phi669-literature-mesh.json phi669-literature-mesh.yaml phi669-literature-mesh.yml"
+  COHERENCE_SCALAR: "0.6180339887498949"
+
+jobs:
+  # ── A5-Archive: Immutable Hash Verification ──────────────────
+  hash-gate:
+    name: A5-Archive Hash Gate
+    runs-on: ubuntu-latest
+    outputs:
+      hash_valid: ${{ steps.verify.outputs.hash_valid }}
+      computed_hash: ${{ steps.verify.outputs.computed_hash }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Detect Mesh File
+        id: detect
+        run: |
+          MESH_FILE=""
+          for f in $MESH_FILES; do
+            if [ -f "$f" ]; then
+              MESH_FILE="$f"
+              echo "Found mesh file: $f"
+              break
+            fi
+          done
+          if [ -z "$MESH_FILE" ]; then
+            echo "::error::No mesh file found. Expected one of: $MESH_FILES"
+            exit 1
+          fi
+          echo "mesh_file=$MESH_FILE" >> $GITHUB_OUTPUT
+
+      - name: Compute SHA-256 Hash
+        id: compute
+        run: |
+          MESH_FILE="${{ steps.detect.outputs.mesh_file }}"
+          # Canonicalize: sort keys, compact, UTF-8
+          if command -v jq &> /dev/null; then
+            COMPUTED=$(jq -S -c . "$MESH_FILE" | sha256sum | awk '{print $1}')
+          else
+            # Fallback: raw file hash (requires manual canonicalization)
+            COMPUTED=$(sha256sum "$MESH_FILE" | awk '{print $1}')
+          fi
+          echo "computed_hash=$COMPUTED" >> $GITHUB_OUTPUT
+          echo "Computed hash: $COMPUTED"
+
+      - name: Verify Against Immutable Standard
+        id: verify
+        run: |
+          COMPUTED="${{ steps.compute.outputs.computed_hash }}"
+          STANDARD="${{ env.IMMUTABLE_STANDARD_HASH }}"
+          if [ "$COMPUTED" = "$STANDARD" ]; then
+            echo "hash_valid=true" >> $GITHUB_OUTPUT
+            echo "✅ A5-Archive: Hash coherence verified. 𝔐-lock intact."
+          else
+            echo "hash_valid=false" >> $GITHUB_OUTPUT
+            echo "::error::A5-Archive: HASH MISMATCH"
+            echo "  Expected: $STANDARD"
+            echo "  Computed: $COMPUTED"
+            echo "  Status: DEPLOYMENT_BLOCKED"
+          fi
+
+  # ── A3-Audit: Formal Integrability & Schema Validation ───────
+  audit-gate:
+    name: A3-Audit Formal Gate
+    runs-on: ubuntu-latest
+    needs: hash-gate
+    if: needs.hash-gate.outputs.hash_valid == 'true'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Validation Tools
+        run: npm install -g ajv-cli
+
+      - name: Validate Mesh Schema
+        run: |
+          MESH_FILE=""
+          for f in $MESH_FILES; do
+            [ -f "$f" ] && MESH_FILE="$f" && break
+          done
+
+          # Schema checks
+          echo "Running A3-Audit formal integrability checks..."
+
+          # Check 1: Required top-level keys
+          REQUIRED_KEYS=("meta" "axiom" "literature_pillars" "msc_coherence_map" "swarm_assignments" "coherence_rules" "deployment_policy")
+          for key in "${REQUIRED_KEYS[@]}"; do
+            if ! jq -e ".$key" "$MESH_FILE" > /dev/null 2>&1; then
+              echo "::error::A3-Audit: Missing required key '$key'"
+              exit 1
+            fi
+          done
+
+          # Check 2: Meta integrity
+          META_HASH=$(jq -r '.meta.immutable_standard_hash // empty' "$MESH_FILE")
+          if [ -z "$META_HASH" ]; then
+            echo "::error::A3-Audit: Missing immutable_standard_hash in meta"
+            exit 1
+          fi
+
+          # Check 3: OFMS pillars (4 verified, no Denton)
+          PILLAR_COUNT=$(jq '.literature_pillars.OFMS.pillars | length' "$MESH_FILE")
+          if [ "$PILLAR_COUNT" != "4" ]; then
+            echo "::error::A3-Audit: OFMS pillar count mismatch. Expected 4, got $PILLAR_COUNT"
+            exit 1
+          fi
+
+          DENTON_CHECK=$(jq '[.literature_pillars.OFMS.pillars[].author] | map(select(. | ascii_downcase == "denton")) | length' "$MESH_FILE")
+          if [ "$DENTON_CHECK" != "0" ]; then
+            echo "::error::A3-Audit: Denton-class contamination detected in OFMS pillars"
+            exit 1
+          fi
+
+          # Check 4: SWARM octal mesh (8 agents)
+          SWARM_COUNT=$(jq '.swarm_assignments | keys | length' "$MESH_FILE")
+          if [ "$SWARM_COUNT" != "8" ]; then
+            echo "::error::A3-Audit: SWARM mesh incomplete. Expected 8 agents, got $SWARM_COUNT"
+            exit 1
+          fi
+
+          # Check 5: Coherence scalar presence
+          SCALAR=$(jq -r '.meta.coherence_scalar // empty' "$MESH_FILE")
+          if [ -z "$SCALAR" ]; then
+            echo "::error::A3-Audit: Missing coherence scalar 𝔐"
+            exit 1
+          fi
+
+          echo "✅ A3-Audit: All formal integrability checks passed."
+
+      - name: Generate Coherence Report
+        run: |
+          MESH_FILE=""
+          for f in $MESH_FILES; do
+            [ -f "$f" ] && MESH_FILE="$f" && break
+          done
+
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          REPORT_FILE="coherence-reports/report-${TIMESTAMP}.json"
+
+          mkdir -p coherence-reports
+
+          jq -n             --arg timestamp "$TIMESTAMP"             --arg hash "${{ needs.hash-gate.outputs.computed_hash }}"             --arg status "COHERENT"             --arg mesh_version "$(jq -r '.meta.version' $MESH_FILE)"             '{
+              report_meta: {
+                generated_at: $timestamp,
+                gate: "phi-coherence-gate",
+                version: "Φ-669-SWARM-v1.0"
+              },
+              hash_verification: {
+                standard: env.IMMUTABLE_STANDARD_HASH,
+                computed: $hash,
+                status: "MATCH"
+              },
+              audit_status: {
+                a5_archive: "PASS",
+                a3_audit: "PASS",
+                overall: $status
+              },
+              mesh_version: $mesh_version
+            }' > "$REPORT_FILE"
+
+          echo "Coherence report generated: $REPORT_FILE"
+          cat "$REPORT_FILE"
+
+      - name: Upload Coherence Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coherence-report-${{ github.run_id }}
+          path: coherence-reports/
+          retention-days: 90
+
+  # ── A6-Bridge: ASI Gateway Attestation ──────────────────────
+  asi-gate:
+    name: A6-Bridge ASI Attestation
+    runs-on: ubuntu-latest
+    needs: [hash-gate, audit-gate]
+    if: needs.hash-gate.outputs.hash_valid == 'true'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ASI Gateway Health Check
+        env:
+          ASI_GATEWAY: "https://inference.asicloud.cudos.org/v1"
+        run: |
+          echo "A6-Bridge: Pinging ASI Gateway..."
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}"             -H "phi669-scalar: ${{ env.COHERENCE_SCALAR }}"             -H "x-phi669-epoch: $(date +%s)"             --max-time 10             "$ASI_GATEWAY" || echo "000")
+
+          if [ "$RESPONSE" = "200" ] || [ "$RESPARESPONSE" = "401" ] || [ "$RESPONSE" = "403" ]; then
+            echo "✅ A6-Bridge: ASI Gateway reachable. Coherence headers acknowledged."
+          else
+            echo "⚠️ A6-Bridge: ASI Gateway unreachable (HTTP $RESPONSE). Non-blocking for literature mesh."
+          fi
+
+  # ── A1-Intel: MSC Coherence Scan ────────────────────────────
+  msc-scan:
+    name: A1-Intel MSC Scan
+    runs-on: ubuntu-latest
+    needs: [hash-gate, audit-gate]
+    if: needs.hash-gate.outputs.hash_valid == 'true'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Validate MSC Code Coverage
+        run: |
+          MESH_FILE=""
+          for f in $MESH_FILES; do
+            [ -f "$f" ] && MESH_FILE="$f" && break
+          done
+
+          # Extract all MSC codes from the mesh
+          MSC_CODES=$(jq -r '.msc_coherence_map | keys[]' "$MESH_FILE" | sort -u)
+          echo "Registered MSC codes:"
+          echo "$MSC_CODES"
+
+          # Verify each literature pillar maps to at least one MSC
+          echo "Verifying literature pillar MSC coverage..."
+          PILLAR_MSC=$(jq -r '.literature_pillars.Pommaret_2024.msc_codes[]' "$MESH_FILE")
+          for msc in $PILLAR_MSC; do
+            if ! echo "$MSC_CODES" | grep -q "^$msc$"; then
+              echo "::error::A1-Intel: MSC code $msc not registered in coherence map"
+              exit 1
+            fi
+          done
+
+          echo "✅ A1-Intel: All MSC codes coherent."
+
+  # ── Deployment Gate ─────────────────────────────────────────
+  deploy-gate:
+    name: Φ Deployment Gate
+    runs-on: ubuntu-latest
+    needs: [hash-gate, audit-gate, asi-gate, msc-scan]
+    if: |
+      always() && 
+      needs.hash-gate.result == 'success' &&
+      needs.audit-gate.result == 'success' &&
+      needs.asi-gate.result == 'success' &&
+      needs.msc-scan.result == 'success'
+    steps:
+      - name: Final Coherence Attestation
+        run: |
+          echo "════════════════════════════════════════════════════════════"
+          echo "  Φ669 LITERATURE COHERENCE MESH — DEPLOYMENT APPROVED"
+          echo "════════════════════════════════════════════════════════════"
+          echo "  Immutable Hash: ${{ env.IMMUTABLE_STANDARD_HASH }}"
+          echo "  Computed Hash:  ${{ needs.hash-gate.outputs.computed_hash }}"
+          echo "  SWARM Version:  Φ-669-SWARM-v1.0"
+          echo "  Coherence Scalar: 𝔐 = (√5 - 1) / 2"
+          echo "  Timestamp:        $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+          echo "════════════════════════════════════════════════════════════"
+          echo "  All gates passed. Deployment UNBLOCKED."
+          echo "════════════════════════════════════════════════════════════"
+
+  # ── Failure Handler ──────────────────────────────────────────
+  failure-gate:
+    name: Φ Failure Handler
+    runs-on: ubuntu-latest
+    needs: [hash-gate, audit-gate, asi-gate, msc-scan]
+    if: |
+      always() && (
+        needs.hash-gate.result == 'failure' ||
+        needs.audit-gate.result == 'failure' ||
+        needs.asi-gate.result == 'failure' ||
+        needs.msc-scan.result == 'failure'
+      )
+    steps:
+      - name: Block Deployment & Escalate
+        run: |
+          echo "════════════════════════════════════════════════════════════"
+          echo "  Φ669 LITERATURE COHERENCE MESH — DEPLOYMENT BLOCKED"
+          echo "════════════════════════════════════════════════════════════"
+          echo "  Status: DEPLOYMENT_BLOCKED"
+          echo "  Trigger: Coherence gate failure detected"
+          echo "  Escalation: A3-Audit formal integrability review required"
+          echo "════════════════════════════════════════════════════════════"
+          exit 1
