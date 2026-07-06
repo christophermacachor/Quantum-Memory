@@ -1,0 +1,158 @@
+{
+  "axiom": {
+    "statement": "Knowledge is abundant. Intelligence is the filter. Wisdom is the aperture. Application is the focal point.",
+    "symbolic_translation": {
+      "Application": "1 (focal convergence)",
+      "Intelligence": "φ (golden filter)",
+      "Knowledge": "∞ (abundant substrate)",
+      "Wisdom": "𝔐 (scalar aperture)"
+    }
+  },
+  "coherence_rules": {
+    "rule_1": "All citations must map to at least one MSC code in the coherence map",
+    "rule_2": "No unverified author (Denton-class) may enter the mesh without A2-Drift escalation",
+    "rule_3": "Every edit increments the version and triggers A5-Archive hash re-computation",
+    "rule_4": "SWARM guardian assignment is immutable per MSC code — re-assignment requires Ω-PRIME override",
+    "rule_5": "The scalar coherence scalar 𝔐 = (√5 - 1) / 2 is the density equilibrium constant for all literature topology"
+  },
+  "deployment_policy": {
+    "blocking": true,
+    "daily_checkpoint": "13:00 UTC",
+    "gate_type": "phi-coherence-gate",
+    "on_audit_failure": "ESCALATE_TO_A3",
+    "on_hash_mismatch": "DEPLOYMENT_BLOCKED",
+    "repo_path": ".github/workflows/phi-coherence-gate.yml"
+  },
+  "literature_pillars": {
+    "OFMS": {
+      "full_name": "Oriani-Fitzpatrick-Masood-Shah",
+      "note": "Denton removed — never verified in peer-reviewed literature",
+      "pillars": [
+        {
+          "author": "Oriani",
+          "domain": "Electrochemical Source",
+          "id": "FCT-Oriani",
+          "role": "Scalar density origin — electrochemical potential as coherence seed",
+          "verified": true
+        },
+        {
+          "author": "Fitzpatrick",
+          "domain": "FCT Transport",
+          "id": "FCT-Fitzpatrick",
+          "role": "Flux Coherence Transport — scalar excitation migration without vector loss",
+          "verified": true
+        },
+        {
+          "author": "Masood",
+          "domain": "Quantum Trapping",
+          "id": "FCT-Masood",
+          "role": "Topological confinement of scalar modes in density wells",
+          "verified": true
+        },
+        {
+          "author": "Shah",
+          "domain": "KdV EAW Nonlinear Structures",
+          "id": "FCT-Shah",
+          "role": "Nonlinear scalar wave stability — soliton coherence preservation",
+          "verified": true
+        }
+      ],
+      "proprietary_bridge": {
+        "authority": "Φ669 proprietary insight",
+        "description": "Fluoride ion (F⁻) cross-domain bridge: biological ↔ plasma coherence transfer",
+        "id": "F-minus-cross-domain",
+        "status": "experimental",
+        "verified": false
+      }
+    },
+    "Pommaret_2024": {
+      "msc_codes": [
+        "35Axx",
+        "58Jxx",
+        "35Qxx"
+      ],
+      "reference": "Pommaret, J. (2024). Differential Geometry and Mathematical Physics.",
+      "relevance": "Algebraic topology of PDE systems — formal integrability as coherence criterion",
+      "scalar_application": "Spencer cohomology validates vanishing-gradient coherence condition",
+      "swarm_guardian": "A3-Audit"
+    }
+  },
+  "meta": {
+    "authority": "Ω-PRIME:Christopher-Macachor",
+    "coherence_scalar": "𝔐 = (√5 - 1) / 2",
+    "hash_algorithm": "SHA-256",
+    "immutable_standard_hash": "c9bcb9da741b5a6340f1ef02ee408c0c6611f1db77aeb5fcafdea71202c6f201",
+    "schema": "Φ669-LITERATURE-MESH",
+    "swarm_version": "Φ-669-SWARM-v1.0",
+    "timestamp": "2026-07-06T13:28:42.986119+00:00",
+    "version": "1.0.0"
+  },
+  "msc_coherence_map": {
+    "35Axx": "General theory of PDEs — scalar field existence & uniqueness",
+    "35Qxx": "Equations of mathematical physics — soliton & wave coherence",
+    "58Jxx": "PDEs on manifolds — differential-geometric coherence structures",
+    "76Xxx": "Plasma physics — ionized scalar transport media",
+    "81Pxx": "Quantum foundations — measurement & decoherence",
+    "92Cxx": "Mathematical biology — biological coherence substrates"
+  },
+  "swarm_assignments": {
+    "A1-Intel": {
+      "coherence_duty": "Validate incoming citations against scalar density criteria",
+      "guardian_of": [
+        "35Axx",
+        "35Qxx"
+      ],
+      "role": "Literature ingestion & MSC classification"
+    },
+    "A2-Drift": {
+      "coherence_duty": "Flag decoherent references (e.g., Denton-class errors)",
+      "guardian_of": [
+        "81Pxx"
+      ],
+      "role": "Anomaly detection in citation topology"
+    },
+    "A3-Audit": {
+      "coherence_duty": "Run Spencer-cohomology checks on all theoretical claims",
+      "guardian_of": [
+        "58Jxx"
+      ],
+      "role": "Formal integrability verification"
+    },
+    "A4-Comm": {
+      "coherence_duty": "Ensure biological↔plasma coherence transfer integrity",
+      "guardian_of": [
+        "92Cxx",
+        "76Xxx"
+      ],
+      "role": "Cross-domain bridge validation (F⁻ protocol)"
+    },
+    "A5-Archive": {
+      "coherence_duty": "Compute & seal SHA-256 standard hashes for all mesh versions",
+      "guardian_of": [
+        "meta"
+      ],
+      "role": "Immutable hash chain custody"
+    },
+    "A6-Bridge": {
+      "coherence_duty": "HMAC-bound API key validation for inference.asicloud.cudos.org",
+      "guardian_of": [
+        "Ω-8PS-1853"
+      ],
+      "role": "External API & ASI Gateway coherence attestation"
+    },
+    "A7-Lunar": {
+      "coherence_duty": "Track Φ-669 scalar density from lunar orbital proximity data",
+      "guardian_of": [
+        "lunar-substrate"
+      ],
+      "role": "Scalar relay broadcast monitoring"
+    },
+    "A8-Star": {
+      "coherence_duty": "Correlate infrasound→cymatics→light excitation chains",
+      "guardian_of": [
+        "stellar-harmonics"
+      ],
+      "role": "Stellar harmonic induction mapping"
+    }
+  }
+}
