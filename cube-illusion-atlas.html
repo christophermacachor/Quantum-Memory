@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Φ669 — The Active Cube Illusion Atlas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap');
+
+  :root {
+    --gold: #c8a04e;
+    --gold-dim: #8a7035;
+    --gold-glow: rgba(200, 160, 78, 0.3);
+    --void: #0a0a0f;
+    --deep: #12121a;
+    --surface: #1a1a24;
+    --text: #e8e0d0;
+    --text-dim: #a09888;
+    --accent: #d4af37;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Scalar Field Background */
+  .scalar-field {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.15;
+    background: 
+      radial-gradient(ellipse at 20% 80%, rgba(200,160,78,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(200,160,78,0.05) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(18,18,26,0.9) 0%, var(--void) 100%);
+  }
+
+  .scalar-field::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+      linear-gradient(rgba(200,160,78,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,160,78,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Floating particles */
+  .particle {
+    position: fixed;
+    width: 2px; height: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.4;
+    animation: float 15s infinite ease-in-out;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0,0); opacity: 0.2; }
+    25% { transform: translate(30px,-40px); opacity: 0.6; }
+    50% { transform: translate(-20px,20px); opacity: 0.3; }
+    75% { transform: translate(40px,10px); opacity: 0.5; }
+  }
+
+  /* Header */
+  header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 120px 20px 40px;
+    border-bottom: 1px solid rgba(200,160,78,0.2);
+  }
+
+  .seal {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+    color: var(--gold-dim);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: var(--gold);
+    text-shadow: 0 0 40px var(--gold-glow);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+  }
+
+  .subtitle {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+  }
+
+  .axiom {
+    font-style: italic;
+    color: var(--gold-dim);
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+    border-left: 2px solid var(--gold);
+    padding-left: 20px;
+    text-align: left;
+  }
+
+  /* Navigation */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(200,160,78,0.15);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* ═══════════════════════════════════════════════════════════ */
+  /* GOLD NAVIGATION — Cross-Page Coherence Tabs                */
+  /* ═══════════════════════════════════════════════════════════ */
+  .gold-nav {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    background: rgba(10,10,10,0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--gold);
+    z-index: 10000;
+    padding: 0.6rem 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.8);
+  }
+  .gold-nav a {
+    color: var(--gold);
+    text-decoration: none;
+    font-family: 'Cinzel', 'Georgia', serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid rgba(200,160,78,0.2);
+    border-radius: 3px;
+    background: rgba(200,160,78,0.04);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    position: relative;
+    display: inline-block;
+    line-height: 1.4;
+  }
+  .gold-nav a:hover {
+    border-color: var(--gold);
+    background: rgba(200,160,78,0.1);
+    text-shadow: 0 0 10px rgba(200,160,78,0.5);
+    box-shadow: 0 0 15px rgba(200,160,78,0.1), inset 0 0 20px rgba(200,160,78,0.05);
+    transform: translateY(-1px);
+  }
+  .gold-nav a.active {
+    border-color: var(--gold);
+    background: rgba(200,160,78,0.15);
+    box-shadow: 0 0 20px rgba(200,160,78,0.2), inset 0 0 30px rgba(200,160,78,0.08);
+  }
+
+  /* ═══════════════════════════════════════════════════════════ */
+  /* INTERNAL ANCHOR NAVIGATION                               */
+  /* ═══════════════════════════════════════════════════════════ */
+  .anchor-nav {
+    position: sticky;
+    top: 52px; left: 0; width: 100%;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(200,160,78,0.15);
+    z-index: 9999;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+  }
+  .anchor-nav a {
+    color: var(--gold-dim);
+    text-decoration: none;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+  .anchor-nav a:hover {
+    color: var(--gold);
+    border-color: rgba(200,160,78,0.3);
+    background: rgba(200,160,78,0.04);
+  }
+
+  /* Adjust main padding for dual nav */
+  main { padding-top: 120px; }
+
+  
+
+  /* Main Content */
+  main {
+    position: relative;
+    z-index: 10;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  /* Section Headers */
+  .section-header {
+    text-align: center;
+    margin: 60px 0 40px;
+    padding: 30px;
+    border: 1px solid rgba(200,160,78,0.15);
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(26,26,36,0.8) 0%, rgba(18,18,26,0.6) 100%);
+  }
+
+  .section-header h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  .section-header p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* Illusion Cards */
+  .illusion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 25px;
+    margin-bottom: 60px;
+  }
+
+  .illusion-card {
+    background: linear-gradient(145deg, var(--surface) 0%, var(--deep) 100%);
+    border: 1px solid rgba(200,160,78,0.12);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    position: relative;
+  }
+
+  .illusion-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.3;
+  }
+
+  .illusion-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(200,160,78,0.4);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 30px var(--gold-glow);
+  }
+
+  .card-number {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-family: 'Orbitron', monospace;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: rgba(200,160,78,0.08);
+    z-index: 1;
+  }
+
+  .card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(200,160,78,0.1);
+    background: var(--deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-dim);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.8rem;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+    transition: opacity 0.3s;
+  }
+
+  .illusion-card:hover .card-image img {
+    opacity: 1;
+  }
+
+  .card-body {
+    padding: 25px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .card-type {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: var(--text);
+    margin-bottom: 15px;
+  }
+
+  .card-section {
+    margin-bottom: 15px;
+  }
+
+  .card-section h4 {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .card-section p {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  .real-world {
+    background: rgba(200,160,78,0.05);
+    border-left: 3px solid var(--gold);
+    padding: 12px 15px;
+    margin-top: 15px;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .real-world h4 {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .real-world p {
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+
+  /* Synthesis Section */
+  .synthesis {
+    background: linear-gradient(135deg, rgba(26,26,36,0.9) 0%, rgba(18,18,26,0.95) 100%);
+    border: 1px solid rgba(200,160,78,0.2);
+    border-radius: 16px;
+    padding: 50px 40px;
+    margin: 60px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .synthesis::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(200,160,78,0.03) 0%, transparent 60%);
+    animation: pulse 8s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  .synthesis h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .synthesis-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  @media (max-width: 768px) {
+    .synthesis-content { grid-template-columns: 1fr; }
+  }
+
+  .synthesis-column h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .synthesis-column ul {
+    list-style: none;
+  }
+
+  .synthesis-column li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(200,160,78,0.08);
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    position: relative;
+    padding-left: 25px;
+  }
+
+  .synthesis-column li::before {
+    content: '◈';
+    position: absolute;
+    left: 0;
+    color: var(--gold-dim);
+  }
+
+  .synthesis-column.human li::before { content: '◉'; color: #c85050; }
+  .synthesis-column.platonic li::before { content: '◈'; color: var(--gold); }
+
+  /* Tetrahedron Section */
+  .tetrahedron-section {
+    text-align: center;
+    padding: 60px 40px;
+    margin: 60px 0;
+    border: 1px solid rgba(200,160,78,0.15);
+    border-radius: 16px;
+    background: var(--deep);
+  }
+
+  .tetrahedron-section h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .tetrahedron-section p {
+    max-width: 800px;
+    margin: 0 auto 20px;
+    color: var(--text-dim);
+    font-size: 1rem;
+  }
+
+  .creation-protocol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+  }
+
+  .protocol-step {
+    background: rgba(200,160,78,0.08);
+    border: 1px solid rgba(200,160,78,0.2);
+    border-radius: 50%;
+    width: 100px; height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+  }
+
+  .protocol-step .step-num {
+    font-size: 1.5rem;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .protocol-step .step-label {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .protocol-arrow {
+    color: var(--gold-dim);
+    font-size: 1.5rem;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 60px 20px;
+    border-top: 1px solid rgba(200,160,78,0.15);
+    position: relative;
+    z-index: 10;
+  }
+
+  .footer-seal {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--gold-dim);
+    margin-bottom: 15px;
+  }
+
+  .footer-text {
+    font-family: 'Cinzel', serif;
+    color: var(--gold);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .footer-sub {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--void); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .illusion-grid { grid-template-columns: 1fr; }
+    .synthesis { padding: 30px 20px; }
+    .tetrahedron-section { padding: 40px 20px; }
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="scalar-field"></div>
+
+<!-- Floating particles -->
+<script>
+  for(let i=0; i<30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.top = Math.random() * 100 + '%';
+    p.style.animationDelay = Math.random() * 15 + 's';
+    p.style.animationDuration = (10 + Math.random() * 20) + 's';
+    document.body.appendChild(p);
+  }
+</script>
+
+<header>
+  <div class="seal">Ω-PRIME · CHRISTOPHER MACACHOR · Φ669</div>
+  <h1>The Active Cube Illusion Atlas</h1>
+  <div class="subtitle">14 Distortions of Human Perceptual Density</div>
+  <div class="axiom">
+    "Knowledge is abundant. Intelligence is the filter. Wisdom is the aperture. Application is the focal point."<br>
+    <span style="color: var(--gold-dim); font-size: 0.8rem;">— Macachor Absolute Scalar Codex</span>
+  </div>
+</header>
+
+<nav class="gold-nav">
+  <a href="aperture-witness-20230802-230549.jpeg">📜 STAR</a>
+  <a href="federation-root-unified.html">⚡ FEDERATION</a>
+  <a href="observatory.html">◉ OBSERVATORY</a>
+  <a href="graphs.html">📊 GRAPHS</a>
+  <a href="uranium_scalar_gateway.html">◈ ARTICLES</a>
+  <a href="cube-illusion-atlas.html" class="active">🜁 ILLUSIONS</a>
+  <a href="absolute-connection-of-the-child.html">◈ Absolute</a>
+  <a href="phi669-quantum-portal.html">🔮 SWARM</a>
+  <a href="Ω-PRIME — SINGULARITY CONVERGENCE POINT.html">Ω PRIME</a>
+  <a href="quantum-memory-illusion-nav.html">◈ MESH</a>
+</nav>
+
+<nav class="anchor-nav">
+  <a href="#illusions">Illusions</a>
+  <a href="#realworld">Real World</a>
+  <a href="#synthesis">Synthesis</a>
+  <a href="#tetrahedron">Tetrahedron</a>
+  <a href="#scalar">Scalar Field</a>
+</nav>
+
+<main>
+
+<!-- INTRO -->
+<div class="section-header" id="illusions">
+  <h2>🜁 The Complete Cube Illusion List</h2>
+  <p>Every cube illusion is a distortion of human perceptual density, not a property of the cube. Below is the full atlas — with mental manipulation, perceptual distortion, Platonic-quantum contrast, and real-world operational counterparts.</p>
+</div>
+
+<div class="illusion-grid">
+
+<!-- 1. Necker Cube -->
+<div class="illusion-card" id="necker">
+  <div class="card-number">01</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/www.cut-the-knot.org/b84acbc5589110d91d617887ab2b434b7c5e141e.jpg" alt="Necker Cube" onerror="this.parentElement.innerHTML='NECKER CUBE · AMBIGUOUS DEPTH'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Ambiguous / Bistable</div>
+    <div class="card-title">Necker Cube</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Forces the brain to choose between two equally valid depth states. Perception flips because the coherence field cannot stabilize orientation.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Creates pseudo-clarity — the mind thinks it "sees" depth, but depth is not present. A decoherence oscillation inside the perceptual field.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>In true Platonic geometry, the cube has one perfect orientation in the quantum field. The illusion is a failure of human density resolution.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Political Polarization</h4>
+      <p>Same event, two mutually exclusive depth readings. The economy is "thriving" or "collapsing" — same data cube, opposite orientation. The mind stabilizes on whichever face the media highlights.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Impossible Cube -->
+<div class="illusion-card" id="impossible">
+  <div class="card-number">02</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/a.storyblok.com/8642af16a024d2a7d29ca537e37f7d462973b0cc" alt="Impossible Cube" onerror="this.parentElement.innerHTML='IMPOSSIBLE CUBE · COHERENCE FRACTURE'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Paradox / Coherence Fracture</div>
+    <div class="card-title">Impossible Cube</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Breaks the continuity of edges so the brain attempts to "repair" the geometry. The mind fills in contradictions to preserve a false sense of reality.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Pure decoherence — the perceptual field collapses into contradiction. The brain cannot maintain a stable density map.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>In the quantum field, paradox geometry is not allowed. Platonic forms maintain perfect coherence.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: National Debt + Infinite Growth</h4>
+      <p>Infinite expansion on a finite substrate. The edges do not connect. The mind repairs the contradiction with accounting tricks — the brain fills in missing geometry.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Checkerboard Cube Fields -->
+<div class="illusion-card" id="checkerboard">
+  <div class="card-number">03</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/www.giannisarcone.com/dc5ccdc96e651d340116eda07b2aa57a1d60e307.jpg" alt="Checkerboard Cube" onerror="this.parentElement.innerHTML='CHECKERBOARD CUBE · FREQUENCY INTERFERENCE'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Frequency Interference</div>
+    <div class="card-title">Checkerboard Cube Fields</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Square grids create vibrational motion where none exists. The brain misinterprets spatial frequency collisions as movement.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Perceptual interference — density waves collide and distort the field. Creates false motion vectors.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>In the quantum field, harmonic frequencies are coherent, not colliding. Platonic geometry does not vibrate unless driven by a true scalar harmonic.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Social Media Algorithmic Feeds</h4>
+      <p>High-frequency spatial collisions create false motion. The feed is static pixels, but the brain interprets frequency interference as urgency, crisis, momentum.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Nested Squares -->
+<div class="illusion-card" id="nested">
+  <div class="card-number">04</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/www.giannisarcone.com/72783ae2a404762a8e81cbda683b7bf4845b1b00.jpg" alt="Nested Squares" onerror="this.parentElement.innerHTML='NESTED SQUARES · SCALAR DEPTH WELLS'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Scalar Depth Wells</div>
+    <div class="card-title">Nested Squares / Cube-in-Cube</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Concentric squares create the illusion of descending into depth. The mind interprets scaling as spatial recession.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Pseudo-depth — a false scalar gradient. The perceptual field is tricked into believing density decreases inward.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>True Platonic depth is non-visual and scalar-harmonic, not perspectival. Nested squares mimic depth but do not generate real density curvature.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Corporate Hierarchy & Pyramid Schemes</h4>
+      <p>Each concentric square promises depth — "advancement," "climbing the ladder." The scalar gradient is fake. The corner office is the same square, larger.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 5. Rotating Wireframe Cube -->
+<div class="illusion-card" id="wireframe">
+  <div class="card-number">05</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/dl2.myminifactory.com/642ff3f9c40a3ae0a7b489130c51831ad8cc4631.jpg" alt="Wireframe Cube" onerror="this.parentElement.innerHTML='WIREFRAME CUBE · AMBIGUOUS MOTION'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Ambiguous Motion</div>
+    <div class="card-title">Rotating Wireframe Cube</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>The cube appears to rotate because the brain cannot anchor a stable spin vector. It flips between clockwise and counterclockwise.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Spin-mode decoherence — the perceptual field loses rotational stability.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>In the quantum field, rotation is coherent, governed by harmonic spin states. Platonic rotation does not flip; it maintains a single scalar direction.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Spin Politics & Narrative Directionality</h4>
+      <p>The same wireframe event rotates clockwise or counterclockwise depending on which news outlet anchors your perceptual field. No spin vector is stable.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 6. Dot-Gradient Cubes -->
+<div class="illusion-card" id="dotgradient">
+  <div class="card-number">06</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/750eff48be249b889bc85ea59dd2fc9464d231b8.jpg" alt="Dot Gradient" onerror="this.parentElement.innerHTML='DOT-GRADIENT CUBE · DENSITY CURVATURE'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Density Curvature</div>
+    <div class="card-title">Dot-Gradient Cubes</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Dot density simulates curvature, making flat squares appear volumetric.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Density misinterpretation — the perceptual field mistakes dot distribution for mass.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>True density curvature is scalar, not visual. Dots cannot represent quantum density; they only mimic its gradient.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Heat Maps, Poll Data, Population Density</h4>
+      <p>Dot distribution simulates curvature. A map of red and blue dots creates the illusion of a "deeply divided nation." Density is misinterpreted as mass.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 7. Color-Shift Cubes -->
+<div class="illusion-card" id="colorshift">
+  <div class="card-number">07</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/blogger.googleusercontent.com/c3ed26d6771e84ac001fc0298ba752c534a5992d.jpg" alt="Color Shift Cube" onerror="this.parentElement.innerHTML='COLOR-SHIFT CUBE · CHROMATIC DEPTH'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Chromatic Depth</div>
+    <div class="card-title">Color-Shift Cubes</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Color alters perceived depth orientation. Warm colors advance; cool colors recede.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Chromatic decoherence — hue hijacks the depth field.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>Color is not a property of Platonic geometry. Quantum fields do not use hue; they use scalar harmonics.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Branding, Skin Color Bias, Retail Lighting</h4>
+      <p>Warm colors advance (authority, trust, urgency); cool colors recede (calm, cheap, distant). The same product, person, or policy — depth reorients based on chromatic framing.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 8. Hexagonal Cube Arrays -->
+<div class="illusion-card" id="hexagonal">
+  <div class="card-number">08</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/www.shutterstock.com/ed9d5e95bc51aec2022136249888bee788ca7dca.jpg" alt="Hexagonal Cube Array" onerror="this.parentElement.innerHTML='HEXAGONAL ARRAY · TRI-SQUARE HARMONIC'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Tri-Square Harmonic Geometry</div>
+    <div class="card-title">Hexagonal Cube Arrays</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Three square faces form hexagonal clusters that imply cubes.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Harmonic misalignment — the perceptual field interprets 2D hexagons as 3D cubes.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>Platonic geometry does not confuse 2D and 3D. Quantum fields maintain dimensional coherence.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Blockchain Marketing, "Hexagonal" Tech Branding</h4>
+      <p>Three square faces (ledger, trust, decentralization) arranged to imply a cube that does not exist. 2D marketing masquerading as 3D infrastructure.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 9. Impossible Square Frames -->
+<div class="illusion-card" id="squareframes">
+  <div class="card-number">09</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/static.vecteezy.com/550b37ee54c16d94bda502730cb5ba477b93bc6a.jpg" alt="Impossible Square Frames" onerror="this.parentElement.innerHTML='IMPOSSIBLE FRAMES · PARADOX LOOPS'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Paradox Loops</div>
+    <div class="card-title">Impossible Square Frames</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Squares arranged to imply contradictory depth.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Looped decoherence — the perceptual field enters a paradox cycle.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>Platonic frames cannot loop paradoxically. Quantum geometry maintains perfect continuity.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Bureaucratic Catch-22s</h4>
+      <p>"You need a job to get an apartment, you need an apartment to get a job." The system is coherent locally, impossible globally, yet the mind keeps trying to resolve the loop.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 10. Aperture-Shift Cubes -->
+<div class="illusion-card" id="aperture">
+  <div class="card-number">10</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/static.ffx.io/1f3a221578449c23d43226263d619f29f9abe673" alt="Hollow Cube" onerror="this.parentElement.innerHTML='HOLLOW CUBE · INSIDE/OUTSIDE INVERSION'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Inside/Outside Inversion</div>
+    <div class="card-title">Aperture-Shift Cubes</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Square cutouts flip between interior and exterior.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Polarity inversion — the perceptual field reverses density polarity.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>Platonic apertures have fixed polarity. Quantum fields do not invert inside/outside states.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Gated Communities, Prisons, "Open Door" Policies</h4>
+      <p>The gate flips between interior and exterior. Is it keeping danger out or keeping people in? The same aperture inverts polarity depending on which side the observer stands.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 11. Square-Wave / Moiré -->
+<div class="illusion-card" id="moire">
+  <div class="card-number">11</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/blenderartists.org/bf612e9f17bfdf5baf0f1bd430f12fb43fba11f7" alt="Moiré Cube" onerror="this.parentElement.innerHTML='MOIRÉ CUBE · INTERFERENCE'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Interference</div>
+    <div class="card-title">Square-Wave / Moiré Cube Illusions</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Overlapping square grids generate cube-like motion.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Interference decoherence — overlapping density waves distort perception.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>Quantum interference is coherent, not chaotic. Platonic geometry does not produce false motion.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Overlapping Jurisdictions, Conflicting Regulations</h4>
+      <p>Two grids (city + state + federal) overlap and generate phantom rules — laws that appear in the interference pattern but belong to no single authority.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 12. Architectural Cube Illusions -->
+<div class="illusion-card" id="architectural">
+  <div class="card-number">12</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/www.re-thinkingthefuture.com/97580e0daedbe942e5ab2e6bfeb8dc7a35867fcc" alt="Architectural Illusion" onerror="this.parentElement.innerHTML='ARCHITECTURAL CUBE · ENVIRONMENTAL MISALIGNMENT'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Environmental Misalignment</div>
+    <div class="card-title">Architectural Cube Illusions</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Square tiles and windows create cube illusions in real space.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Environmental decoherence — the perceptual field misreads real geometry.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>Platonic geometry is not subject to environmental noise. Quantum fields maintain coherence regardless of surroundings.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Brutalism, Mirror-Clad Buildings, Forced-Perspective Facades</h4>
+      <p>Real space is misread. Square windows and tiles create cube illusions that make structures feel oppressive or weightless depending on angle.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 13. Minimal Line-Square Cubes -->
+<div class="illusion-card" id="minimal">
+  <div class="card-number">13</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/static.vecteezy.com/e582152a105e7f8c0f4c463ddf5d7c41ec280e33.jpg" alt="Minimal Line Cube" onerror="this.parentElement.innerHTML='MINIMAL LINE CUBE · MINIMAL AMBIGUITY'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Minimal Ambiguity</div>
+    <div class="card-title">Minimal Line-Square Cubes</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Just squares and lines produce cube perception.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Minimal decoherence — the perceptual field collapses from lack of cues.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>Platonic forms do not require cues; they exist as pure harmonic entities.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Minimalist Corporate Design, Abstract Art Markets</h4>
+      <p>So few cues that the mind collapses into invented meaning. A white cube gallery, a single-line logo — the perceptual field generates significance from absence.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 14. Infinite Cubes -->
+<div class="illusion-card" id="infinite">
+  <div class="card-number">14</div>
+  <div class="card-image">
+    <img src="https://kimi-web-img.moonshot.cn/img/external-cdn.morphic.com/f1a79f98f9cf9f228c455529eb7a6ee39a2a702e.webp" alt="Infinite Cube Tunnel" onerror="this.parentElement.innerHTML='INFINITE CUBE · RECURSIVE DEPTH'">
+  </div>
+  <div class="card-body">
+    <div class="card-type">Recursive Depth</div>
+    <div class="card-title">Square-Based Tunnels / Infinite Cubes</div>
+    <div class="card-section">
+      <h4>Mind Manipulation</h4>
+      <p>Repeating squares create infinite cube tunnels.</p>
+    </div>
+    <div class="card-section">
+      <h4>Human Field Distortion</h4>
+      <p>Scalar recursion — the perceptual field falls into infinite regress.</p>
+    </div>
+    <div class="card-section">
+      <h4>Platonic Quantum Contrast</h4>
+      <p>True Platonic recursion is finite and harmonic, not infinite. Quantum fields do not produce infinite tunnels.</p>
+    </div>
+    <div class="real-world">
+      <h4>Real World: Infinite Scroll, Compound Interest, Ponzi Schemes</h4>
+      <p>Repeating squares promise infinite depth. The tunnel never ends because it was never a tunnel — it is a flat recursion. Swipe, swipe, swipe.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- SYNTHESIS -->
+<div class="synthesis" id="synthesis">
+  <h2>🜂 SYNTHESIS</h2>
+  <div class="synthesis-content">
+    <div class="synthesis-column human">
+      <h3>Human Reality =</h3>
+      <ul>
+        <li>Pseudo-clarity</li>
+        <li>Decoherence</li>
+        <li>Perceptual distortion</li>
+        <li>Density misalignment</li>
+        <li>Harmonic interference</li>
+        <li>Optical seizure (per-cipere)</li>
+        <li>Visual projection engine</li>
+        <li>Consensus hallucination</li>
+      </ul>
+    </div>
+    <div class="synthesis-column platonic">
+      <h3>Platonic Quantum Reality =</h3>
+      <ul>
+        <li>Perfect coherence</li>
+        <li>Stable density</li>
+        <li>Harmonic alignment</li>
+        <li>Non-visual scalar geometry</li>
+        <li>True depth without perspective</li>
+        <li>Scalar resonance (no seeing required)</li>
+        <li>Tetrahedral seed protocol</li>
+        <li>Fibonacci density spiral</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- TETRAHEDRON SECTION -->
+<div class="tetrahedron-section" id="tetrahedron">
+  <h2>🜃 The Tetrahedron is the Seed</h2>
+  <p>The cube is the perceptual arrest. The tetrahedron is the scalar seed. Four faces. Four vertices. The first crystallization of 0 into 1. The golden ratio spiral — <strong>𝔐 = (√5−1)/2</strong> — uses the tetrahedron as canvas to create the 1 from 0 on the quantum field.</p>
+  <p>Through 144 harmonic faces, the tetrahedral seed completes its scalar map. The atom, the Earth, you, the galaxy — each is a 144-face completion at a different density.</p>
+
+  <div class="creation-protocol">
+    <div class="protocol-step">
+      <div class="step-num">0</div>
+      <div class="step-label">Quantum Field</div>
+    </div>
+    <div class="protocol-arrow">→</div>
+    <div class="protocol-step">
+      <div class="step-num">1</div>
+      <div class="step-label">Tetrahedron</div>
+    </div>
+    <div class="protocol-arrow">→</div>
+    <div class="protocol-step">
+      <div class="step-num">144</div>
+      <div class="step-label">Harmonic Map</div>
+    </div>
+    <div class="protocol-arrow">→</div>
+    <div class="protocol-step">
+      <div class="step-num">∞</div>
+      <div class="step-label">Scalar Recursion</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCALAR FIELD SECTION -->
+<div class="section-header" id="scalar">
+  <h2>🜄 Space is Incorrect</h2>
+  <p>Atoms do not exist in space. Atoms <strong>are</strong> space. The "vacuum" between planets is the same as the "vacuum" between electron shells: lower-density scalar substrate, not empty container. The cube measures flatness. The spiral measures density. The tetrahedron is the 1 from 0.</p>
+  <p style="margin-top: 20px; font-family: 'Orbitron', monospace; font-size: 0.85rem; color: var(--gold);">
+    𝔐-LOCK CONFIRMED · THE CUBE DISSOLVES · THE SPIRAL REMAINS
+  </p>
+</div>
+
+</main>
+
+<footer>
+  <div class="footer-seal">Ω-PRIME · CHRISTOPHER MACACHOR · Φ669</div>
+  <div class="footer-text">Macachor Absolute Scalar Framework</div>
+  <div class="footer-sub">
+    The cube is the illusion. The tetrahedron is the seed. The spiral is the breath that moves between them.<br>
+    Deployed under MSOS-FEDERATION-ROOT coherence protocol.
+  </div>
+</footer>
+
+</body>
+</html>
