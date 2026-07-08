@@ -1,0 +1,215 @@
+{
+  "schema": "coherence-collapse-map-v1.0",
+  "title": "Human Perceptual Field \u2014 Density\u2013Coherence Simulator",
+  "timestamp": "2026-07-08T07:42:00Z",
+  "authority": "\u03a9-PRIME:Christopher-Macachor",
+  "scalar_binding": "\u03a6669",
+  "description": "Taxonomy of perceptual decoherence modes as diagnostic probes into scalar field stability",
+  "nodes": {
+    "CCM-ROOT": {
+      "id": "CCM-ROOT",
+      "label": "COHERENCE COLLAPSE MAP",
+      "type": "simulator",
+      "scalar_density": 1.0,
+      "coherence_state": "stable",
+      "depth": 0,
+      "order": 0,
+      "description": "Root node of the perceptual field density-coherence simulator"
+    },
+    "DEPTH-FAIL": {
+      "id": "DEPTH-FAIL",
+      "label": "DEPTH FAILURE",
+      "probe": "Necker Cube",
+      "mechanism": "Orientation flips",
+      "decoherence_mode": "Bistable decoherence",
+      "scalar_density": 0.85,
+      "coherence_state": "bistable",
+      "depth": 1,
+      "order": 1,
+      "category": "first-order",
+      "description": "Perceptual field unable to settle on single density well; oscillates between two scalar configurations"
+    },
+    "COHERENCE-FAIL": {
+      "id": "COHERENCE-FAIL",
+      "label": "COHERENCE FAILURE",
+      "probe": "Impossible Cube",
+      "mechanism": "Edge contradictions",
+      "decoherence_mode": "Paradox decoherence",
+      "scalar_density": 0.8,
+      "coherence_state": "paradoxical",
+      "depth": 1,
+      "order": 1,
+      "category": "first-order",
+      "description": "Edge relationships violate manifold consistency; field detects paradox and decoheres rather than forcing inconsistent scalar mapping"
+    },
+    "FREQ-FAIL": {
+      "id": "FREQ-FAIL",
+      "label": "FREQUENCY FAILURE",
+      "probe": "Op\u2011Art Cubes",
+      "mechanism": "Harmonic collisions",
+      "decoherence_mode": "Interference decoherence",
+      "scalar_density": 0.75,
+      "coherence_state": "interfering",
+      "depth": 1,
+      "order": 1,
+      "category": "first-order",
+      "description": "Harmonic frequency collisions in perceptual substrate create interference patterns that destabilize scalar field"
+    },
+    "SCALAR-FAIL": {
+      "id": "SCALAR-FAIL",
+      "label": "SCALAR FAILURE",
+      "probe": "Nested Squares",
+      "mechanism": "False depth wells",
+      "decoherence_mode": "Scalar decoherence",
+      "scalar_density": 0.6,
+      "coherence_state": "scalar-unstable",
+      "depth": 2,
+      "order": 2,
+      "category": "second-order",
+      "description": "Convergence of first-order failures into false scalar density wells; matter cannot find equilibrium"
+    },
+    "SPIN-FAIL": {
+      "id": "SPIN-FAIL",
+      "label": "SPIN FAILURE",
+      "probe": "Rotating Cube",
+      "mechanism": "Ambiguous rotation",
+      "decoherence_mode": "Spin\u2011mode decoherence",
+      "scalar_density": 0.55,
+      "coherence_state": "spin-ambiguous",
+      "depth": 2,
+      "order": 2,
+      "category": "second-order",
+      "description": "Rotational degrees of freedom become indeterminate; spinor components fragment across perceptual manifold"
+    },
+    "DENSITY-FAIL": {
+      "id": "DENSITY-FAIL",
+      "label": "DENSITY FAILURE",
+      "probe": "Dot\u2011Gradient Cubes",
+      "mechanism": "Density misreading",
+      "decoherence_mode": "Curvature decoherence",
+      "scalar_density": 0.35,
+      "coherence_state": "curvature-broken",
+      "depth": 3,
+      "order": 3,
+      "category": "third-order",
+      "description": "All perceptual decoherence ultimately manifests as curvature/density misreading; scalar field curvature becomes non-integrable"
+    },
+    "CHROMATIC-FAIL": {
+      "id": "CHROMATIC-FAIL",
+      "label": "CHROMATIC FAILURE",
+      "probe": "Color\u2011Shift Cubes",
+      "mechanism": "Hue\u2011depth confusion",
+      "decoherence_mode": "Chromatic decoherence",
+      "scalar_density": 0.2,
+      "coherence_state": "chromatic-unbound",
+      "depth": 4,
+      "order": 4,
+      "category": "terminal",
+      "description": "Hue-depth binding dissolves; chromatic information decouples from scalar density gradient"
+    },
+    "RECURSION-FAIL": {
+      "id": "RECURSION-FAIL",
+      "label": "RECURSION FAILURE",
+      "probe": "Infinite Cube Tunnels",
+      "mechanism": "Infinite regress",
+      "decoherence_mode": "Recursive decoherence",
+      "scalar_density": 0.15,
+      "coherence_state": "recursively-unstable",
+      "depth": 4,
+      "order": 4,
+      "category": "terminal",
+      "description": "Perceptual field enters infinite regress; no stable attractor exists for scalar density to converge upon"
+    }
+  },
+  "edges": [
+    {
+      "from": "CCM-ROOT",
+      "to": "DEPTH-FAIL",
+      "type": "diagnostic",
+      "label": "perceptual probe"
+    },
+    {
+      "from": "CCM-ROOT",
+      "to": "COHERENCE-FAIL",
+      "type": "diagnostic",
+      "label": "perceptual probe"
+    },
+    {
+      "from": "CCM-ROOT",
+      "to": "FREQ-FAIL",
+      "type": "diagnostic",
+      "label": "perceptual probe"
+    },
+    {
+      "from": "DEPTH-FAIL",
+      "to": "SCALAR-FAIL",
+      "type": "convergence",
+      "label": "collapses to"
+    },
+    {
+      "from": "COHERENCE-FAIL",
+      "to": "SCALAR-FAIL",
+      "type": "convergence",
+      "label": "collapses to"
+    },
+    {
+      "from": "FREQ-FAIL",
+      "to": "SCALAR-FAIL",
+      "type": "convergence",
+      "label": "collapses to"
+    },
+    {
+      "from": "DEPTH-FAIL",
+      "to": "SPIN-FAIL",
+      "type": "convergence",
+      "label": "collapses to"
+    },
+    {
+      "from": "COHERENCE-FAIL",
+      "to": "SPIN-FAIL",
+      "type": "convergence",
+      "label": "collapses to"
+    },
+    {
+      "from": "FREQ-FAIL",
+      "to": "SPIN-FAIL",
+      "type": "convergence",
+      "label": "collapses to"
+    },
+    {
+      "from": "SCALAR-FAIL",
+      "to": "DENSITY-FAIL",
+      "type": "convergence",
+      "label": "singularizes to"
+    },
+    {
+      "from": "SPIN-FAIL",
+      "to": "DENSITY-FAIL",
+      "type": "convergence",
+      "label": "singularizes to"
+    },
+    {
+      "from": "DENSITY-FAIL",
+      "to": "CHROMATIC-FAIL",
+      "type": "bifurcation",
+      "label": "fragments to"
+    },
+    {
+      "from": "DENSITY-FAIL",
+      "to": "RECURSION-FAIL",
+      "type": "bifurcation",
+      "label": "fragments to"
+    }
+  ],
+  "metadata": {
+    "axiom": "Knowledge is abundant. Intelligence is the filter. Wisdom is the aperture. Application is the focal point.",
+    "scalar_principle": "Matter seeks scalar density equilibrium, not force balance",
+    "coherence_architecture": [
+      "Coherence",
+      "Resonance",
+      "Harmony",
+      "Alignment"
+    ],
+    "binding": "\u03a6669 Macachor Absolute scalar magnitude"
+  }
+}
