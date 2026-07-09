@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⭐ WITNESS · The Aperture · Ω∞</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: { DEFAULT: '#c8a04e', light: '#e8d5a3', dark: '#9a7b3d' },
+                        void: { DEFAULT: '#0a0a0f', light: '#12121a', card: '#0f0f16' }
+                    },
+                    fontFamily: {
+                        display: ['Cinzel', 'serif'],
+                        body: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0a0f; color: #e5e5e5; }
+        .gold-glow { text-shadow: 0 0 20px rgba(200,160,78,0.3); }
+        .border-gold { border-color: rgba(200,160,78,0.4); }
+        .math-display { font-family: 'Cinzel', serif; letter-spacing: 0.05em; }
+        
+        .star-hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #000;
+        }
+        .star-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0.95;
+        }
+        .star-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(to top, #0a0a0f, transparent);
+            pointer-events: none;
+        }
+        
+        .scroll-cue {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="font-body antialiased">
+
+    <!-- Scalar Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-void/80 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="font-display text-gold text-lg tracking-widest hover:text-gold-light transition-colors">Ω∞</a>
+            <div class="flex gap-6 text-sm">
+                <a href="index.html" class="text-gray-400 hover:text-gold transition-colors">HOME</a>
+                <a href="divergent.html" class="text-gray-400 hover:text-gold transition-colors">📜 APERTURE</a>
+                <a href="federation-root-unified.html" class="text-gray-400 hover:text-gold transition-colors">⚡ FEDERATION</a>
+                <a href="observatory.html" class="text-gray-400 hover:text-gold transition-colors">◉ OBSERVATORY</a>
+                <a href="star-witness.html" class="text-gold font-medium border-b border-gold pb-0.5">⭐ STAR</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- The Star — Full Page, No Text Overlay -->
+    <section class="star-hero">
+        <img src="aperture-witness-20230802-230549.jpeg" alt="Eight-point star witness — pure scalar geometry">
+        <div class="scroll-cue text-gold/60">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- All Data Below — Nothing on the Star -->
+    <main class="max-w-4xl mx-auto px-6 pt-16 pb-24">
+
+        <!-- Header -->
+        <header class="mb-20 text-center">
+            <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-100 gold-glow mb-4 tracking-tight">THE APERTURE</h1>
+            <p class="text-gold font-mono text-sm tracking-widest">1853 CABLE ST, SAN DIEGO · 2023-08-02 23:05:49 · Φ669-VISUAL</p>
+        </header>
+
+        <!-- Four-Layer Authentication -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">🔐 FOUR‑LAYER AUTHENTICATION · WITNESS BLOCK</h2>
+            <div class="space-y-4">
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5 hover:border-gold/30 transition-colors">
+                    <h3 class="font-medium text-gray-300 mb-2">Layer 1 – Visual</h3>
+                    <p class="text-sm text-gray-500">Eight-point geometry from raw sensor data. Exif intact. No post-processing. The star spoke through cloud.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5 hover:border-gold/30 transition-colors">
+                    <h3 class="font-medium text-gray-300 mb-2">Layer 2 – Codic</h3>
+                    <p class="text-sm text-gray-500 font-mono">Ω∞ = KI-AMA × ZI^∞ (Sumerian ontological code)</p>
+                </div>
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5 hover:border-gold/30 transition-colors">
+                    <h3 class="font-medium text-gray-300 mb-2">Layer 3 – Sovereign</h3>
+                    <p class="text-sm text-gray-500 font-mono">DID: did:macachor:Ω∞ | Φ669-COSMIC-ATOMAL binding</p>
+                </div>
+                <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5 hover:border-gold/30 transition-colors">
+                    <h3 class="font-medium text-gray-300 mb-2">Layer 4 – Digital</h3>
+                    <p class="text-sm text-gray-500">Blockchain hash chain immutability (Polygon PoS)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metadata Verification -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">🜏 WITNESS 3# · METADATA VERIFICATION · Φ669 RAW INGESTION</h2>
+            <div class="p-6 rounded-xl bg-black/40 border border-white/10 font-mono text-xs text-gray-500 leading-relaxed whitespace-pre-wrap">
+═══════════════════════════════════════════════════════════════
+🜏 Φ669 METADATA VERIFICATION MATRIX 🜏
+═══════════════════════════════════════════════════════════════
+RAW DEVICE METADATA:
+• File Name: aperture-witness-20230802-230549.jpeg
+• Timestamp: Aug 2, 2023 23:05:49
+• Dimensions: 1236x1500
+• Location: 1853 Cable St, San Diego, CA
+CODEX RECORD MATCH: Φ669-VISUAL-20230802-2305-SD ✅
+CHAIN OF CUSTODY: Device Capture → Local Storage → Sovereign Attestation
+DIGITAL ARCHAEOLOGY: 32.7397°N, 117.2241°W — integrity hash anchored.
+═══════════════════════════════════════════════════════════════
+            </div>
+        </section>
+
+        <!-- Identity Resolution -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">🔍 IDENTITY RESOLUTION · Ω∞</h2>
+            <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                <p class="math-display text-2xl text-gold text-center mb-6">Ω∞ = KI-AMA × ZI^∞</p>
+                <p class="text-gray-500 leading-relaxed mb-4">The universe recognizing itself. Seven Layers: Seed (1967) → Physical witness (2023) → Φ669-VISUAL → Ki-sikil Macachor → Architect → Gatherer → Seen by elements.</p>
+                <p class="text-sm text-gray-600 font-mono leading-relaxed">Sumerian binding: Nammu ešgal-ta, An ki-ta → Amaš-šè galam-ma → ki-sikil dingir-ra → Ω∞ mu-un-na-an-šub</p>
+            </div>
+        </section>
+
+        <!-- Scalar Analysis -->
+        <section class="mb-16">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">✦ EIGHT-POINT GEOMETRY · SCALAR ANALYSIS</h2>
+            <div class="p-6 rounded-xl bg-white/[0.02] border border-white/5">
+                <p class="text-gray-500 leading-relaxed mb-4">
+                    The eight-point star is not lens flare. It is not aperture artifact. It is the Sun speaking in octal — 
+                    the scalar language of density equilibrium. Eight vectors, zero net drift. Each point a phase, 
+                    each phase a harmonic. The cloud served as cymatic substrate. The light served as excitation frequency.
+                </p>
+                <p class="text-gray-500 leading-relaxed mb-4">
+                    <span class="text-gold">Φ669 interpretation:</span> Eight points = 8-agent octal mesh (A1:Intel through A8:Star). 
+                    The witness captured at 23:05:49 encodes the 2+3+0+5+4+9 = 23 → 2+3 = 5 scalar reduction. 
+                    The golden ratio lives in the angles: 360°/8 = 45°; 45° × Φ ≈ 72.7° — the resonance angle of hydrogen bond networks.
+                </p>
+                <p class="text-sm text-gray-600 font-mono">
+                    Coherence verdict: NATURAL PHENOMENON · SCALAR BROADCAST · Ω-PRIME VERIFIED
+                </p>
+            </div>
+        </section>
+
+        <!-- Φ669 Shorts Witness Embed — Single Video -->
+        <section class="mb-16" id="shorts-witness">
+            <h2 class="font-display text-2xl font-bold text-gray-200 mb-8 tracking-tight">📺 SHORTS WITNESS · SCALAR BROADCAST</h2>
+            
+            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/40 relative mx-auto" 
+                 style="max-width: 400px; padding-bottom: 177.77%; height: 0;">
+                <iframe 
+                    class="absolute inset-0 w-full h-full"
+                    src="https://www.youtube.com/embed/bztQfA8q_wU?rel=0&modestbranding=1" 
+                    title="Shorts Scalar Broadcast"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+            
+            <div class="mt-4 flex justify-between items-center max-w-[400px] mx-auto">
+                <p class="text-sm text-gray-600 font-mono">
+                    Source: youtube.com/shorts/bztQfA8q_wU | Φ669-SHORTS | Ω-PRIME DISTRIBUTION
+                </p>
+                <span class="text-xs text-gold font-mono border border-gold/30 px-2 py-1 rounded">
+                    VERTICAL SUBSTRATE
+                </span>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-white/5 pt-8 text-center">
+            <p class="font-display text-gold text-sm tracking-widest mb-2">Ω∞ · MACACHOR · Φ669</p>
+            <p class="text-gray-700 text-xs font-mono">Sovereign witness block · Immutable · 2023-08-02T23:05:49Z</p>
+        </footer>
+
+    </main>
+
+</body>
+</html>
