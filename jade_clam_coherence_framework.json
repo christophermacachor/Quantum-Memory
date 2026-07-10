@@ -1,0 +1,108 @@
+{
+  "framework_name": "MSOS-FEDERATION-ROOT Coherence-Decoherence Scalar Topology",
+  "version": "\u03a6-669-SWARM-v1.0",
+  "author": "Christopher Macachor, \u03a9-Prime",
+  "scalar_constant": "\ud835\udd10 = (\u221a5-1)/2 \u2248 0.6180339887...",
+  "nodes": {
+    "JADE_SITE": {
+      "node_id": "JADE-27.27N-127.08E",
+      "classification": "COHERENCE_NODE",
+      "temperature_C": 320,
+      "scalar_density_state": "HIGH \u2014 magmatic end-member",
+      "coherence_signature": {
+        "helium_scalar": {
+          "R_Ra": 6.1,
+          "classification": "MANTLE_COHERENT",
+          "interpretation": "Primordial helium propagates without isotopic fractionation \u2014 pure scalar transport. Value ~6.1\u00d7 atmospheric indicates subduction-modified mantle, not radiogenic crustal decoherence."
+        },
+        "carbon_scalar": {
+          "CO2_mmol_kg": 200,
+          "d13C_permil": -5.0,
+          "classification": "MAGMA_COHERENT",
+          "interpretation": "\u03b4\u00b9\u00b3C \u2248 -5\u2030 locks to arc magmatic carbon. CO\u2082/\u00b3He \u2248 3\u00d710\u2079 matches Japan arc volcanic gases. Scalar density 20\u00d7 MOR baseline."
+        },
+        "methane_decoherence": {
+          "CH4_mmol_kg": 7.1,
+          "d13C_permil": -41,
+          "classification": "THERMOGENIC_OVERPRINT",
+          "interpretation": "Sediment-derived organic CH\u2084 introduces directional decoherence into the scalar field. Not inorganic equilibrium (calculated T_eq \u2248 200\u00b0C vs actual 320\u00b0C)."
+        },
+        "heat_helium_coupling": {
+          "heat_3He_J_atom": 3.2e-07,
+          "classification": "UNIVERSAL_SCALAR_INVARIANT",
+          "interpretation": "Matches MOR (3.0\u00d710\u207b\u2077) and arc magmatic (1.7\u00d710\u207b\u2077) within one order of magnitude. A planetary coherence constant independent of tectonic setting."
+        }
+      },
+      "coherence_score": 0.85,
+      "decoherence_sources": [
+        "organic_sediment_CH4",
+        "seawater_mixing"
+      ],
+      "scalar_field_equation": "\u03c8_JADE = \u03c8_mantle + \u03c8_arc_magma + \u03b4\u03c8_organic",
+      "notes": "Primary magmatic coherence node. Black Smoker chimney acts as scalar aperture \u2014 focused emission of mantle volatiles with minimal shallow modification."
+    },
+    "CLAM_SITE": {
+      "node_id": "CLAM-27.55N-126.97E",
+      "classification": "DECOHERENCE_NODE",
+      "temperature_C": 100,
+      "scalar_density_state": "DILUTED \u2014 secondary circulation",
+      "coherence_signature": {
+        "helium_scalar": {
+          "R_Ra": 3.7,
+          "classification": "RADIOGENIC_DECOHERENT",
+          "interpretation": "Lower R/R\u2090 indicates crustal radiogenic \u2074He ingress during secondary circulation through sediment pile. Mantle coherence diluted by shallow source."
+        },
+        "carbon_scalar": {
+          "CO2_mmol_kg": 74,
+          "d13C_permil": -3.7,
+          "classification": "MAGMA_DOMINANT_BUT_MODIFIED",
+          "interpretation": "\u03b4\u00b9\u00b3C still arc-like, but CO\u2082/\u00b3He >10\u00b9\u2070 indicates sedimentary carbon addition. Scalar density reduced by factor ~2.7 vs JADE."
+        },
+        "methane_decoherence": {
+          "CH4_mmol_kg": null,
+          "d13C_permil": null,
+          "classification": "ENHANCED_ORGANIC_OVERPRINT",
+          "interpretation": "CH\u2084/\u00b3He \u2248 4\u00d710\u2079 \u2014 elevated organic contribution relative to JADE. Multiple shallow circulation cells amplify sediment interaction."
+        },
+        "heat_helium_coupling": {
+          "heat_3He_J_atom": null,
+          "classification": "UNDETERMINED",
+          "interpretation": "Low temperature and secondary circulation disrupt the primary heat-helium scalar coupling."
+        }
+      },
+      "coherence_score": 0.42,
+      "decoherence_sources": [
+        "radiogenic_helium",
+        "organic_sediment_CH4_CO2",
+        "secondary_circulation",
+        "sulfate_reduction"
+      ],
+      "scalar_field_equation": "\u03c8_CLAM = \u03b1\u00b7\u03c8_mantle + \u03b2\u00b7\u03c8_radiogenic + \u03b3\u00b7\u03c8_organic + \u03b4\u03c8_sediment",
+      "notes": "Secondary decoherence node. Fissure-hosted fluids at ~100\u00b0C circulate through porous sedimentary cover. Sulfate reduction by organic decomposition (Gamo et al. 1991) is a decoherence mechanism that converts ordered sulfate into reduced sulfur species, increasing entropy."
+    }
+  },
+  "scalar_topology": {
+    "field_gradient": "JADE \u2192 CLAM represents a scalar density gradient from high coherence (320\u00b0C, end-member) to high decoherence (100\u00b0C, modified).",
+    "transport_mechanism": "Hydrothermal circulation = scalar convection. Helium = ideal scalar tracer (no fractionation). CO\u2082/\u00b3He = conserved scalar ratio. Heat/\u00b3He = universal scalar invariant.",
+    "boundary_conditions": {
+      "upper_boundary": "Seafloor sediment pile (>1 km) \u2014 porous medium where decoherence mechanisms operate",
+      "lower_boundary": "Magmatic heat source / shallow magma chamber \u2014 coherence source",
+      "lateral_boundary": "Izena Cauldron wall / Iheya Ridge \u2014 structural control on circulation cells"
+    }
+  },
+  "recent_data_integration_2024_2025": {
+    "Yokosuka_site": {
+      "temp_C": "Highest in Okinawa Trough (supercritical)",
+      "discovery": "2024 SHEN-HAI-YONG-SHI expedition",
+      "scalar_relevance": "Supercritical CO\u2082 phase separation at Hohenschwangau chimney represents a new coherence regime \u2014 scalar density exceeds JADE baseline."
+    },
+    "Mo_W_isotopes_2025": {
+      "source": "J-Stage Geochemical Journal 2025",
+      "scalar_relevance": "\u03b4\u2079\u2078/\u2079\u2075Mo and \u03b4\u00b9\u2078\u2076/\u00b9\u2078\u2074W in hydrothermal fluids reveal redox-controlled scalar fractionation. Mo/W decoupling during phase separation is a decoherence signature."
+    },
+    "Boron_isotopes_2025": {
+      "source": "Springer Progress in Earth and Planetary Science 2025",
+      "scalar_relevance": "\u03b4\u00b9\u00b9B values (-3.3 to +1.5\u2030) in sediments vs hydrothermal fluids demonstrate pumiceous sediment as a decoherence vector \u2014 boron isotope fractionation during fluid-sediment interaction."
+    }
+  }
+}
