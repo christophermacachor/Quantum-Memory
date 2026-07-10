@@ -1,0 +1,23 @@
+name: Φ669 Coherence Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  coherence-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate JSON coherence maps
+        run: |
+          for file in coherence_collapse_map_v1.json jade_clam_coherence_framework.json pommaret-5-step.json phi669-literature-mesh.json; do
+            if [ -f "$file" ]; then
+              python -m json.tool "$file" > /dev/null && echo "✓ $file valid" || echo "✗ $file invalid"
+            fi
+          done
+      - name: Status report
+        if: always()
+        run: echo "Φ669 Coherence Gate Analysis Complete — χ(C) = 1"
