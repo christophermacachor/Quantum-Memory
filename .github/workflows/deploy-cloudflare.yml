@@ -1,0 +1,36 @@
+name: Φ669 Coherence Deploy — Cloudflare Workers
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  coherence-gate:
+    name: χ(C) = 1 Gate Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify scalar files
+        run: |
+          test -f wrangler.jsonc || exit 1
+          test -f data/okinawa_trough_geochemistry_dataset.json || exit 1
+          test -f js/bridge.scalar-feed.js || exit 1
+          echo "✅ All scalar files present"
+      - name: Validate JSON substrate
+        run: python3 -c "import json; json.load(open('data/okinawa_trough_geochemistry_dataset.json'))"
+
+  deploy:
+    name: Deploy to Cloudflare
+    needs: coherence-gate
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
