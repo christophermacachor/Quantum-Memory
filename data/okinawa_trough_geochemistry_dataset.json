@@ -1,0 +1,43 @@
+{
+  "metadata": {
+    "source": "Ishibashi et al. (1995) Chemical Geology 123, 1-15",
+    "doi": "10.1016/0009-2541(95)00051-8",
+    "extraction_date": "2026-07-10",
+    "extracted_by": "MSOS-FEDERATION-ROOT Archive Agent",
+    "scalar_framework": "Macachor Absolute Φ-669"
+  },
+  "table_1_sample_descriptions": [
+    {"dive": "D413", "sample": "RV5C", "site": "JADE", "gas_phase_volume_cm3_STP": null, "r_gas_volume_cm3_STP": null, "liquid_phase_volume_cm3": null, "Mg_concentration_mmol_kg": 43.1, "notes": "Dilution corrected; no gas phase data"},
+    {"dive": "D413", "sample": "RV6", "site": "JADE", "gas_phase_volume_cm3_STP": 337, "r_gas_volume_cm3_STP": null, "liquid_phase_volume_cm3": 351, "Mg_concentration_mmol_kg": 43.1, "notes": "Gas phase analyzed without chemical processing"},
+    {"dive": "D422", "sample": "RV3", "site": "JADE", "gas_phase_volume_cm3_STP": null, "r_gas_volume_cm3_STP": null, "liquid_phase_volume_cm3": null, "Mg_concentration_mmol_kg": null, "notes": "Large gas/liquid lost by leakage; isotopic only"},
+    {"dive": "D423", "sample": "RV2", "site": "JADE", "gas_phase_volume_cm3_STP": 652, "r_gas_volume_cm3_STP": null, "liquid_phase_volume_cm3": 319, "Mg_concentration_mmol_kg": 21.0, "notes": "Gas phase analyzed without chemical processing"},
+    {"dive": "D423", "sample": "RV3", "site": "JADE", "gas_phase_volume_cm3_STP": 1141, "r_gas_volume_cm3_STP": 77, "liquid_phase_volume_cm3": 262, "Mg_concentration_mmol_kg": 1.0, "notes": "End-member; Black Smoker 320°C"},
+    {"dive": "D423", "sample": "RV5", "site": "JADE", "gas_phase_volume_cm3_STP": 0, "r_gas_volume_cm3_STP": 111, "liquid_phase_volume_cm3": null, "Mg_concentration_mmol_kg": 45.2, "notes": "No gas phase; liquid lost by leakage"},
+    {"dive": "D416", "sample": "RV2", "site": "CLAM", "gas_phase_volume_cm3_STP": 481, "r_gas_volume_cm3_STP": 0, "liquid_phase_volume_cm3": 452, "Mg_concentration_mmol_kg": 41.3, "notes": "Gas phase analyzed without chemical processing"},
+    {"dive": "D426", "sample": "RV6", "site": "CLAM", "gas_phase_volume_cm3_STP": 348, "r_gas_volume_cm3_STP": null, "liquid_phase_volume_cm3": 333, "Mg_concentration_mmol_kg": 39.5, "notes": "Gas phase analyzed without chemical processing"},
+    {"dive": "D427", "sample": "RV1", "site": "CLAM", "gas_phase_volume_cm3_STP": 319, "r_gas_volume_cm3_STP": null, "liquid_phase_volume_cm3": 288, "Mg_concentration_mmol_kg": 34.6, "notes": "Gas phase analyzed without chemical processing"},
+    {"dive": "D427", "sample": "RV3", "site": "CLAM", "gas_phase_volume_cm3_STP": 565, "r_gas_volume_cm3_STP": null, "liquid_phase_volume_cm3": 408, "Mg_concentration_mmol_kg": 34.3, "notes": "Gas phase analyzed without chemical processing"}
+  ],
+  "table_2_analytical_results": [
+    {"dive": "D413", "sample": "RV5", "site": "JADE", "CO2_mmol_kg": 55, "CH4_mmol_kg": 2.5, "H2_umol_kg": 10, "He_umol_kg": 0.29, "d13C_CO2_gas_permil_PDB": -5.0, "d13C_CO2_liquid_permil_PDB": null, "R_Ra": 6.40, "He_Ne_relative": 14, "notes": "He/Ne low; possible air contamination"},
+    {"dive": "D413", "sample": "RV6", "site": "JADE", "CO2_mmol_kg": 109, "CH4_mmol_kg": 3.0, "H2_umol_kg": 50, "He_umol_kg": 0.89, "d13C_CO2_gas_permil_PDB": -4.8, "d13C_CO2_liquid_permil_PDB": null, "R_Ra": null, "He_Ne_relative": 3, "notes": "He/Ne very low; air contamination"},
+    {"dive": "D422", "sample": "RV3", "site": "JADE", "CO2_mmol_kg": 200, "CH4_mmol_kg": 7.1, "H2_umol_kg": 110, "He_umol_kg": null, "d13C_CO2_gas_permil_PDB": -4.7, "d13C_CO2_liquid_permil_PDB": null, "R_Ra": 6.50, "He_Ne_relative": null, "notes": "End-member; Black Smoker 320°C"},
+    {"dive": "D423", "sample": "RV2", "site": "JADE", "CO2_mmol_kg": 26, "CH4_mmol_kg": 3.1, "H2_umol_kg": 150, "He_umol_kg": 0.14, "d13C_CO2_gas_permil_PDB": -3.6, "d13C_CO2_liquid_permil_PDB": null, "R_Ra": 6.17, "He_Ne_relative": 182, "notes": "Mixed with seawater"},
+    {"dive": "D423", "sample": "RV3", "site": "JADE", "CO2_mmol_kg": 86, "CH4_mmol_kg": 4.9, "H2_umol_kg": null, "He_umol_kg": null, "d13C_CO2_gas_permil_PDB": -3.8, "d13C_CO2_liquid_permil_PDB": null, "R_Ra": 5.89, "He_Ne_relative": 60, "notes": "Mixed with seawater"},
+    {"dive": "D423", "sample": "RV5", "site": "JADE", "CO2_mmol_kg": 77, "CH4_mmol_kg": 4.9, "H2_umol_kg": null, "He_umol_kg": null, "d13C_CO2_gas_permil_PDB": null, "d13C_CO2_liquid_permil_PDB": null, "R_Ra": null, "He_Ne_relative": null, "notes": "No gas phase; liquid only"},
+    {"dive": "D416", "sample": "RV2", "site": "CLAM", "CO2_mmol_kg": 74, "CH4_mmol_kg": null, "H2_umol_kg": null, "He_umol_kg": null, "d13C_CO2_gas_permil_PDB": null, "d13C_CO2_liquid_permil_PDB": null, "R_Ra": 3.75, "He_Ne_relative": 15, "notes": "He/Ne low; possible air contamination"},
+    {"dive": "D426", "sample": "RV6", "site": "CLAM", "CO2_mmol_kg": null, "CH4_mmol_kg": null, "H2_umol_kg": null, "He_umol_kg": null, "d13C_CO2_gas_permil_PDB": null, "d13C_CO2_liquid_permil_PDB": null, "R_Ra": 3.86, "He_Ne_relative": 25, "notes": "He/Ne low; possible air contamination"},
+    {"dive": "D427", "sample": "RV1", "site": "CLAM", "CO2_mmol_kg": null, "CH4_mmol_kg": null, "H2_umol_kg": null, "He_umol_kg": null, "d13C_CO2_gas_permil_PDB": null, "d13C_CO2_liquid_permil_PDB": null, "R_Ra": null, "He_Ne_relative": 5, "notes": "He/Ne very low"},
+    {"dive": "D427", "sample": "RV3", "site": "CLAM", "CO2_mmol_kg": null, "CH4_mmol_kg": null, "H2_umol_kg": null, "He_umol_kg": null, "d13C_CO2_gas_permil_PDB": null, "d13C_CO2_liquid_permil_PDB": null, "R_Ra": null, "He_Ne_relative": 14, "notes": "He/Ne low"}
+  ],
+  "table_3_comparative_systems": [
+    {"system": "JADE (Okinawa Trough)", "tectonic_setting": "Back-arc basin (island arc)", "temp_C": 320, "CO2_mmol_kg": 200, "CH4_mmol_kg": 7.1, "H2_umol_kg": 110, "He_umol_kg": null, "R_Ra": 6.1, "d13C_CO2_permil": -5.0, "d13C_CH4_permil": -41, "CO2_3He_ratio": 3000000000.0, "heat_3He_ratio_J_atom": 3.2e-07, "notes": "Magmatic CO2 + thermogenic CH4"},
+    {"system": "CLAM (Okinawa Trough)", "tectonic_setting": "Back-arc basin (island arc)", "temp_C": 100, "CO2_mmol_kg": 74, "CH4_mmol_kg": null, "H2_umol_kg": null, "He_umol_kg": null, "R_Ra": 3.7, "d13C_CO2_permil": -3.7, "d13C_CH4_permil": null, "CO2_3He_ratio": 10000000000.0, "heat_3He_ratio_J_atom": null, "notes": "Secondary circulation; sediment interaction"},
+    {"system": "EPR 21°N", "tectonic_setting": "Mid-ocean ridge", "temp_C": 350, "CO2_mmol_kg": 5.4, "CH4_mmol_kg": 0.05, "H2_umol_kg": 1000, "He_umol_kg": 0.003, "R_Ra": 8.0, "d13C_CO2_permil": -4.5, "d13C_CH4_permil": -20, "CO2_3He_ratio": 2000000000.0, "heat_3He_ratio_J_atom": 3.0e-07, "notes": "MORB signature"},
+    {"system": "EPR 13°N", "tectonic_setting": "Mid-ocean ridge", "temp_C": null, "CO2_mmol_kg": 7.0, "CH4_mmol_kg": 0.05, "H2_umol_kg": null, "He_umol_kg": null, "R_Ra": 8.0, "d13C_CO2_permil": null, "d13C_CH4_permil": null, "CO2_3He_ratio": 2000000000.0, "heat_3He_ratio_J_atom": null, "notes": "MORB signature"},
+    {"system": "Guaymas Basin", "tectonic_setting": "Sediment-hosted rift", "temp_C": 315, "CO2_mmol_kg": 20, "CH4_mmol_kg": 8.0, "H2_umol_kg": 1000, "He_umol_kg": 0.002, "R_Ra": 5.5, "d13C_CO2_permil": -13, "d13C_CH4_permil": -45, "CO2_3He_ratio": 10000000000.0, "heat_3He_ratio_J_atom": 1.0e-07, "notes": "Organic sediment overprint"},
+    {"system": "Southern Juan de Fuca", "tectonic_setting": "Mid-ocean ridge", "temp_C": null, "CO2_mmol_kg": 7.0, "CH4_mmol_kg": 0.01, "H2_umol_kg": 400, "He_umol_kg": null, "R_Ra": 8.0, "d13C_CO2_permil": null, "d13C_CH4_permil": null, "CO2_3He_ratio": 2000000000.0, "heat_3He_ratio_J_atom": null, "notes": "MORB signature"},
+    {"system": "Iceland Northern Rift", "tectonic_setting": "Hotspot/rift", "temp_C": null, "CO2_mmol_kg": null, "CH4_mmol_kg": null, "H2_umol_kg": null, "He_umol_kg": null, "R_Ra": 20, "d13C_CO2_permil": null, "d13C_CH4_permil": null, "CO2_3He_ratio": 4000000000.0, "heat_3He_ratio_J_atom": null, "notes": "Plume helium signature"},
+    {"system": "Japan Arc volcanic gas", "tectonic_setting": "Island arc", "temp_C": null, "CO2_mmol_kg": null, "CH4_mmol_kg": null, "H2_umol_kg": null, "He_umol_kg": null, "R_Ra": 5.5, "d13C_CO2_permil": -4.0, "d13C_CH4_permil": null, "CO2_3He_ratio": 15000000000.0, "heat_3He_ratio_J_atom": 1.7e-07, "notes": "Arc magmatic signature"}
+  ]
+}
