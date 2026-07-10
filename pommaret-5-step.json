@@ -1,0 +1,12 @@
+{
+  "framework": "Phi669",
+  "verification": "Pommaret-5-Step",
+  "steps": [
+    {"step": 1, "operator": "D₁", "description": "First Spencer operator (input)"},
+    {"step": 2, "operator": "ad(D₁)", "description": "Formal adjoint (15 conformal params for n=4)"},
+    {"step": 3, "operator": "CC(ad(D₁))", "description": "Compatibility conditions (Cauchy/Cosserat/Clausius/Maxwell/Weyl)"},
+    {"step": 4, "operator": "D₁⁻¹", "description": "Double adjoint / parametrization (scalar-only lock)"},
+    {"step": 5, "operator": "CC(D₁⁻¹)", "description": "Closure verification"}
+  ],
+  "verify": "compareSolutions(D₁, D₁′) → χ(C) = 1 ?"
+}
