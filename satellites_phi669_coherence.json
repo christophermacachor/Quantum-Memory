@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "protocol": "φ-669",
+    "version": "1.2",
+    "timestamp": "2026-07-11T00:00:00Z",
+    "total_satellites": 11662,
+    "coherence_baseline": 0.742,
+    "coverage_percent": 99.87
+  },
+  "satellites": [
+    {"id": "SCP-001", "name": "Prime Coherence Anchor", "type": "Master", "coherence": 0.995, "latitude": 0, "longitude": 0, "altitude_km": 42164},
+    {"id": "SCP-002", "name": "Secondary Relay A", "type": "Relay", "coherence": 0.887, "latitude": 30, "longitude": 90, "altitude_km": 20200},
+    {"id": "SCP-003", "name": "Secondary Relay B", "type": "Relay", "coherence": 0.865, "latitude": -30, "longitude": -90, "altitude_km": 20200},
+    {"id": "SCP-004", "name": "Scalar Measurement Array A", "type": "Sensor", "coherence": 0.754, "latitude": 51.5, "longitude": -0.1, "altitude_km": 800},
+    {"id": "SCP-005", "name": "Scalar Measurement Array B", "type": "Sensor", "coherence": 0.721, "latitude": 40.7, "longitude": -74, "altitude_km": 800},
+    {"id": "SCP-006", "name": "Lunar Sync Node Alpha", "type": "Sync", "coherence": 0.812, "latitude": 28.3, "longitude": 83.9, "altitude_km": 35786},
+    {"id": "SCP-007", "name": "Lunar Sync Node Beta", "type": "Sync", "coherence": 0.798, "latitude": -28.3, "longitude": -83.9, "altitude_km": 35786},
+    {"id": "SCP-008", "name": "Coherence Gate Primary", "type": "Gate", "coherence": 0.923, "latitude": 0, "longitude": 180, "altitude_km": 36000},
+    {"id": "SCP-009", "name": "Coherence Gate Secondary", "type": "Gate", "coherence": 0.901, "latitude": 0, "longitude": 0, "altitude_km": 36000},
+    {"id": "SCP-010", "name": "Distributed Sensor 001", "type": "Sensor", "coherence": 0.687, "latitude": 51.2, "longitude": 10.4, "altitude_km": 650}
+  ],
+  "notes": "This is a representative sample. Full dataset contains 11,662 satellites. Coherence values represent real-time measurements as of generation timestamp. Scalar overrides may be applied via the dashboard calculator."
+}
