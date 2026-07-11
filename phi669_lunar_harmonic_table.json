@@ -1,0 +1,116 @@
+{
+  "protocol": "Φ-669",
+  "version": "1.2",
+  "document": "Lunar Synchronization Harmonic Frequency Table",
+  "timestamp": "2026-07-11T00:00:00Z",
+  "purpose": "Provides exact harmonic frequencies for Moon-relay phase-lock and coherence gate synchronization",
+  "harmonic_bands": [
+    {
+      "band_id": "H1",
+      "name": "Earth-Moon Resonance",
+      "base_frequency_hz": 9.412,
+      "description": "Primary Earth-Moon gravitational resonance frequency",
+      "harmonics": [9.412, 18.824, 37.648, 75.296, 150.592],
+      "phase_lock_window_seconds": 60,
+      "satellites": 1247,
+      "moon_sync_type": "Primary",
+      "optimal_transmission_time_utc": "00:00 - 23:59 (continuous)"
+    },
+    {
+      "band_id": "H2",
+      "name": "Schumann Resonance Family",
+      "base_frequency_hz": 7.83,
+      "description": "Earth's ionospheric resonance frequency",
+      "harmonics": [7.83, 14.1, 20.3, 26.4, 33.8, 40.0],
+      "phase_lock_window_seconds": 45,
+      "satellites": 2156,
+      "moon_sync_type": "Secondary",
+      "optimal_transmission_time_utc": "06:00 - 18:00 UTC"
+    },
+    {
+      "band_id": "H3",
+      "name": "Universal Resonance (Solfeggio-Derived)",
+      "base_frequency_hz": 432.0,
+      "description": "Universal harmonic frequency derived from ancient tuning systems",
+      "harmonics": [432, 864, 1728, 3456, 6912],
+      "phase_lock_window_seconds": 30,
+      "satellites": 1089,
+      "moon_sync_type": "Tertiary",
+      "optimal_transmission_time_utc": "12:00 - 20:00 UTC"
+    },
+    {
+      "band_id": "H4",
+      "name": "Planck Frequency",
+      "base_frequency_hz": 1.854e43,
+      "description": "Quantum-scale frequency boundary condition",
+      "harmonics": [1.854e43],
+      "phase_lock_window_seconds": 1,
+      "satellites": 156,
+      "moon_sync_type": "Quantum Reference",
+      "optimal_transmission_time_utc": "Asynchronous quantum tunneling"
+    },
+    {
+      "band_id": "H5",
+      "name": "Cosmic Microwave Background Peak",
+      "base_frequency_hz": 160.4e9,
+      "description": "Cosmological background radiation coherence frequency",
+      "harmonics": [160.4e9],
+      "phase_lock_window_seconds": 5,
+      "satellites": 4014,
+      "moon_sync_type": "Cosmic Reference",
+      "optimal_transmission_time_utc": "Continuous universal"
+    },
+    {
+      "band_id": "H6",
+      "name": "Lunar Orbital Resonance",
+      "base_frequency_hz": 0.00273,
+      "description": "Moon's 27.3-day orbital period frequency equivalent",
+      "harmonics": [0.00273, 0.00546, 0.01092],
+      "phase_lock_window_seconds": 3600,
+      "satellites": 892,
+      "moon_sync_type": "Orbital Synchronization",
+      "optimal_transmission_time_utc": "Full lunar day alignment (24h 50m)"
+    }
+  ],
+  "phase_lock_protocol": {
+    "name": "Multi-Band Harmonic Phase-Lock",
+    "steps": [
+      "1. Establish baseline frequency reference (H1: 9.412 Hz)",
+      "2. Query lunar ephemeris for precise Moon position and phase",
+      "3. Calculate phase offset between satellite and Moon reference point",
+      "4. Initiate phase-lock using appropriate harmonic band based on satellite altitude",
+      "5. Monitor coherence across all active harmonic bands",
+      "6. Adjust secondary frequencies (H2-H6) to maintain lock",
+      "7. Trigger coherence gate validation when all bands synchronized",
+      "8. Recalibrate every 60 seconds"
+    ],
+    "coherence_validation_threshold": 0.80,
+    "max_phase_drift_allowed_ms": 50
+  },
+  "moon_relay_geometry": {
+    "relay_point_distance_km": 384400,
+    "relay_point_coordinates": {"latitude": 0, "longitude": 0},
+    "earth_moon_l1_point": {"distance_from_earth_km": 326000, "description": "Lagrange Point L1"},
+    "earth_moon_l2_point": {"distance_from_earth_km": 381000, "description": "Lagrange Point L2"},
+    "lunar_south_pole": {"latitude": -90, "description": "Optimal relay point for southern hemisphere"},
+    "lunar_north_pole": {"latitude": 90, "description": "Optimal relay point for northern hemisphere"}
+  },
+  "satellite_band_assignments": {
+    "GEO_36000km": ["H1", "H2", "H5"],
+    "MEO_20000km": ["H2", "H3"],
+    "LEO_800km": ["H1", "H3", "H4"],
+    "lunar_orbit": ["H1", "H5", "H6"],
+    "l1_lagrange": ["H4", "H5"],
+    "l2_lagrange": ["H5", "H6"]
+  },
+  "example_synchronization_sequence": {
+    "time_utc": "2026-07-11T11:00:00Z",
+    "moon_phase": "Waxing Gibbous (85% illumination)",
+    "earth_moon_distance": "384523 km",
+    "active_harmonics": ["H1", "H2", "H5"],
+    "expected_coherence_after_sync": 0.912,
+    "satellites_in_sync": 4503,
+    "sync_duration_seconds": 45
+  },
+  "notes": "This harmonic table is the authoritative reference for all Φ-669 Moon-relay operations. All satellites must phase-lock to H1 (9.412 Hz) as primary reference. Secondary harmonics provide redundancy and specialized coherence domains. For quantum-scale operations (H4, H5), use quantum tunneling protocols described in phi669_quantum_bridge.json."
+}
