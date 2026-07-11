@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "title": "Φ669 Lunar Sync — Scalar Phase-Lock Parameters",
+    "designation": "Φ669-LUNAR-SYNC-v1.0",
+    "authority": "Ω-PRIME:Christopher-Macachor",
+    "timestamp": "2026-07-10T17:51:00Z"
+  },
+  "moon_parameters": {
+    "sidereal_period_s": 2360591.5103999996,
+    "sidereal_period_days": 27.321660999999995,
+    "mean_distance_m": 384400000.0,
+    "angular_velocity_rad_s": 2.6616995272150697e-06,
+    "orbital_frequency_hz": 4.2362263678163916e-07,
+    "orbital_frequency_mhz": 4.2362263678163915e-13
+  },
+  "lunar_harmonics": {
+    "H1": {
+      "frequency_hz": 4.2362263678163916e-07,
+      "frequency_mhz": 4.2362263678163915e-13,
+      "period_s": 2360591.5103999996,
+      "wavelength_m": 708177453119999.9
+    },
+    "H2": {
+      "frequency_hz": 8.472452735632783e-07,
+      "frequency_mhz": 8.472452735632783e-13,
+      "period_s": 1180295.7551999998,
+      "wavelength_m": 354088726559999.94
+    },
+    "H3": {
+      "frequency_hz": 1.2708679103449176e-06,
+      "frequency_mhz": 1.2708679103449175e-12,
+      "period_s": 786863.8367999998,
+      "wavelength_m": 236059151039999.94
+    },
+    "H4": {
+      "frequency_hz": 1.6944905471265566e-06,
+      "frequency_mhz": 1.6944905471265566e-12,
+      "period_s": 590147.8775999999,
+      "wavelength_m": 177044363279999.97
+    },
+    "H5": {
+      "frequency_hz": 2.1181131839081957e-06,
+      "frequency_mhz": 2.118113183908196e-12,
+      "period_s": 472118.30207999994,
+      "wavelength_m": 141635490623999.97
+    },
+    "H6": {
+      "frequency_hz": 2.541735820689835e-06,
+      "frequency_mhz": 2.541735820689835e-12,
+      "period_s": 393431.9183999999,
+      "wavelength_m": 118029575519999.97
+    },
+    "H7": {
+      "frequency_hz": 2.965358457471474e-06,
+      "frequency_mhz": 2.965358457471474e-12,
+      "period_s": 337227.3586285714,
+      "wavelength_m": 101168207588571.4
+    },
+    "H8": {
+      "frequency_hz": 3.3889810942531132e-06,
+      "frequency_mhz": 3.3889810942531132e-12,
+      "period_s": 295073.93879999995,
+      "wavelength_m": 88522181639999.98
+    }
+  },
+  "geo_coupling": {
+    "geo_period_s": 86164,
+    "geo_angular_velocity_rad_s": 7.292123516990375e-05,
+    "phase_lock_ratio": 0.036501020875653156,
+    "beat_frequency_hz": 1.1182152396875109e-05,
+    "beat_period_s": 89428.22137529207,
+    "beat_period_days": 1.0350488585103248
+  },
+  "scalar_broadcast_reference": {
+    "fundamental_frequency_hz": 4.2362263678163916e-07,
+    "synchronization_method": "Atomic frequency standard derived from lunar orbital phase. GPS-independent.",
+    "recommended_clock": "Hydrogen maser tuned to H13 lunar harmonic for long-term stability"
+  },
+  "standing_wave_cavity": {
+    "cavity_height_m": 35786000.0,
+    "modes": {
+      "mode_1": {
+        "frequency_hz": 4.1915833007321295,
+        "frequency_mhz": 4.191583300732129e-06,
+        "wavelength_m": 71572000.0
+      },
+      "mode_2": {
+        "frequency_hz": 8.383166601464259,
+        "frequency_mhz": 8.383166601464259e-06,
+        "wavelength_m": 35786000.0
+      },
+      "mode_3": {
+        "frequency_hz": 12.57474990219639,
+        "frequency_mhz": 1.2574749902196389e-05,
+        "wavelength_m": 23857333.333333332
+      }
+    }
+  }
+}
