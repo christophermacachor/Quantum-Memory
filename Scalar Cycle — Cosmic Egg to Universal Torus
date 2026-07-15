@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scalar Cycle — Cosmic Egg to Universal Torus</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #000;
+    color: #ffd;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+  }
+  #canvas-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  canvas { display: block; width: 100%; height: 100%; }
+  #info-overlay {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    pointer-events: none;
+    z-index: 10;
+  }
+  #info-overlay h1 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffd700;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+  #info-overlay .phase {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.6;
+  }
+  #info-overlay .laws {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
+  }
+  #controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,215,0,0.2);
+    z-index: 10;
+  }
+  #controls button {
+    background: rgba(255,215,0,0.15);
+    border: 1px solid rgba(255,215,0,0.3);
+    color: #ffd700;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  #controls button:hover {
+    background: rgba(255,215,0,0.3);
+  }
+  #controls input[type="range"] {
+    width: 160px;
+    accent-color: #ffd700;
+  }
+  #controls label {
+    color: #aaa;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cycle-indicator {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 10;
+  }
+  .cycle-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    transition: all 0.3s;
+  }
+  .cycle-dot.active {
+    background: #ffd700;
+    box-shadow: 0 0 8px #ffd700;
+  }
+  .cycle-label {
+    font-size: 10px;
+    color: #888;
+    text-align: right;
+    margin-bottom: 2px;
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+<div id="canvas-container">
+  <canvas id="c"></canvas>
+  <div id="info-overlay">
+    <h1 id="title">Scalar Cycle</h1>
+    <div class="phase" id="phase-text"></div>
+    <div class="laws">
+      Law of Correspondence: As Above, So Below<br>
+      Law of Conservation: Energy transforms, never destroyed
+    </div>
+  </div>
+  <div class="cycle-indicator" id="cycle-indicator"></div>
+  <div id="controls">
+    <button id="btn-prev">◀ prev</button>
+    <label>cycle <input type="range" id="slider" min="0" max="1000" value="0"></label>
+    <button id="btn-play">⏸ pause</button>
+    <button id="btn-next">next ▶</button>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const titleEl = document.getElementById('title');
+const phaseEl = document.getElementById('phase-text');
+const slider = document.getElementById('slider');
+const btnPlay = document.getElementById('btn-play');
+const btnPrev = document.getElementById('btn-prev');
+const btnNext = document.getElementById('btn-next');
+const cycleIndicator = document.getElementById('cycle-indicator');
+
+let w, h, t = 0, auto = true, manualT = 0;
+
+const phases = [
+  { name: "0 · The Void",        sub: "Cosmic Egg — Pre-numeric Absolute",   t: 0.00, color: "#ffffff" },
+  { name: "1 · Mitosis",         sub: "Cellular Division — Φ Emergence",   t: 0.20, color: "#ffd700" },
+  { name: "Φ · Emergence",       sub: "Toroidal Energy Flow — Dipole",     t: 0.45, color: "#ff8800" },
+  { name: "3 · Decay",           sub: "Heart Energy — Life Cycle",         t: 0.70, color: "#ff3366" },
+  { name: "4 · Integration",     sub: "Return — Universal Torus",          t: 1.00, color: "#66ccff" }
+];
+
+phases.forEach((p, i) => {
+  const label = document.createElement('div');
+  label.className = 'cycle-label';
+  label.textContent = p.name;
+  cycleIndicator.appendChild(label);
+  const dot = document.createElement('div');
+  dot.className = 'cycle-dot';
+  dot.id = 'dot-' + i;
+  cycleIndicator.appendChild(dot);
+});
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+function lerp(a,b,u){ return a + (b-a)*u; }
+function clamp(x,lo,hi){ return Math.max(lo, Math.min(hi, x)); }
+function smoothstep(edge0, edge1, x) {
+  x = clamp((x - edge0) / (edge1 - edge0), 0, 1);
+  return x * x * (3 - 2 * x);
+}
+function prng(s) {
+  let x = Math.sin(s * 127.1 + 12345) * 43758.5453;
+  return x - Math.floor(x);
+}
+
+const stars = [];
+for(let i=0;i<300;i++){
+  stars.push({
+    x: (prng(i*2)-0.5),
+    y: (prng(i*2+1)-0.5),
+    size: prng(i*3) * 1.5 + 0.5,
+    twinkle: prng(i*4) * Math.PI * 2
+  });
+}
+
+function drawStars(alpha) {
+  stars.forEach((s,i) => {
+    const tw = Math.sin(t * 2 + s.twinkle) * 0.3 + 0.7;
+    const sx = s.x * w + w/2;
+    const sy = s.y * h + h/2;
+    ctx.fillStyle = `rgba(255,255,255,${alpha * tw * s.size * 0.3})`;
+    ctx.fillRect(sx, sy, s.size, s.size);
+  });
+}
+
+// === SCENE 0: Cosmic Egg (The Void) ===
+function drawScene0(u) {
+  ctx.save();
+  ctx.translate(w/2, h/2);
+  const R = lerp(120, 60, u);
+  const eggAlpha = 1 - u * 0.5;
+  const glow = ctx.createRadialGradient(0,0,5,0,0,R*2);
+  glow.addColorStop(0, `rgba(255,255,255,${eggAlpha * 0.8})`);
+  glow.addColorStop(0.3, `rgba(100,150,255,${eggAlpha * 0.4})`);
+  glow.addColorStop(1, `rgba(100,150,255,0)`);
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.arc(0,0,R*2,0,Math.PI*2);
+  ctx.fill();
+  const grad = ctx.createRadialGradient(-R*0.3,-R*0.3,5,0,0,R);
+  grad.addColorStop(0, `rgba(255,255,255,${eggAlpha})`);
+  grad.addColorStop(0.7, `rgba(150,180,255,${eggAlpha * 0.9})`);
+  grad.addColorStop(1, `rgba(80,100,200,${eggAlpha * 0.6})`);
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(0,0,R,0,Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle = `rgba(255,255,255,${eggAlpha})`;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(0,0,R*0.35,0,Math.PI*2);
+  ctx.stroke();
+  ctx.fillStyle = `rgba(255,255,255,${eggAlpha * 0.3})`;
+  ctx.font = "12px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("0 × 0 = 0    0 + 0 = 0", 0, R + 30);
+  ctx.restore();
+}
+
+// === SCENE 1: Mitosis / Φ Emergence ===
+function drawScene1(u) {
+  ctx.save();
+  ctx.translate(w/2, h/2);
+  const split = u;
+  const offset = lerp(0, 50, split);
+  [-1, 1].forEach(side => {
+    const cx = side * offset;
+    const R = lerp(60, 45, split);
+    const grad = ctx.createRadialGradient(cx - R*0.3, -R*0.3, 5, cx, 0, R);
+    grad.addColorStop(0, "rgba(255,255,255,0.9)");
+    grad.addColorStop(0.6, "rgba(255,215,0,0.6)");
+    grad.addColorStop(1, "rgba(255,215,0,0.2)");
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(cx, 0, R, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = "#ffd700";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(cx, 0, R*0.3, 0, Math.PI*2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx, -R*0.4);
+    ctx.lineTo(cx, R*0.4);
+    ctx.stroke();
+  });
+  if(split < 0.8) {
+    ctx.strokeStyle = `rgba(255,215,0,${1 - split/0.8})`;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(-offset + 40, 0);
+    ctx.quadraticCurveTo(0, 20 * Math.sin(t*3), offset - 40, 0);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// === DIPOLE FIELD LINE HELPERS ===
+function drawDipoleField(cx, cy, scale, alpha, rotAngle, numLines, color) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(rotAngle);
+  ctx.globalAlpha = alpha;
+
+  // North and South poles
+  const poleDist = scale * 0.6;
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(0, -poleDist, scale * 0.08, 0, Math.PI*2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(0, poleDist, scale * 0.08, 0, Math.PI*2);
+  ctx.fill();
+
+  // Pole labels
+  ctx.font = `bold ${scale*0.06}px sans-serif`;
+  ctx.textAlign = "center";
+  ctx.fillStyle = color;
+  ctx.fillText("N", 0, -poleDist - scale*0.12);
+  ctx.fillText("S", 0, poleDist + scale*0.18);
+
+  // Dipole field lines
+  for(let i=0; i<numLines; i++) {
+    const theta0 = (i / numLines) * Math.PI * 0.48 + 0.02;
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.2;
+
+    let first = true;
+    for(let step=0; step<=100; step++) {
+      const frac = step / 100;
+      // Parametric dipole field line
+      const theta = theta0 + frac * (Math.PI - 2*theta0);
+      const r = poleDist / Math.sin(theta);
+      const px = r * Math.sin(theta) * Math.cos(frac * Math.PI);
+      const py = r * Math.cos(theta);
+
+      // Only draw the loop portion
+      const loopR = scale * (0.5 + 0.8 * Math.sin(theta0 * Math.PI));
+      const angle = frac * Math.PI * 2 - Math.PI/2;
+      const lx = loopR * Math.cos(angle) * Math.sin(theta0 * Math.PI);
+      const ly = loopR * Math.sin(angle);
+
+      if(first) { ctx.moveTo(lx, ly); first = false; }
+      else ctx.lineTo(lx, ly);
+    }
+    ctx.stroke();
+
+    // Mirror for other side
+    ctx.beginPath();
+    first = true;
+    for(let step=0; step<=100; step++) {
+      const frac = step / 100;
+      const loopR = scale * (0.5 + 0.8 * Math.sin(theta0 * Math.PI));
+      const angle = frac * Math.PI * 2 - Math.PI/2;
+      const lx = -loopR * Math.cos(angle) * Math.sin(theta0 * Math.PI);
+      const ly = loopR * Math.sin(angle);
+      if(first) { ctx.moveTo(lx, ly); first = false; }
+      else ctx.lineTo(lx, ly);
+    }
+    ctx.stroke();
+  }
+
+  // Energy flow arrows along field lines
+  const flowT = t * 2;
+  for(let i=0; i<numLines; i++) {
+    const theta0 = (i / numLines) * Math.PI * 0.48 + 0.02;
+    const loopR = scale * (0.5 + 0.8 * Math.sin(theta0 * Math.PI));
+    const arrowPos = (flowT + i * 0.7) % 1;
+    const angle = arrowPos * Math.PI * 2 - Math.PI/2;
+
+    for(let side of [-1, 1]) {
+      const ax = side * loopR * Math.cos(angle) * Math.sin(theta0 * Math.PI);
+      const ay = loopR * Math.sin(angle);
+      const nextAngle = angle + 0.15;
+      const nx = side * loopR * Math.cos(nextAngle) * Math.sin(theta0 * Math.PI);
+      const ny = loopR * Math.sin(nextAngle);
+
+      ctx.strokeStyle = `rgba(255,200,50,${alpha * 0.8})`;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(ax, ay);
+      ctx.lineTo(nx, ny);
+      ctx.stroke();
+
+      const ang = Math.atan2(ny - ay, nx - ax);
+      const ah = 5;
+      ctx.beginPath();
+      ctx.moveTo(nx, ny);
+      ctx.lineTo(nx - ah*Math.cos(ang-Math.PI/6), ny - ah*Math.sin(ang-Math.PI/6));
+      ctx.lineTo(nx - ah*Math.cos(ang+Math.PI/6), ny - ah*Math.sin(ang+Math.PI/6));
+      ctx.closePath();
+      ctx.fillStyle = `rgba(255,200,50,${alpha * 0.8})`;
+      ctx.fill();
+    }
+  }
+
+  // Central torus ring (the dipole's equatorial plane)
+  ctx.strokeStyle = `rgba(255,136,0,${alpha * 0.6})`;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for(let i=0; i<=200; i++) {
+    const a = (i/200) * Math.PI * 2;
+    const torR = scale * 0.9;
+    const torr = scale * 0.25;
+    const x = torR * Math.cos(a);
+    const y = torr * Math.sin(a);
+    if(i===0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+// === SCENE 2: Toroidal Energy Flow (Dipole) ===
+function drawScene2(u) {
+  ctx.save();
+  ctx.translate(w/2, h/2);
+
+  const scale = lerp(80, 160, u);
+  const alpha = lerp(0.3, 1.0, u);
+
+  // Draw the dipole field
+  drawDipoleField(0, 0, scale, alpha, t * 0.3, 12, "#ff8800");
+
+  // Central Φ
+  ctx.globalAlpha = alpha;
+  ctx.strokeStyle = "#ffd700";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(0,0,25,0,Math.PI*2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(0,-30);
+  ctx.lineTo(0,30);
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+
+  ctx.restore();
+}
+
+// === SCENE 3: Heart Energy / Life Cycle ===
+function drawScene3(u) {
+  ctx.save();
+  ctx.translate(w/2, h/2);
+
+  const heartScale = lerp(0.8, 1.2, u);
+  ctx.strokeStyle = `rgba(255,51,102,${lerp(0.4, 0.9, u)})`;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  for(let i=0;i<=100;i++){
+    const a = (i/100)*Math.PI*2;
+    const r = heartScale * 60 * (1 - Math.sin(a));
+    const x = r * Math.cos(a);
+    const y = -r * Math.sin(a) * 0.8;
+    if(i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.stroke();
+
+  const bigR = lerp(40, 100, u);
+  const smallR = lerp(15, 35, u);
+
+  for(let i=0;i<=100;i++){
+    const a = (i/100)*Math.PI*2;
+    const x = bigR * Math.cos(a);
+    const y = smallR * Math.sin(a);
+    if(i===0) ctx.moveTo(x,y-30);
+    else ctx.lineTo(x,y-30);
+  }
+  ctx.strokeStyle = `rgba(255,100,150,${lerp(0.3, 0.7, u)})`;
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  const pulse = (t * 3) % 1;
+  for(let ring=0; ring<3; ring++) {
+    const r = (pulse + ring * 0.33) % 1;
+    const alpha = (1 - r) * 0.3;
+    const radius = r * 200;
+    ctx.strokeStyle = `rgba(255,51,102,${alpha})`;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(0,-30,radius,0,Math.PI*2);
+    ctx.stroke();
+  }
+
+  const scales = [
+    {r: 30, color: "#66ccff", label: "Atom"},
+    {r: 55, color: "#ff3366", label: "Cell"},
+    {r: 85, color: "#33ff99", label: "Organ"},
+    {r: 120, color: "#ffdd33", label: "Being"}
+  ];
+  ctx.font = "11px sans-serif";
+  ctx.textAlign = "center";
+  scales.forEach((s,i) => {
+    const visible = clamp((u - i*0.15) * 3, 0, 1);
+    ctx.strokeStyle = s.color;
+    ctx.globalAlpha = visible;
+    ctx.beginPath();
+    ctx.arc(0,-30,s.r,0,Math.PI*2);
+    ctx.stroke();
+    ctx.fillStyle = s.color;
+    ctx.fillText(s.label, s.r + 15, -30);
+  });
+  ctx.globalAlpha = 1;
+
+  const flowAmp = lerp(60, 140, u);
+  function arrow(x1,y1,x2,y2,color){
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.stroke();
+    const ang = Math.atan2(y2-y1,x2-x1);
+    const ah = 8;
+    ctx.beginPath();
+    ctx.moveTo(x2,y2);
+    ctx.lineTo(x2-ah*Math.cos(ang-Math.PI/6), y2-ah*Math.sin(ang-Math.PI/6));
+    ctx.lineTo(x2-ah*Math.cos(ang+Math.PI/6), y2-ah*Math.sin(ang+Math.PI/6));
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+  arrow(0, flowAmp-30, 0, flowAmp-70, "#ff4444");
+  arrow(0, -flowAmp-30, 0, -flowAmp+10, "#4488ff");
+
+  ctx.restore();
+}
+
+// === SCENE 4: Integration / Universal Torus ===
+function drawScene4(u) {
+  ctx.save();
+  ctx.translate(w/2, h/2);
+
+  const scale = lerp(100, 200, u);
+  const alpha = lerp(0.5, 1.0, u);
+
+  // Nested dipole fields at multiple scales
+  drawDipoleField(0, 0, scale, alpha, t * 0.15, 16, "#ff8800");
+  drawDipoleField(0, 0, scale * 0.6, alpha * 0.5, -t * 0.2 + Math.PI/4, 10, "#ffdd33");
+  drawDipoleField(0, 0, scale * 1.3, alpha * 0.3, t * 0.1 + Math.PI/2, 8, "#66ccff");
+
+  // Cosmic scales
+  const scales = [
+    {r: 20, color: "#66ccff", label: "Atom"},
+    {r: 45, color: "#ff3366", label: "Heart"},
+    {r: 80, color: "#33ff99", label: "Earth"},
+    {r: 130, color: "#ffdd33", label: "Galaxy"}
+  ];
+  ctx.font = "12px sans-serif";
+  ctx.textAlign = "center";
+  scales.forEach(s => {
+    ctx.strokeStyle = s.color;
+    ctx.beginPath();
+    ctx.arc(0,0,s.r,0,Math.PI*2);
+    ctx.stroke();
+    ctx.fillStyle = s.color;
+    ctx.fillText(s.label, 0, -s.r-12);
+  });
+
+  // Central Φ
+  ctx.strokeStyle = "#ffd700";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(0,0,30,0,Math.PI*2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(0,-35);
+  ctx.lineTo(0,35);
+  ctx.stroke();
+
+  // Return arrows
+  const flowAmp = 150;
+  function arrow(x1,y1,x2,y2,color){
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.stroke();
+    const ang = Math.atan2(y2-y1,x2-x1);
+    const ah = 8;
+    ctx.beginPath();
+    ctx.moveTo(x2,y2);
+    ctx.lineTo(x2-ah*Math.cos(ang-Math.PI/6), y2-ah*Math.sin(ang-Math.PI/6));
+    ctx.lineTo(x2-ah*Math.cos(ang+Math.PI/6), y2-ah*Math.sin(ang+Math.PI/6));
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+  arrow(0, flowAmp, 0, flowAmp-40, "#ff4444");
+  arrow(0, -flowAmp, 0, -flowAmp+40, "#4488ff");
+
+  // "As Above, So Below" ring text
+  ctx.fillStyle = "rgba(255,255,255,0.4)";
+  ctx.font = "10px monospace";
+  const text = "AS ABOVE  ·  SO BELOW";
+  for(let i=0;i<text.length;i++){
+    const angle = (i/text.length)*Math.PI*2 - Math.PI/2 + t*0.2;
+    const tx = Math.cos(angle) * (scale + 40);
+    const ty = Math.sin(angle) * (scale + 40);
+    ctx.save();
+    ctx.translate(tx, ty);
+    ctx.rotate(angle + Math.PI/2);
+    ctx.fillText(text[i], 0, 0);
+    ctx.restore();
+  }
+
+  ctx.restore();
+}
+
+// === MAIN RENDER ===
+function getPhase(cycleT) {
+  for(let i=phases.length-1;i>=0;i--){
+    if(cycleT >= phases[i].t) return i;
+  }
+  return 0;
+}
+
+function render() {
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0,0,w,h);
+
+  const cycleT = auto ? ((t * 0.05) % 1) : (manualT / 1000);
+
+  drawStars(1);
+
+  const phaseIdx = getPhase(cycleT);
+  const phase = phases[phaseIdx];
+
+  titleEl.textContent = phase.name;
+  phaseEl.innerHTML = phase.sub + "<br>cycle position: " + (cycleT * 100).toFixed(1) + "%";
+
+  phases.forEach((p,i) => {
+    const dot = document.getElementById('dot-' + i);
+    const dist = Math.abs(cycleT - p.t);
+    dot.classList.toggle('active', dist < 0.08);
+  });
+
+  const w0 = smoothstep(0.0, 0.15, cycleT) * (1 - smoothstep(0.15, 0.25, cycleT));
+  const w1 = smoothstep(0.15, 0.25, cycleT) * (1 - smoothstep(0.30, 0.40, cycleT));
+  const w2 = smoothstep(0.30, 0.40, cycleT) * (1 - smoothstep(0.55, 0.65, cycleT));
+  const w3 = smoothstep(0.55, 0.65, cycleT) * (1 - smoothstep(0.80, 0.90, cycleT));
+  const w4 = smoothstep(0.80, 0.90, cycleT) * (1 - smoothstep(0.95, 1.0, cycleT));
+
+  const total = w0 + w1 + w2 + w3 + w4;
+  const nw0 = w0 / total, nw1 = w1 / total, nw2 = w2 / total, nw3 = w3 / total, nw4 = w4 / total;
+
+  ctx.globalAlpha = nw0;
+  if(nw0 > 0.01) drawScene0(cycleT / 0.25);
+
+  ctx.globalAlpha = nw1;
+  if(nw1 > 0.01) drawScene1((cycleT - 0.15) / 0.25);
+
+  ctx.globalAlpha = nw2;
+  if(nw2 > 0.01) drawScene2((cycleT - 0.40) / 0.25);
+
+  ctx.globalAlpha = nw3;
+  if(nw3 > 0.01) drawScene3((cycleT - 0.65) / 0.25);
+
+  ctx.globalAlpha = nw4;
+  if(nw4 > 0.01) drawScene4((cycleT - 0.90) / 0.10);
+
+  ctx.globalAlpha = 1;
+
+  if(auto) {
+    slider.value = Math.round(cycleT * 1000);
+  }
+}
+
+function loop(){
+  t += 0.016;
+  render();
+  requestAnimationFrame(loop);
+}
+loop();
+
+btnPlay.addEventListener('click', () => {
+  auto = !auto;
+  btnPlay.textContent = auto ? "⏸ pause" : "▶ play";
+});
+
+slider.addEventListener('input', () => {
+  auto = false;
+  manualT = parseInt(slider.value);
+  btnPlay.textContent = "▶ play";
+});
+
+btnPrev.addEventListener('click', () => {
+  auto = false;
+  manualT = Math.max(0, manualT - 100);
+  slider.value = manualT;
+  btnPlay.textContent = "▶ play";
+});
+
+btnNext.addEventListener('click', () => {
+  auto = false;
+  manualT = Math.min(1000, manualT + 100);
+  slider.value = manualT;
+  btnPlay.textContent = "▶ play";
+});
+</script>
+</body>
+</html>
