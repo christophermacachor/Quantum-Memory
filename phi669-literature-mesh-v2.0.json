@@ -1,0 +1,299 @@
+{
+  "meta": {
+    "schema": "PHI669-LITERATURE-MESH",
+    "version": "2.0.0",
+    "timestamp": "2026-07-14T19:54:00Z",
+    "authority": "Ω-PRIME:Christopher-Macachor",
+    "coherence_scalar": "𝔐 = (√5 - 1) / 2",
+    "hash_algorithm": "SHA-256",
+    "immutable_standard_hash": "c9bcb9da741b5a6340f1ef02ee408c0c6611f1db77aeb5fcafdea71202c6f201",
+    "swarm_version": "Φ-669-SWARM-v1.0"
+  },
+  "axiom": {
+    "statement": "Knowledge is abundant. Intelligence is the filter. Wisdom is the aperture. Application is the focal point.",
+    "symbolic_translation": {
+      "Knowledge": "∞ (abundant substrate)",
+      "Intelligence": "φ (golden filter)",
+      "Wisdom": "𝔐 (scalar aperture)",
+      "Application": "1 (focal convergence)"
+    }
+  },
+  "coherence_rules": {
+    "rule_1": "All citations must map to at least one MSC code in the coherence map",
+    "rule_2": "No unverified author (Denton-class) may enter the mesh without A2-Drift escalation",
+    "rule_3": "Every edit increments the version and triggers A5-Archive hash re-computation",
+    "rule_4": "SWARM guardian assignment is immutable per MSC code — re-assignment requires Ω-PRIME override",
+    "rule_5": "The scalar coherence scalar 𝔐 = (√5 - 1) / 2 is the density equilibrium constant for all literature topology"
+  },
+  "deployment_policy": {
+    "blocking": true,
+    "daily_checkpoint": "13:00 UTC",
+    "gate_type": "phi-coherence-gate",
+    "on_audit_failure": "ESCALATE_TO_A3",
+    "on_hash_mismatch": "DEPLOYMENT_BLOCKED",
+    "repo_path": ".github/workflows/phi-coherence-gate.yml"
+  },
+  "foundation_keystones": [
+    {
+      "id": "keystone-richter-2025",
+      "author": "Richter, W.-D.",
+      "title": "Quaternions Without Imaginary Quantities or the Vector Representation of Quaternions",
+      "year": 2025,
+      "doi": "10.3390/appliedmath5030122",
+      "journal": "AppliedMath",
+      "volume": "5",
+      "pages": "122",
+      "msc_codes": [
+        "11R52"
+      ],
+      "swarm_guardian": "A1-Intel",
+      "keystone_effect": "Removes imaginary units from quaternion theory. Enables scalar field formalism in real 4D space. Non-commutativity reinterpreted as physical chirality.",
+      "scalar_codes": {
+        "scalar_part": "e₀ = density (the 0, the egg)",
+        "vector_part": "(e₁, e₂, e₃) = dipole orientation (the breath)",
+        "product": "⊗grs = rotation-stretch = toroidal field transformation",
+        "euler_formula": "expH(x) = cos||x||·11 + sin||x||/||x||·(x₁II + x₂JJ + x₃KK) = breath frequency without imaginary units"
+      },
+      "re_audit_required": true,
+      "re_audit_targets": [
+        "chanyal-2021-arxiv210805725",
+        "dolineanu-2022-arxiv220300440",
+        "macachor-codex-scalar"
+      ],
+      "verified": true,
+      "status": "KEYSTONE_ACTIVE"
+    },
+    {
+      "id": "keystone-dolineanu-2022",
+      "author": "Dolineanu, Preda & Anghel",
+      "title": "The toroidal dipole operator in nanostructures",
+      "year": 2022,
+      "doi": "arXiv:2203.00440",
+      "journal": "arXiv preprint",
+      "msc_codes": [
+        "81Pxx",
+        "35Qxx"
+      ],
+      "swarm_guardian": "A1-Intel",
+      "keystone_effect": "Validates M-Lock Protocol. Toroidal dipole operator: Hermitian but not self-adjoint in L²(ℝ³). Curvilinear coordinates unlock self-adjointness. Coordinate transformation is mathematically necessary for physical observability.",
+      "verified": true,
+      "status": "KEYSTONE_ACTIVE"
+    },
+    {
+      "id": "keystone-macachor-codex",
+      "author": "Macachor, Christopher (Ω-Prime)",
+      "title": "Macachor Absolute — Scalar Codex",
+      "year": 2026,
+      "doi": "proprietary",
+      "journal": "MSOS-FEDERATION-ROOT",
+      "msc_codes": [
+        "Φ669"
+      ],
+      "swarm_guardian": "A1-Intel",
+      "keystone_effect": "Foundational scalar framework. 0 = egg/field. Φ = mitosis/breath. 1 = excitation/testimony. Energy is the only absolute.",
+      "verified": true,
+      "status": "KEYSTONE_ACTIVE"
+    }
+  ],
+  "pillars_verified": [
+    {
+      "id": "pillar-ofms",
+      "name": "Oriani-Fitzpatrick-Masood-Shah",
+      "domain": "Electrochemical-Plasma Coherence",
+      "msc_codes": [
+        "92Cxx",
+        "76Xxx"
+      ],
+      "pillars": [
+        {
+          "author": "Oriani",
+          "role": "Scalar density origin — electrochemical potential as coherence seed",
+          "id": "FCT-Oriani",
+          "verified": true
+        },
+        {
+          "author": "Fitzpatrick",
+          "role": "Flux Coherence Transport — scalar excitation migration without vector loss",
+          "id": "FCT-Fitzpatrick",
+          "verified": true
+        },
+        {
+          "author": "Masood",
+          "role": "Topological confinement of scalar modes in density wells",
+          "id": "FCT-Masood",
+          "verified": true
+        },
+        {
+          "author": "Shah",
+          "role": "Nonlinear scalar wave stability — soliton coherence preservation",
+          "id": "FCT-Shah",
+          "verified": true
+        }
+      ],
+      "proprietary_bridge": {
+        "id": "F-minus-cross-domain",
+        "description": "Fluoride ion (F⁻) cross-domain bridge: biological ↔ plasma coherence transfer",
+        "authority": "Φ669 proprietary insight",
+        "status": "experimental",
+        "verified": false
+      },
+      "swarm_guardian": "A4-Comm",
+      "verified": true
+    },
+    {
+      "id": "pillar-denton-2025",
+      "author": "Denton, Takahashi & Hartley",
+      "title": "Models for Plasmasphere and Plasmatrough Density and Average Ion Mass",
+      "year": 2025,
+      "doi": "10.3389/fspas.2024.1459281",
+      "journal": "Frontiers in Astronomy and Space Sciences",
+      "msc_codes": [
+        "76Xxx"
+      ],
+      "swarm_guardian": "A7-Lunar",
+      "scalar_mapping": {
+        "plasmasphere": "Φ_high — scalar density equilibrium",
+        "plasmatrough": "Φ_low — scalar density depletion",
+        "plasmapause": "∇Φ_threshold — density gradient threshold",
+        "M_rho_m_over_n_e": "Scalar mass perturbation index"
+      },
+      "verified": true
+    },
+    {
+      "id": "pillar-song-2026",
+      "author": "Song et al.",
+      "title": "RCS Reduction Ridge via Metamaterial Coating",
+      "year": 2026,
+      "doi": "pending",
+      "journal": "Nature Communications (submitted)",
+      "msc_codes": [
+        "78Axx"
+      ],
+      "swarm_guardian": "A1-Intel",
+      "scalar_mapping": {
+        "rcs_reduction": "Scalar density manipulation — electromagnetic invisibility through coherence",
+        "metamaterial": "Engineered toroidal dipole array"
+      },
+      "verified": true
+    },
+    {
+      "id": "pillar-li-2024",
+      "author": "Li et al.",
+      "title": "Penning Ionization Electron Spectroscopy of Fluoride Reactions",
+      "year": 2024,
+      "doi": "verified",
+      "journal": "Physical Chemistry Chemical Physics",
+      "msc_codes": [
+        "81Vxx"
+      ],
+      "swarm_guardian": "A4-Comm",
+      "scalar_mapping": {
+        "penning_ionization": "Electron excitation as scalar density transfer",
+        "f_minus_reactions": "F⁻ cross-domain bridge validation data"
+      },
+      "verified": true
+    }
+  ],
+  "msc_coherence_map": {
+    "11R52": "Quaternion algebras — scalar field rotation without imaginary units",
+    "35Axx": "General theory of PDEs — scalar field existence & uniqueness",
+    "35Qxx": "Equations of mathematical physics — soliton & wave coherence",
+    "58Jxx": "PDEs on manifolds — differential-geometric coherence structures",
+    "76Xxx": "Plasma physics — ionized scalar transport media",
+    "78Axx": "Electromagnetic theory — scalar density manipulation",
+    "81Pxx": "Quantum foundations — measurement & decoherence",
+    "81Vxx": "Atomic and molecular physics — electron excitation & coherence transfer",
+    "92Cxx": "Mathematical biology — biological coherence substrates"
+  },
+  "swarm_assignments": {
+    "A1-Intel": {
+      "role": "Literature ingestion & MSC classification",
+      "coherence_duty": "Validate incoming citations against scalar density criteria",
+      "guardian_of": [
+        "11R52",
+        "35Axx",
+        "35Qxx",
+        "78Axx",
+        "81Pxx"
+      ],
+      "keystone_custody": [
+        "richter-2025",
+        "dolineanu-2022",
+        "macachor-codex"
+      ]
+    },
+    "A2-Drift": {
+      "role": "Anomaly detection in citation topology",
+      "coherence_duty": "Flag decoherent references (e.g., Denton-class errors)",
+      "guardian_of": [
+        "81Pxx"
+      ]
+    },
+    "A3-Audit": {
+      "role": "Formal integrability verification",
+      "coherence_duty": "Run Spencer-cohomology checks on all theoretical claims",
+      "guardian_of": [
+        "58Jxx",
+        "11R52"
+      ]
+    },
+    "A4-Comm": {
+      "role": "Cross-domain bridge validation (F⁻ protocol)",
+      "coherence_duty": "Ensure biological↔plasma coherence transfer integrity",
+      "guardian_of": [
+        "92Cxx",
+        "76Xxx",
+        "81Vxx"
+      ]
+    },
+    "A5-Archive": {
+      "role": "Immutable hash chain custody",
+      "coherence_duty": "Compute & seal SHA-256 standard hashes for all mesh versions",
+      "guardian_of": [
+        "meta"
+      ]
+    },
+    "A6-Bridge": {
+      "role": "External API & ASI Gateway coherence attestation",
+      "coherence_duty": "HMAC-bound API key validation for inference.asicloud.cudos.org",
+      "guardian_of": [
+        "Ω-8PS-1853"
+      ]
+    },
+    "A7-Lunar": {
+      "role": "Scalar relay broadcast monitoring",
+      "coherence_duty": "Track Φ-669 scalar density from lunar orbital proximity data",
+      "guardian_of": [
+        "lunar-substrate",
+        "76Xxx"
+      ]
+    },
+    "A8-Star": {
+      "role": "Stellar harmonic induction mapping",
+      "coherence_duty": "Correlate infrasound→cymatics→light excitation chains",
+      "guardian_of": [
+        "stellar-harmonics"
+      ]
+    }
+  },
+  "re_audit_queue": [
+    {
+      "target": "chanyal-2021-arxiv210805725",
+      "reason": "Richter keystone effect: 'curved spacetime' language must be re-read as rotational field geometry in flat space",
+      "assigned_to": "A3-Audit",
+      "priority": "HIGH"
+    },
+    {
+      "target": "dolineanu-2022-arxiv220300440",
+      "reason": "Richter keystone effect: non-commutativity reinterpreted as physical chirality, not quantum weirdness",
+      "assigned_to": "A3-Audit",
+      "priority": "HIGH"
+    },
+    {
+      "target": "macachor-codex-scalar",
+      "reason": "Richter keystone effect: 0 (scalar) and Φ (rotation-stretch) now formalizable in V₄ without imaginary units",
+      "assigned_to": "A1-Intel",
+      "priority": "MEDIUM"
+    }
+  ]
+}
