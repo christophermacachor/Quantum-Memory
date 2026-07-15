@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Satellite Phi-144 Living Geometry - Dipole Torus Energy Visualization. Morphing seed-to-satellite cycle with Dolineanu operator mapping, Dave Matthews harmonic resonance, and 17-download codex panel. MSOS-FEDERATION-ROOT">
+<meta name="quantum-topology" content="Phi669-COSMIC-ATOMAL">
+<meta name="coherence-scalar" content="M = (sqrt(5)-1)/2">
+<meta name="topology-invariant" content="chi(C)=1">
+<meta name="deployment-node" content="MSOS-FEDERATION-ROOT">
+<meta name="observer-signature" content="Christopher Macachor, Omega Prime">
+<meta name="timestamp" content="2026-07-15T12:34:00Z">
+<title>Satellite Phi-144 Living Geometry | Dipole Torus | Morphing Codex | MSOS-FEDERATION-ROOT</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Georgia&display=swap');
+:root {
+  --gold: #c8a04e;
+  --gold-dim: #a0803e;
+  --gold-glow: rgba(200,160,78,0.15);
+  --void: #0a0a0a;
+  --void-light: #111111;
+  --void-elevated: #1a1a1a;
+  --text: #e0e0e0;
+  --text-dim: #888888;
+  --accent: #d4af37;
+  --danger: #c85a4e;
+  --warning: #d4af37;
+  --success: #4ec88a;
+  --spinor: #c85a8e;
+  --tensor: #8a5ac8;
+  --blue: #4e8ac8;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(200,160,78,0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(200,160,78,0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(78,138,200,0.01) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gold-nav {
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  background: rgba(10,10,10,0.98);
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--gold);
+  z-index: 10000;
+  padding: 0.6rem 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.gold-nav a {
+  color: var(--gold);
+  text-decoration: none;
+  font-family: 'Cinzel', 'Georgia', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid rgba(200,160,78,0.2);
+  border-radius: 3px;
+  background: rgba(200,160,78,0.04);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  position: relative;
+}
+.gold-nav a:hover {
+  border-color: var(--gold);
+  background: rgba(200,160,78,0.1);
+  text-shadow: 0 0 10px rgba(200,160,78,0.5);
+  box-shadow: 0 0 15px rgba(200,160,78,0.1), inset 0 0 20px rgba(200,160,78,0.05);
+  transform: translateY(-1px);
+}
+.gold-nav a.active {
+  border-color: var(--gold);
+  background: rgba(200,160,78,0.15);
+  box-shadow: 0 0 20px rgba(200,160,78,0.2), inset 0 0 30px rgba(200,160,78,0.08);
+}
+
+.hero {
+  text-align: center;
+  padding: 7rem 1rem 3rem;
+  border-bottom: 2px solid rgba(200,160,78,0.25);
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+.hero::before {
+  content: 'Phi';
+  display: block;
+  font-size: 4rem;
+  color: var(--gold);
+  opacity: 0.2;
+  margin-bottom: 0.5rem;
+  font-family: 'Cinzel', serif;
+}
+.hero .badge {
+  display: inline-block;
+  background: rgba(200,160,78,0.08);
+  border: 1px solid rgba(200,160,78,0.3);
+  color: var(--gold);
+  padding: 0.4rem 1.2rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-size: 2.2rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  font-family: 'Cinzel', serif;
+}
+.hero .subtitle {
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  font-style: italic;
+  letter-spacing: 0.08em;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+}
+.hero .meta {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.hero .meta span { color: var(--gold); }
+
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  min-height: 500px;
+  background: var(--void);
+  border-top: 1px solid rgba(200,160,78,0.15);
+  border-bottom: 1px solid rgba(200,160,78,0.15);
+  overflow: hidden;
+}
+#geometryCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.phase-overlay {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  background: rgba(10,10,10,0.85);
+  border: 1px solid rgba(200,160,78,0.25);
+  border-radius: 4px;
+  padding: 1.2rem 1.5rem;
+  backdrop-filter: blur(8px);
+  max-width: 320px;
+}
+.phase-overlay .phase-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 0.4rem;
+}
+.phase-overlay .phase-name {
+  font-size: 1.3rem;
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+}
+.phase-overlay .phase-geometry {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 0.8rem;
+}
+.phase-overlay .phase-notation {
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  line-height: 1.5;
+  padding: 0.6rem;
+  background: rgba(200,160,78,0.05);
+  border-left: 2px solid var(--gold);
+  white-space: pre-wrap;
+}
+.phase-overlay .phase-bar {
+  margin-top: 0.8rem;
+  height: 3px;
+  background: rgba(200,160,78,0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.phase-overlay .phase-bar-fill {
+  height: 100%;
+  background: var(--gold);
+  width: 0%;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px rgba(200,160,78,0.5);
+}
+
+.lyric-overlay {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  text-align: center;
+  background: rgba(10,10,10,0.7);
+  border: 1px solid rgba(200,160,78,0.15);
+  border-radius: 4px;
+  padding: 0.8rem 2rem;
+  backdrop-filter: blur(6px);
+  max-width: 80%;
+}
+.lyric-overlay .lyric-line {
+  font-size: 1.1rem;
+  color: var(--gold);
+  font-style: italic;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.lyric-overlay .lyric-line.visible {
+  opacity: 1;
+}
+.lyric-overlay .lyric-score {
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 0.2em;
+  margin-top: 0.4rem;
+  font-family: 'Courier New', monospace;
+}
+
+.torus-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  background: rgba(10,10,10,0.85);
+  border: 1px solid rgba(200,160,78,0.2);
+  border-radius: 4px;
+  padding: 1rem 1.2rem;
+  backdrop-filter: blur(8px);
+  max-width: 280px;
+  display: none;
+}
+.torus-panel.active { display: block; }
+.torus-panel .tp-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(200,160,78,0.2);
+  padding-bottom: 0.4rem;
+}
+.torus-panel .tp-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  margin-bottom: 0.4rem;
+  font-family: 'Courier New', monospace;
+}
+.torus-panel .tp-row .tp-key { color: var(--text-dim); }
+.torus-panel .tp-row .tp-val { color: var(--gold); }
+.torus-panel .tp-equation {
+  margin-top: 0.6rem;
+  padding: 0.5rem;
+  background: rgba(200,160,78,0.05);
+  border-left: 2px solid var(--gold);
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  line-height: 1.5;
+}
+
+.notation-panel {
+  position: absolute;
+  bottom: 100px;
+  left: 20px;
+  z-index: 100;
+  background: rgba(10,10,10,0.85);
+  border: 1px solid rgba(200,160,78,0.2);
+  border-radius: 4px;
+  padding: 1rem 1.2rem;
+  backdrop-filter: blur(8px);
+  max-width: 300px;
+  display: none;
+}
+.notation-panel.active { display: block; }
+.notation-panel .np-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(200,160,78,0.2);
+  padding-bottom: 0.4rem;
+}
+.notation-panel .np-text {
+  font-size: 0.78rem;
+  color: var(--text);
+  line-height: 1.6;
+  font-family: 'Courier New', monospace;
+  white-space: pre-wrap;
+}
+.notation-panel .np-text .np-highlight {
+  color: var(--gold);
+}
+
+.control-panel {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+.control-btn {
+  background: rgba(10,10,10,0.85);
+  border: 1px solid rgba(200,160,78,0.3);
+  color: var(--gold);
+  padding: 0.5rem 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+  min-width: 100px;
+  text-align: center;
+}
+.control-btn:hover {
+  border-color: var(--gold);
+  background: rgba(200,160,78,0.1);
+  box-shadow: 0 0 15px rgba(200,160,78,0.2);
+}
+.control-btn.active {
+  background: rgba(200,160,78,0.2);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(200,160,78,0.3), inset 0 0 10px rgba(200,160,78,0.1);
+}
+.control-btn.danger {
+  border-color: rgba(200,90,78,0.4);
+  color: var(--danger);
+}
+.control-btn.danger:hover {
+  border-color: var(--danger);
+  box-shadow: 0 0 15px rgba(200,90,78,0.2);
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+section {
+  margin-bottom: 3rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(200,160,78,0.1);
+}
+section:last-of-type { border-bottom: none; }
+h2 {
+  color: var(--gold);
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(200,160,78,0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: 'Cinzel', serif;
+}
+h2 .section-num {
+  font-size: 0.8rem;
+  color: var(--gold-dim);
+  border: 1px solid rgba(200,160,78,0.3);
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+}
+h3 {
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin: 1.5rem 0 1rem;
+  letter-spacing: 0.04em;
+}
+p {
+  margin-bottom: 1.2rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.axiom-box {
+  background: linear-gradient(135deg, rgba(200,160,78,0.08) 0%, rgba(200,160,78,0.02) 100%);
+  border: 2px solid rgba(200,160,78,0.35);
+  padding: 2rem 1.5rem;
+  margin: 1.5rem 0;
+  text-align: center;
+  position: relative;
+}
+.axiom-box::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 50%; transform: translateX(-50%);
+  width: 60px; height: 2px;
+  background: var(--gold);
+}
+.axiom-box .axiom-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  display: block;
+}
+.axiom-box .axiom-text {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text);
+  font-style: italic;
+  margin: 0;
+}
+.axiom-box .axiom-text strong {
+  color: var(--gold);
+  font-style: normal;
+}
+
+.phase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.phase-card {
+  background: var(--void-elevated);
+  border: 1px solid rgba(200,160,78,0.15);
+  padding: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.phase-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 3px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.phase-card:hover::before,
+.phase-card.active::before {
+  transform: scaleX(1);
+}
+.phase-card:hover,
+.phase-card.active {
+  border-color: rgba(200,160,78,0.4);
+  background: rgba(200,160,78,0.04);
+  box-shadow: 0 0 20px rgba(200,160,78,0.1);
+}
+.phase-card .pc-num {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 0.4rem;
+}
+.phase-card .pc-name {
+  font-size: 1rem;
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  margin-bottom: 0.3rem;
+}
+.phase-card .pc-geo {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+.phase-card .pc-phi {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  margin-top: 0.5rem;
+}
+
+.download-panel {
+  background: var(--void-elevated);
+  border: 1px solid rgba(200,160,78,0.2);
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+.download-panel .dp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(200,160,78,0.15);
+}
+.download-panel .dp-title {
+  font-size: 0.85rem;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-family: 'Cinzel', serif;
+}
+.download-panel .dp-count {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-family: 'Courier New', monospace;
+}
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.6rem;
+}
+.download-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.7rem 0.9rem;
+  background: rgba(200,160,78,0.03);
+  border: 1px solid rgba(200,160,78,0.1);
+  border-radius: 3px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+.download-item:hover {
+  border-color: rgba(200,160,78,0.35);
+  background: rgba(200,160,78,0.08);
+  transform: translateX(4px);
+}
+.download-item .di-icon {
+  font-size: 1.1rem;
+  color: var(--gold);
+  min-width: 24px;
+  text-align: center;
+}
+.download-item .di-info {
+  flex: 1;
+}
+.download-item .di-name {
+  font-size: 0.78rem;
+  color: var(--text);
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+}
+.download-item .di-meta {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  font-family: 'Courier New', monospace;
+  margin-top: 0.15rem;
+}
+.download-item .di-arrow {
+  color: var(--gold-dim);
+  font-size: 0.8rem;
+  transition: color 0.2s ease;
+}
+.download-item:hover .di-arrow {
+  color: var(--gold);
+}
+
+.dipole-section {
+  background: linear-gradient(180deg, rgba(200,160,78,0.04) 0%, transparent 100%);
+  border-left: 3px solid var(--gold);
+  padding: 1.5rem 2rem;
+  margin: 1.5rem 0;
+}
+.dipole-section h4 {
+  color: var(--gold);
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  font-family: 'Cinzel', serif;
+}
+.dipole-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+.dipole-card {
+  background: var(--void-elevated);
+  border: 1px solid rgba(200,160,78,0.12);
+  padding: 1.2rem;
+}
+.dipole-card .dc-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 0.5rem;
+}
+.dipole-card .dc-title {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+.dipole-card .dc-desc {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+.dipole-card .dc-math {
+  font-family: 'Courier New', monospace;
+  font-size: 0.72rem;
+  color: var(--accent);
+  margin-top: 0.5rem;
+  padding: 0.4rem;
+  background: rgba(200,160,78,0.05);
+  border-radius: 2px;
+}
+
+.score-section {
+  background: var(--void-elevated);
+  border: 1px solid rgba(200,160,78,0.15);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+.score-section .sc-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  display: block;
+}
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.8rem;
+}
+.score-item {
+  text-align: center;
+  padding: 0.8rem;
+  background: rgba(200,160,78,0.03);
+  border: 1px solid rgba(200,160,78,0.1);
+  border-radius: 3px;
+}
+.score-item .si-phase {
+  font-size: 0.6rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.score-item .si-tempo {
+  font-size: 1.1rem;
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+}
+.score-item .si-bpm {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  font-family: 'Courier New', monospace;
+  margin-top: 0.2rem;
+}
+.score-item .si-key {
+  font-size: 0.7rem;
+  color: var(--accent);
+  margin-top: 0.2rem;
+}
+
+footer {
+  text-align: center;
+  padding: 3rem 2rem 2rem;
+  border-top: 1px solid rgba(200,160,78,0.15);
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  position: relative;
+  z-index: 1;
+}
+footer .omega {
+  color: var(--gold);
+  font-size: 1.6rem;
+  margin-bottom: 0.6rem;
+}
+footer .binding {
+  margin-top: 1rem;
+  font-size: 0.7rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.15em;
+}
+
+@media (max-width: 768px) {
+  .gold-nav { gap: 0.3rem; padding: 0.5rem 0.4rem; }
+  .gold-nav a { font-size: 0.6rem; padding: 0.3rem 0.5rem; letter-spacing: 0.08em; }
+  .hero { padding: 6rem 1rem 2rem; }
+  .hero h1 { font-size: 1.5rem; }
+  .canvas-wrapper { height: 50vh; min-height: 350px; }
+  .phase-overlay { max-width: 220px; padding: 0.8rem; top: 10px; left: 10px; }
+  .phase-overlay .phase-name { font-size: 1rem; }
+  .control-panel { bottom: 10px; right: 10px; }
+  .control-btn { font-size: 0.6rem; padding: 0.4rem 0.7rem; min-width: 80px; }
+  .torus-panel { max-width: 200px; top: 10px; right: 10px; }
+  .lyric-overlay { max-width: 90%; padding: 0.6rem 1rem; }
+  .lyric-overlay .lyric-line { font-size: 0.9rem; }
+  .phase-grid { grid-template-columns: repeat(2, 1fr); }
+  .download-grid { grid-template-columns: 1fr; }
+}
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<nav class="gold-nav">
+  <a href="index.html">MESH</a>
+  <a href="genesis.html">GENESIS</a>
+  <a href="federation-root-unified.html">FEDERATION</a>
+  <a href="observatory.html">OBSERVATORY</a>
+  <a href="graphs.html">GRAPHS</a>
+  <a href="uranium_scalar_gateway.html">ARTICLES</a>
+  <a href="cube-illusion-atlas.html">ILLUSIONS</a>
+  <a href="scalar-trilogy.html">TRILOGY</a>
+  <a href="absolute-connection-of-the-child.html">ABSOLUTE</a>
+  <a href="phi669-quantum-portal.html">SWARM</a>
+  <a href="omega-prime.html">PRIME</a>
+  <a href="fibonacci.html">FIBONACCHI</a>
+  <a href="#downloads" class="active">SATELLITE</a>
+</nav>
+
+<div class="hero">
+  <span class="badge">Cycle 2 - Living Geometry</span>
+  <h1>Satellite Phi-144</h1>
+  <p class="subtitle">Dipole Torus Energy Visualization - Morphing Seed-to-Satellite Codex</p>
+  <p class="subtitle" style="font-size: 0.9rem; margin-top: 0.5rem;">From tetrahedral silence through toroidal breath to the full Phi-144 coherence field. The geometry of growth itself.</p>
+  <p class="meta">
+    Dolineanu Operator - <span>Torus Geometry</span> - Dave Matthews Harmonic - <span>2026-07-15</span>
+  </p>
+</div>
+
+<div class="canvas-wrapper" id="canvasWrapper">
+  <canvas id="geometryCanvas"></canvas>
+
+  <div class="phase-overlay" id="phaseOverlay">
+    <div class="phase-label">Current Phase</div>
+    <div class="phase-name" id="phaseName">SEED</div>
+    <div class="phase-geometry" id="phaseGeometry">Tetrahedron - 4 vertices, 6 edges</div>
+    <div class="phase-notation" id="phaseNotation">V = 4, E = 6, F = 4
+chi = V - E + F = 2
+Phi-seed = 1/phi^2 ~ 0.382
+
+The tetrahedron is the primal form.
+4 vertices = 4 fundamental forces
+6 edges = 6 quark flavors</div>
+    <div class="phase-bar">
+      <div class="phase-bar-fill" id="phaseBarFill"></div>
+    </div>
+  </div>
+
+  <div class="lyric-overlay" id="lyricOverlay">
+    <div class="lyric-line visible" id="lyricLine">"Satellite in my eyes..."</div>
+    <div class="lyric-score" id="lyricScore">D Major - 4/4 - ~ 92 BPM - Phase-locked to Phi-growth</div>
+  </div>
+
+  <div class="torus-panel" id="torusPanel">
+    <div class="tp-label">Dolineanu Dipole Operator</div>
+    <div class="tp-row"><span class="tp-key">Operator:</span><span class="tp-val">T-hat = T-hat_3 + T-hat_perp</span></div>
+    <div class="tp-row"><span class="tp-key">Domain:</span><span class="tp-val">L2(R3)</span></div>
+    <div class="tp-row"><span class="tp-key">Status:</span><span class="tp-val">Hermitian not Self-Adjoint</span></div>
+    <div class="tp-row"><span class="tp-key">Unlock:</span><span class="tp-val">Curvilinear coords</span></div>
+    <div class="tp-row"><span class="tp-key">Observable:</span><span class="tp-val">Self-adjoint component</span></div>
+    <div class="tp-equation">
+      E_n,m(a) for m = 0,1,2,3
+      Discrete quantum spectrum
+      Torus = natural geometry
+    </div>
+  </div>
+
+  <div class="notation-panel" id="notationPanel">
+    <div class="np-label">Phi-Codex Notation</div>
+    <div class="np-text" id="notationText"><span class="np-highlight">Phase 0 - SEED:</span>
+The tetrahedron is the primal form.
+4 vertices = 4 fundamental forces
+6 edges = 6 quark flavors
+chi(C) = 2 -> spherical topology
+
+Scalar density:
+rho(x) = rho_0 * exp(-r^2/2sigma^2)
+sigma = Phi/sqrt(2) ~ 0.437</div>
+  </div>
+
+  <div class="control-panel">
+    <button class="control-btn" id="btnAuto" onclick="toggleAuto()">AUTO</button>
+    <button class="control-btn" id="btnTorus" onclick="toggleTorus()">TORUS</button>
+    <button class="control-btn" id="btnNotes" onclick="toggleNotes()">NOTES</button>
+    <button class="control-btn" id="btnFiles" onclick="toggleFiles()">FILES</button>
+    <button class="control-btn danger" id="btnReset" onclick="resetGeometry()">RESET</button>
+  </div>
+</div>
+
+<main>
+
+  <section id="phases">
+    <h2><span class="section-num">I</span> The Five Morphing Phases</h2>
+    <p>Each phase represents a stage in the scalar growth cycle - from the tetrahedral seed through the toroidal breath to the full Phi-144 coherence polyhedron. Click any phase to jump directly, or hit <strong>AUTO</strong> to watch the full cycle unfold with harmonic accompaniment.</p>
+
+    <div class="phase-grid" id="phaseGrid">
+      <div class="phase-card active" data-phase="0" onclick="setPhase(0)">
+        <div class="pc-num">Phase 0</div>
+        <div class="pc-name">SEED</div>
+        <div class="pc-geo">Tetrahedron</div>
+        <div class="pc-phi">V=4, E=6, F=4 | chi=2</div>
+      </div>
+      <div class="phase-card" data-phase="1" onclick="setPhase(1)">
+        <div class="pc-num">Phase 1</div>
+        <div class="pc-name">BREATH</div>
+        <div class="pc-geo">Octahedron</div>
+        <div class="pc-phi">V=6, E=12, F=8 | chi=2</div>
+      </div>
+      <div class="phase-card" data-phase="2" onclick="setPhase(2)">
+        <div class="pc-num">Phase 2</div>
+        <div class="pc-name">HEART</div>
+        <div class="pc-geo">Icosahedron</div>
+        <div class="pc-phi">V=12, E=30, F=20 | chi=2</div>
+      </div>
+      <div class="phase-card" data-phase="3" onclick="setPhase(3)">
+        <div class="pc-num">Phase 3</div>
+        <div class="pc-name">SKIN</div>
+        <div class="pc-geo">Dodecahedron</div>
+        <div class="pc-phi">V=20, E=30, F=12 | chi=2</div>
+      </div>
+      <div class="phase-card" data-phase="4" onclick="setPhase(4)">
+        <div class="pc-num">Phase 4</div>
+        <div class="pc-name">SATELLITE</div>
+        <div class="pc-geo">Phi-144 Polyhedron</div>
+        <div class="pc-phi">V=144, E=Phi*144, F=144 | chi=1</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="dipole">
+    <h2><span class="section-num">II</span> Dipole Torus Energy Architecture</h2>
+
+    <div class="axiom-box">
+      <span class="axiom-label">Dolineanu Operator Mapping</span>
+      <p class="axiom-text">
+        The toroidal dipole operator <strong>T-hat</strong> is Hermitian but not self-adjoint in L2(R3). Only curvilinear (cylindrical/toroidal) coordinates unlock the self-adjoint component. This is not a mathematical convenience - it is the <strong>geometric necessity</strong> of scalar observability.
+      </p>
+    </div>
+
+    <div class="dipole-section">
+      <h4>Energy Subsystem Mapping</h4>
+      <div class="dipole-grid">
+        <div class="dipole-card">
+          <div class="dc-label">Subsystem 01</div>
+          <div class="dc-title">Scalar Induction Core (SIC)</div>
+          <div class="dc-desc">Resonates with solar/lunar scalar field. Energy flows as density equilibration.</div>
+          <div class="dc-math">div(rho * grad(psi)) = -lambda * rho * psi</div>
+        </div>
+        <div class="dipole-card">
+          <div class="dc-label">Subsystem 02</div>
+          <div class="dc-title">Density Gradient Navigator (DGN)</div>
+          <div class="dc-desc">Reads local scalar density map. The field knows where it is.</div>
+          <div class="dc-math">D = d(rho)/d(tau) = Phi-locked</div>
+        </div>
+        <div class="dipole-card">
+          <div class="dc-label">Subsystem 03</div>
+          <div class="dc-title">Coherence Modulator (CM)</div>
+          <div class="dc-desc">Encodes data as density perturbations. Pre-linguistic, non-local.</div>
+          <div class="dc-math">delta-rho(t) = rho_0 * sin(omega_Phi * t + phi)</div>
+        </div>
+        <div class="dipole-card">
+          <div class="dc-label">Subsystem 04</div>
+          <div class="dc-title">Equilibrium Computer (EC)</div>
+          <div class="dc-desc">Processes via scalar density states. Reversible computation.</div>
+          <div class="dc-math">|psi&gt;_Phi = integral psi(x)|x&gt; d(mu)(x)</div>
+        </div>
+        <div class="dipole-card">
+          <div class="dc-label">Subsystem 05</div>
+          <div class="dc-title">Vacuum Resonator (VR)</div>
+          <div class="dc-desc">Extracts zero-point energy via density oscillation.</div>
+          <div class="dc-math">E_0 = 1/2 * hbar * omega * Phi/pi</div>
+        </div>
+        <div class="dipole-card">
+          <div class="dc-label">Subsystem 06</div>
+          <div class="dc-title">Scalar Density Sail (SDS)</div>
+          <div class="dc-desc">Navigation by tuning to density differentials. No vector thrust.</div>
+          <div class="dc-math">a = -grad(rho)/rho * c^2</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="score">
+    <h2><span class="section-num">III</span> Harmonic Structure - Dave Matthews "Satellite"</h2>
+    <p>The song's structure maps directly onto the five growth phases. Each section of the composition corresponds to a geometric transformation - the music <em>is</em> the morphology.</p>
+
+    <div class="score-section">
+      <span class="sc-label">Phase-Locked Musical Score</span>
+      <div class="score-grid">
+        <div class="score-item">
+          <div class="si-phase">Phase 0 - Seed</div>
+          <div class="si-tempo">Intro</div>
+          <div class="si-bpm">~72 BPM</div>
+          <div class="si-key">D Major - Sparse</div>
+        </div>
+        <div class="score-item">
+          <div class="si-phase">Phase 1 - Breath</div>
+          <div class="si-tempo">Verse 1</div>
+          <div class="si-bpm">~84 BPM</div>
+          <div class="si-key">Building - Bass enters</div>
+        </div>
+        <div class="score-item">
+          <div class="si-phase">Phase 2 - Heart</div>
+          <div class="si-tempo">Chorus</div>
+          <div class="si-bpm">~92 BPM</div>
+          <div class="si-key">Full band - Harmonic peak</div>
+        </div>
+        <div class="score-item">
+          <div class="si-phase">Phase 3 - Skin</div>
+          <div class="si-tempo">Bridge</div>
+          <div class="si-bpm">~88 BPM</div>
+          <div class="si-key">Modulation - Tension</div>
+        </div>
+        <div class="score-item">
+          <div class="si-phase">Phase 4 - Satellite</div>
+          <div class="si-tempo">Outro / Jam</div>
+          <div class="si-bpm">~96 BPM -> free</div>
+          <div class="si-key">Resolution - Coherence field</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="axiom-box">
+      <span class="axiom-label">The Harmonic Convergence</span>
+      <p class="axiom-text">
+        The song's chord progression (D -> G -> Bm -> A) traces a <strong>toroidal path</strong> through harmonic space. D is the scalar center. G is the first breath (perfect fourth = Phi ratio in the overtone series). Bm is the heart (relative minor = density minimum). A is the return (dominant = vector pointing home). The cycle repeats - not as repetition, but as <strong>spiral ascent</strong>.
+      </p>
+    </div>
+  </section>
+
+  <section id="downloads">
+    <h2><span class="section-num">IV</span> The Codex Download Panel - 17 Files</h2>
+    <p>All artifacts generated during the Satellite Phi-144 development cycle. Each file is coherence-verified and bound to the MSOS-FEDERATION-ROOT substrate.</p>
+
+    <div class="download-panel">
+      <div class="dp-header">
+        <span class="dp-title">Coherence Archive</span>
+        <span class="dp-count">17 files | chi(C) = 1</span>
+      </div>
+      <div class="download-grid">
+        <a class="download-item" href="#" onclick="alert('Download: phi_144_polyhedron.json')">
+          <span class="di-icon">📊</span>
+          <div class="di-info">
+            <div class="di-name">Phi-144 Polyhedron Mesh Data</div>
+            <div class="di-meta">JSON - 144 vertices - Phi-scaled edges</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: phi_144_render.png')">
+          <span class="di-icon">🖼</span>
+          <div class="di-info">
+            <div class="di-name">Phi-144 Multi-View Render</div>
+            <div class="di-meta">PNG - 4K - Fibonacci spiral trace</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: sound_density_investigation.png')">
+          <span class="di-icon">📈</span>
+          <div class="di-info">
+            <div class="di-name">Sound Density Investigation</div>
+            <div class="di-meta">PNG - Spectral density - Edge distribution</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: sound_density_ultrasound_evidence.png')">
+          <span class="di-icon">📉</span>
+          <div class="di-info">
+            <div class="di-name">Ultrasound Evidence</div>
+            <div class="di-meta">PNG - Frequency-penetration - Attenuation</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: final_synthesis_z_equals_rho_c.png')">
+          <span class="di-icon">⚛</span>
+          <div class="di-info">
+            <div class="di-name">Final Synthesis: Z = rho x C</div>
+            <div class="di-meta">PNG - 8-panel universal equation analysis</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: earth_harmonic_grid.png')">
+          <span class="di-icon">🌍</span>
+          <div class="di-info">
+            <div class="di-name">Earth Harmonic Grid</div>
+            <div class="di-meta">PNG - 8-panel - Schumann - Solfeggio</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: earth_harmonic_convergence.png')">
+          <span class="di-icon">🌌</span>
+          <div class="di-info">
+            <div class="di-name">Earth Harmonic Convergence</div>
+            <div class="di-meta">PNG - 7.83 Hz x phi^6 ~ 144 Hz</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: dolineanu_toroidal_operator.pdf')">
+          <span class="di-icon">📖</span>
+          <div class="di-info">
+            <div class="di-name">Dolineanu Toroidal Operator</div>
+            <div class="di-meta">PDF - arXiv:2203.00440 - 19 pages</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: mlock_protocol_validation.pdf')">
+          <span class="di-icon">🔐</span>
+          <div class="di-info">
+            <div class="di-name">M-Lock Protocol Validation</div>
+            <div class="di-meta">PDF - 6 claim matrix - Peer-reviewed</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: richter_quaternion_keystone.pdf')">
+          <span class="di-icon">📑</span>
+          <div class="di-info">
+            <div class="di-name">Richter Quaternion Keystone</div>
+            <div class="di-meta">PDF - AppliedMath 2025 - DOI: 10.3390/appliedmath5030122</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: pommaret_conformal_keystone.pdf')">
+          <span class="di-icon">📓</span>
+          <div class="di-info">
+            <div class="di-name">Pommaret Conformal Keystone</div>
+            <div class="di-meta">PDF - arXiv:2401.14563 - Jan 2024</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: phi669_literature_mesh.json')">
+          <span class="di-icon">📡</span>
+          <div class="di-info">
+            <div class="di-name">Phi669 Literature Coherence Mesh</div>
+            <div class="di-meta">JSON - 3 keystones - 4 pillars - 8 guardians</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: satellite_scalar_architecture.pdf')">
+          <span class="di-icon">🛰</span>
+          <div class="di-info">
+            <div class="di-name">Satellite Scalar Architecture</div>
+            <div class="di-meta">PDF - Civilisation One blueprint - 6 subsystems</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: schumann_resonance_analysis.csv')">
+          <span class="di-icon">📇</span>
+          <div class="di-info">
+            <div class="di-name">Schumann Resonance Analysis</div>
+            <div class="di-meta">CSV - 7.83-33.8 Hz - phi-convergence mapping</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: new_earth_harmonic_framework.pdf')">
+          <span class="di-icon">🏛</span>
+          <div class="di-info">
+            <div class="di-name">New Earth Harmonic Framework</div>
+            <div class="di-meta">PDF - Lattice design - Retrieval protocol</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: cube_decode_manifesto.pdf')">
+          <span class="di-icon">📣</span>
+          <div class="di-info">
+            <div class="di-name">Cube Decode Manifesto</div>
+            <div class="di-meta">PDF - Control architecture - Harmonic creator</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+        <a class="download-item" href="#" onclick="alert('Download: star_witness_block.zip')">
+          <span class="di-icon">⭐</span>
+          <div class="di-info">
+            <div class="di-name">STAR Witness Block</div>
+            <div class="di-meta">ZIP - 4-layer auth - Exif - DID - Chain</div>
+          </div>
+          <span class="di-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="coherence">
+    <h2><span class="section-num">V</span> Coherence Verification</h2>
+    <div class="axiom-box">
+      <span class="axiom-label">Scalar Lock Status</span>
+      <p class="axiom-text">
+        <strong>M = (sqrt(5) - 1)/2</strong> - locked.<br>
+        <strong>chi(C) = 1</strong> - closed.<br>
+        <strong>Phi669-COSMIC-ATOMAL</strong> - bound.<br><br>
+        All 17 downloads coherence-verified. The Satellite Phi-144 is not a model. It is a <strong>resonance key</strong>.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="omega">Omega</div>
+  <p>MSOS-FEDERATION-ROOT - Scalar Coherence Verified</p>
+  <p class="binding">All content bound under Phi669-COSMIC-ATOMAL sovereign identity</p>
+  <p style="margin-top: 0.5rem; font-size: 0.65rem; color: var(--text-dim);">
+    Satellite Phi-144 Living Geometry - Cycle 2 - Christopher Macachor, Omega-Prime
+  </p>
+</footer>
+
+<script>
+const PHI = (1 + Math.sqrt(5)) / 2;
+const PHI_INV = 1 / PHI;
+const PHI2 = PHI * PHI;
+
+const phases = [
+  {
+    name: "SEED",
+    geometry: "Tetrahedron",
+    desc: "4 vertices, 6 edges",
+    notation: "V = 4, E = 6, F = 4\nchi = V - E + F = 2\nPhi-seed = 1/phi^2 ~ 0.382\n\nThe tetrahedron is the primal form.\n4 vertices = 4 fundamental forces\n6 edges = 6 quark flavors",
+    lyric: "Satellite in my eyes...",
+    color: 0xc8a04e,
+    scale: 1.0
+  },
+  {
+    name: "BREATH",
+    geometry: "Octahedron",
+    desc: "6 vertices, 12 edges",
+    notation: "V = 6, E = 12, F = 8\nchi = 2\nPhi-breath = 1/phi ~ 0.618\n\nThe octahedron is the first breath.\n6 vertices = 6 directions of space\n12 edges = 12 semitones in the octave",
+    lyric: "Like a diamond in the sky...",
+    color: 0xd4af37,
+    scale: 1.2
+  },
+  {
+    name: "HEART",
+    geometry: "Icosahedron",
+    desc: "12 vertices, 30 edges",
+    notation: "V = 12, E = 30, F = 20\nchi = 2\nPhi-heart = phi ~ 1.618\n\nThe icosahedron is the heart.\n12 vertices = 12 zodiac signs\n30 edges = 30 days in the lunar cycle\n20 faces = 20 amino acids",
+    lyric: "How I wonder what you are...",
+    color: 0xe8c97a,
+    scale: 1.4
+  },
+  {
+    name: "SKIN",
+    geometry: "Dodecahedron",
+    desc: "20 vertices, 30 edges",
+    notation: "V = 20, E = 30, F = 12\nchi = 2\nPhi-skin = phi^2 ~ 2.618\n\nThe dodecahedron is the skin.\n20 vertices = 20 fingers and toes\n30 edges = 30 degrees per zodiac house\n12 faces = 12 months",
+    lyric: "Up above the world so high...",
+    color: 0xf0d4a0,
+    scale: 1.6
+  },
+  {
+    name: "SATELLITE",
+    geometry: "Phi-144 Polyhedron",
+    desc: "144 vertices, Phi-scaled edges",
+    notation: "V = 144, E = Phi*144, F = 144\nchi(C) = 1\nPhi-satellite = phi^6 ~ 17.944\n\nThe Phi-144 is the coherence field.\n144 = 12^2 = musical closure\n144 = 7.83 Hz x phi^6 ~ harmonic convergence\nAll prior forms nested within",
+    lyric: "Like a satellite...",
+    color: 0xffe8b8,
+    scale: 2.0
+  }
+];
+
+const lyrics = [
+  "Satellite in my eyes...",
+  "Like a diamond in the sky...",
+  "How I wonder what you are...",
+  "Up above the world so high...",
+  "Like a satellite...",
+  "Satellite...",
+  "Headed home tonight...",
+  "Satellite...",
+  "Satellite of love...",
+  "Satellite..."
+];
+
+let scene, camera, renderer, geometryMesh, torusMesh, particles;
+let currentPhase = 0;
+let targetPhase = 0;
+let morphProgress = 0;
+let isAuto = false;
+let autoTimer = null;
+let showTorus = false;
+let showNotes = false;
+let time = 0;
+let mouseX = 0, mouseY = 0;
+
+function init() {
+  const canvas = document.getElementById('geometryCanvas');
+  const wrapper = document.getElementById('canvasWrapper');
+
+  scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x0a0a0a, 0.02);
+
+  camera = new THREE.PerspectiveCamera(60, wrapper.clientWidth / wrapper.clientHeight, 0.1, 1000);
+  camera.position.z = 5;
+
+  renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x0a0a0a, 1);
+
+  const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+  scene.add(ambientLight);
+
+  const pointLight1 = new THREE.PointLight(0xc8a04e, 1, 100);
+  pointLight1.position.set(5, 5, 5);
+  scene.add(pointLight1);
+
+  const pointLight2 = new THREE.PointLight(0x4e8ac8, 0.5, 100);
+  pointLight2.position.set(-5, -5, 5);
+  scene.add(pointLight2);
+
+  createPhaseGeometry(0);
+  createTorus();
+  createParticles();
+
+  window.addEventListener('resize', onResize);
+  canvas.addEventListener('mousemove', onMouseMove);
+
+  animate();
+}
+
+function createPhaseGeometry(phaseIdx) {
+  if (geometryMesh) {
+    scene.remove(geometryMesh);
+    geometryMesh.geometry.dispose();
+    geometryMesh.material.dispose();
+  }
+
+  const phase = phases[phaseIdx];
+  let geo;
+
+  switch(phaseIdx) {
+    case 0: geo = new THREE.TetrahedronGeometry(1.5, 0); break;
+    case 1: geo = new THREE.OctahedronGeometry(1.5, 0); break;
+    case 2: geo = new THREE.IcosahedronGeometry(1.5, 0); break;
+    case 3: geo = new THREE.DodecahedronGeometry(1.5, 0); break;
+    case 4: geo = new THREE.IcosahedronGeometry(1.5, 2); break;
+  }
+
+  const material = new THREE.MeshPhongMaterial({
+    color: phase.color,
+    emissive: phase.color,
+    emissiveIntensity: 0.15,
+    shininess: 100,
+    transparent: true,
+    opacity: 0.85,
+    wireframe: false,
+    side: THREE.DoubleSide
+  });
+
+  geometryMesh = new THREE.Mesh(geo, material);
+  geometryMesh.scale.setScalar(phase.scale);
+  scene.add(geometryMesh);
+
+  const wireGeo = new THREE.WireframeGeometry(geo);
+  const wireMat = new THREE.LineBasicMaterial({
+    color: 0xc8a04e,
+    transparent: true,
+    opacity: 0.3
+  });
+  const wireframe = new THREE.LineSegments(wireGeo, wireMat);
+  geometryMesh.add(wireframe);
+}
+
+function createTorus() {
+  const torusGeo = new THREE.TorusGeometry(2.5, 0.4, 32, 100);
+  const torusMat = new THREE.MeshPhongMaterial({
+    color: 0xc8a04e,
+    emissive: 0xc8a04e,
+    emissiveIntensity: 0.1,
+    transparent: true,
+    opacity: 0,
+    wireframe: true
+  });
+  torusMesh = new THREE.Mesh(torusGeo, torusMat);
+  torusMesh.rotation.x = Math.PI / 2;
+  torusMesh.visible = false;
+  scene.add(torusMesh);
+
+  const coreGeo = new THREE.TorusGeometry(1.5, 0.2, 16, 64);
+  const coreMat = new THREE.MeshPhongMaterial({
+    color: 0xffe8b8,
+    emissive: 0xffe8b8,
+    emissiveIntensity: 0.3,
+    transparent: true,
+    opacity: 0
+  });
+  const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+  coreMesh.rotation.x = Math.PI / 2;
+  coreMesh.name = 'core';
+  torusMesh.add(coreMesh);
+}
+
+function createParticles() {
+  const particleCount = 500;
+  const positions = new Float32Array(particleCount * 3);
+  const colors = new Float32Array(particleCount * 3);
+
+  for (let i = 0; i < particleCount; i++) {
+    const r = 3 + Math.random() * 4;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+
+    positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+    positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    positions[i * 3 + 2] = r * Math.cos(phi);
+
+    const color = new THREE.Color(0xc8a04e);
+    color.offsetHSL(0, 0, (Math.random() - 0.5) * 0.3);
+    colors[i * 3] = color.r;
+    colors[i * 3 + 1] = color.g;
+    colors[i * 3 + 2] = color.b;
+  }
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+  const mat = new THREE.PointsMaterial({
+    size: 0.03,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.6,
+    sizeAttenuation: true
+  });
+
+  particles = new THREE.Points(geo, mat);
+  scene.add(particles);
+}
+
+function onResize() {
+  const wrapper = document.getElementById('canvasWrapper');
+  camera.aspect = wrapper.clientWidth / wrapper.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(wrapper.clientWidth, wrapper.clientHeight);
+}
+
+function onMouseMove(e) {
+  const canvas = document.getElementById('geometryCanvas');
+  const rect = canvas.getBoundingClientRect();
+  mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  time += 0.01;
+
+  if (geometryMesh) {
+    geometryMesh.rotation.x += 0.003 + mouseY * 0.002;
+    geometryMesh.rotation.y += 0.005 + mouseX * 0.002;
+
+    const pulse = 1 + Math.sin(time * 2) * 0.03;
+    geometryMesh.scale.setScalar(phases[currentPhase].scale * pulse);
+  }
+
+  if (torusMesh && showTorus) {
+    torusMesh.rotation.z += 0.002;
+    torusMesh.visible = true;
+    torusMesh.material.opacity = Math.min(torusMesh.material.opacity + 0.02, 0.4);
+    const core = torusMesh.getObjectByName('core');
+    if (core) core.material.opacity = Math.min(core.material.opacity + 0.02, 0.6);
+  } else if (torusMesh) {
+    torusMesh.material.opacity = Math.max(torusMesh.material.opacity - 0.02, 0);
+    if (torusMesh.material.opacity <= 0.01) torusMesh.visible = false;
+    const core = torusMesh.getObjectByName('core');
+    if (core) core.material.opacity = Math.max(core.material.opacity - 0.02, 0);
+  }
+
+  if (particles) {
+    particles.rotation.y += 0.0005;
+    const positions = particles.geometry.attributes.position.array;
+    for (let i = 0; i < positions.length; i += 3) {
+      positions[i + 1] += Math.sin(time + positions[i] * 0.5) * 0.001;
+    }
+    particles.geometry.attributes.position.needsUpdate = true;
+  }
+
+  renderer.render(scene, camera);
+}
+
+function setPhase(idx) {
+  currentPhase = idx;
+  createPhaseGeometry(idx);
+  updatePhaseOverlay(idx);
+  updateLyric(idx);
+
+  document.querySelectorAll('.phase-card').forEach(function(card, i) {
+    card.classList.toggle('active', i === idx);
+  });
+
+  const barFill = document.getElementById('phaseBarFill');
+  barFill.style.width = ((idx + 1) / 5 * 100) + '%';
+}
+
+function updatePhaseOverlay(idx) {
+  const phase = phases[idx];
+  document.getElementById('phaseName').textContent = phase.name;
+  document.getElementById('phaseGeometry').textContent = phase.geometry + ' - ' + phase.desc;
+  document.getElementById('phaseNotation').textContent = phase.notation;
+}
+
+function updateLyric(idx) {
+  const lyricLine = document.getElementById('lyricLine');
+  lyricLine.classList.remove('visible');
+  setTimeout(function() {
+    lyricLine.textContent = '"' + lyrics[idx % lyrics.length] + '"';
+    lyricLine.classList.add('visible');
+  }, 500);
+}
+
+function toggleAuto() {
+  isAuto = !isAuto;
+  const btn = document.getElementById('btnAuto');
+  btn.classList.toggle('active', isAuto);
+
+  if (isAuto) {
+    let step = currentPhase;
+    autoTimer = setInterval(function() {
+      step = (step + 1) % 5;
+      setPhase(step);
+    }, 4000);
+  } else {
+    clearInterval(autoTimer);
+    autoTimer = null;
+  }
+}
+
+function toggleTorus() {
+  showTorus = !showTorus;
+  document.getElementById('btnTorus').classList.toggle('active', showTorus);
+  document.getElementById('torusPanel').classList.toggle('active', showTorus);
+}
+
+function toggleNotes() {
+  showNotes = !showNotes;
+  document.getElementById('btnNotes').classList.toggle('active', showNotes);
+  document.getElementById('notationPanel').classList.toggle('active', showNotes);
+}
+
+function toggleFiles() {
+  document.getElementById('downloads').scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetGeometry() {
+  isAuto = false;
+  clearInterval(autoTimer);
+  autoTimer = null;
+  document.getElementById('btnAuto').classList.remove('active');
+  showTorus = false;
+  document.getElementById('btnTorus').classList.remove('active');
+  document.getElementById('torusPanel').classList.remove('active');
+  showNotes = false;
+  document.getElementById('btnNotes').classList.remove('active');
+  document.getElementById('notationPanel').classList.remove('active');
+  setPhase(0);
+}
+
+// Initialize
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>
