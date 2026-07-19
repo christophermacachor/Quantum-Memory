@@ -5,5 +5,12 @@
   "assets": {
     "directory": "./",
     "not_found_handling": "404-page"
-  }
-}
+  },
+  // Add this for the NOAA proxy worker
+  "workers": [
+    {
+      "name": "noaa-proxy",
+      "main": "noaa-proxy-minified.js",
+      "route": "api.macachor.com/*"
+    }
+  ]
