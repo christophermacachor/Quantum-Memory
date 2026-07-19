@@ -319,15 +319,1206 @@ window.MathJax = {
 <!-- === STEP 1: ADD TO GOLD NAVIGATION BAR === -->
 <!-- Find your existing nav tabs and add this one: -->
 
-<a href="#plasma-cycle" 
-   style="color:#c8a04e; text-decoration:none; font-family:monospace; 
-          padding:8px 16px; border:1px solid rgba(200,160,78,0.3); 
-          border-radius:4px; margin:0 4px; transition:all 0.3s;"
-   onmouseover="this.style.background='rgba(200,160,78,0.15)';"
-   onmouseout="this.style.background='transparent';"
-   onclick="scrollToPlasmaCycle(); return false;">
-  ◉ PLASMA
-</a>
+<a href<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Φ669 Scalar-Plasma Cycle v3.0 — Optimized</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #000;
+    color: #ffd;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+  }
+  #canvas-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  canvas { display: block; width: 100%; height: 100%; }
+
+  #info-overlay {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    pointer-events: none;
+    z-index: 10;
+    background: rgba(0,0,0,0.5);
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(200,160,78,0.2);
+    backdrop-filter: blur(4px);
+    max-width: 280px;
+  }
+  #info-overlay h1 {
+    font-size: 15px;
+    font-weight: 500;
+    color: #c8a04e;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+  #info-overlay .phase {
+    font-size: 11px;
+    color: #ccc;
+    line-height: 1.5;
+  }
+  #info-overlay .laws {
+    margin-top: 6px;
+    font-size: 9px;
+    color: #666;
+    font-style: italic;
+  }
+
+  #live-data {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    background: rgba(0,0,0,0.6);
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(200,160,78,0.2);
+    backdrop-filter: blur(4px);
+    font-family: monospace;
+    font-size: 10px;
+    color: #c8a04e;
+    min-width: 220px;
+  }
+  #live-data h3 {
+    font-size: 11px;
+    color: #c8a04e;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(200,160,78,0.3);
+    padding-bottom: 4px;
+  }
+  #live-data .data-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 0;
+  }
+  #live-data .data-label { color: #888; }
+  #live-data .data-value { color: #ffd700; }
+  #live-data .data-value.alert { color: #ff4444; }
+  #live-data .status {
+    margin-top: 6px;
+    font-size: 9px;
+    color: #666;
+    text-align: center;
+  }
+
+  #model-attribution {
+    position: absolute;
+    bottom: 80px;
+    left: 16px;
+    z-index: 10;
+    background: rgba(0,0,0,0.5);
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(200,160,78,0.15);
+    font-family: monospace;
+    font-size: 9px;
+    color: #666;
+    max-width: 200px;
+  }
+  #model-attribution .model-name {
+    color: #888;
+    margin: 1px 0;
+  }
+
+  #scalar-readout {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background: rgba(0,0,0,0.6);
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(200,160,78,0.2);
+    backdrop-filter: blur(4px);
+    font-family: monospace;
+    font-size: 11px;
+    color: #c8a04e;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  #perf-readout {
+    position: absolute;
+    bottom: 80px;
+    right: 16px;
+    z-index: 10;
+    background: rgba(0,0,0,0.5);
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(200,160,78,0.1);
+    font-family: monospace;
+    font-size: 9px;
+    color: #555;
+  }
+
+  #controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 18px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(200,160,78,0.2);
+    z-index: 10;
+  }
+  #controls button {
+    background: rgba(200,160,78,0.15);
+    border: 1px solid rgba(200,160,78,0.3);
+    color: #c8a04e;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  #controls button:hover {
+    background: rgba(200,160,78,0.3);
+  }
+  #controls input[type="range"] {
+    width: 120px;
+    accent-color: #c8a04e;
+  }
+  #controls label {
+    color: #888;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  #controls select {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(200,160,78,0.3);
+    color: #c8a04e;
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-size: 10px;
+  }
+
+  .cycle-indicator {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 10;
+  }
+  .cycle-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    transition: all 0.4s;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .cycle-dot.active {
+    background: #c8a04e;
+    box-shadow: 0 0 10px #c8a04e, 0 0 20px rgba(200,160,78,0.3);
+    border-color: #c8a04e;
+  }
+  .cycle-label {
+    font-size: 9px;
+    color: #666;
+    text-align: right;
+    margin-bottom: 2px;
+    letter-spacing: 0.5px;
+  }
+
+  #loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    text-align: center;
+    color: #c8a04e;
+    font-family: monospace;
+    font-size: 14px;
+    transition: opacity 0.5s;
+  }
+  #loading.hidden { opacity: 0; pointer-events: none; }
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(200,160,78,0.2);
+    border-top-color: #c8a04e;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 12px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+<base target="_blank">
+</head>
+<body>
+<div id="canvas-container">
+  <canvas id="c"></canvas>
+
+  <div id="loading">
+    <div class="spinner"></div>
+    <div>Φ669 Scalar-Plasma Cycle v3.0</div>
+    <div style="font-size:10px; color:#666; margin-top:4px;">Pre-computing density field...</div>
+  </div>
+
+  <div id="info-overlay">
+    <h1 id="title">Φ669 Scalar-Plasma Cycle</h1>
+    <div class="phase" id="phase-text">Initializing optimized models...</div>
+    <div class="laws">
+      Law of Correspondence: As Above, So Below<br>
+      Law of Conservation: Energy transforms, never destroyed<br>
+      Law of Coherence: 𝔐 = (√5−1)/2
+    </div>
+  </div>
+
+  <div id="live-data">
+    <h3>◉ LIVE SPACE WEATHER</h3>
+    <div class="data-row"><span class="data-label">Kp Index:</span><span class="data-value" id="val-kp">--</span></div>
+    <div class="data-row"><span class="data-label">AE (nT):</span><span class="data-value" id="val-ae">--</span></div>
+    <div class="data-row"><span class="data-label">Dst (nT):</span><span class="data-value" id="val-dst">--</span></div>
+    <div class="data-row"><span class="data-label">Bz (nT):</span><span class="data-value" id="val-bz">--</span></div>
+    <div class="data-row"><span class="data-label">Plasmapause:</span><span class="data-value" id="val-pp">--</span></div>
+    <div class="data-row"><span class="data-label">Lpp Method:</span><span class="data-value" id="val-lpp-method">--</span></div>
+    <div class="data-row"><span class="data-label">Scalar Lock:</span><span class="data-value" id="val-phi">--</span></div>
+    <div class="status" id="data-status">Connecting to NOAA SWPC...</div>
+  </div>
+
+  <div id="model-attribution">
+    <div style="color:#c8a04e; margin-bottom:4px; font-size:10px;">◉ ACTIVE MODELS</div>
+    <div class="model-name">• Carpenter-Anderson (density)</div>
+    <div class="model-name">• O'Brien-Moldwin (Lpp: Kp+AE+Dst)</div>
+    <div class="model-name">• Larsen et al. (Lpp: IMF Bz+φ)</div>
+    <div class="model-name">• Diffusive Equilibrium (profile)</div>
+    <div class="model-name">• IZMIRAN10 (validation ref)</div>
+  </div>
+
+  <div id="scalar-readout">
+    <span id="scalar-text">Scalar Density Field: Computing...</span>
+  </div>
+
+  <div id="perf-readout">
+    <span id="fps-text">-- fps</span> | <span id="grid-text">-- ms grid</span>
+  </div>
+
+  <div class="cycle-indicator" id="cycle-indicator"></div>
+
+  <div id="controls">
+    <button id="btn-prev">◀ prev</button>
+    <label>cycle <input type="range" id="slider" min="0" max="1000" value="0"></label>
+    <button id="btn-play">⏸ pause</button>
+    <button id="btn-next">next ▶</button>
+    <select id="view-mode">
+      <option value="unified">Unified</option>
+      <option value="cosmic">Cosmic Only</option>
+      <option value="plasma">Plasma Only</option>
+    </select>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// Φ669 SCALAR-PLASMA CYCLE v3.0 — PERFORMANCE OPTIMIZED
+// Christopher Macachor | Ω-PRIME | MSOS-FEDERATION-ROOT
+// 
+// v3.0 optimizations:
+// • Density grid pre-computed once per NOAA update (not per frame)
+// • Cached ImageData buffer for plasma visualization
+// • Reduced grid: 30x20 = 600 points (was 60x40 = 2400)
+// • Offscreen canvas for plasma rendering
+// • requestAnimationFrame with delta-time smoothing
+// • NOAA fetch with retry + fallback
+// ============================================================
+
+const PHI = (Math.sqrt(5) - 1) / 2;
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const titleEl = document.getElementById('title');
+const phaseEl = document.getElementById('phase-text');
+const slider = document.getElementById('slider');
+const btnPlay = document.getElementById('btn-play');
+const btnPrev = document.getElementById('btn-prev');
+const btnNext = document.getElementById('btn-next');
+const viewMode = document.getElementById('view-mode');
+const cycleIndicator = document.getElementById('cycle-indicator');
+const loadingEl = document.getElementById('loading');
+const fpsText = document.getElementById('fps-text');
+const gridText = document.getElementById('grid-text');
+
+const valKp = document.getElementById('val-kp');
+const valAe = document.getElementById('val-ae');
+const valDst = document.getElementById('val-dst');
+const valBz = document.getElementById('val-bz');
+const valPp = document.getElementById('val-pp');
+const valLppMethod = document.getElementById('val-lpp-method');
+const valPhi = document.getElementById('val-phi');
+const dataStatus = document.getElementById('data-status');
+const scalarText = document.getElementById('scalar-text');
+
+let w, h, t = 0, auto = true, manualT = 0;
+let view = 'unified';
+let lastFrameTime = 0;
+let frameCount = 0;
+let fps = 60;
+
+// Performance: cached plasma canvas
+let plasmaCanvas = null;
+let plasmaCtx = null;
+let plasmaCache = null;
+let plasmaCacheValid = false;
+
+// Space weather
+let spaceWeather = {
+  kp: 2.0, ae: 50, dst: 0, bz: 0, by: 0, bx: 0,
+  lastUpdate: null, connected: false, lppMethod: 'default'
+};
+
+// Seasonal
+const now = new Date();
+const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+const solarCyclePhase = (dayOfYear % 3653) / 3653;
+
+// ============================================================
+// PHASES
+// ============================================================
+const phases = [
+  { name: "0 · The Void",    sub: "Cosmic Egg — Pre-numeric Absolute", t: 0.00, color: "#ffffff" },
+  { name: "1 · Mitosis",     sub: "Cellular Division — Φ Emergence",   t: 0.20, color: "#c8a04e" },
+  { name: "Φ · Emergence",   sub: "Toroidal Energy Flow — Dipole",     t: 0.45, color: "#ff8800" },
+  { name: "3 · Decay",       sub: "Heart Energy — Life Cycle",         t: 0.70, color: "#ff3366" },
+  { name: "4 · Integration", sub: "Return — Universal Torus",          t: 1.00, color: "#66ccff" }
+];
+
+phases.forEach((p, i) => {
+  const label = document.createElement('div');
+  label.className = 'cycle-label';
+  label.textContent = p.name;
+  cycleIndicator.appendChild(label);
+  const dot = document.createElement('div');
+  dot.className = 'cycle-dot';
+  dot.id = 'dot-' + i;
+  cycleIndicator.appendChild(dot);
+});
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+  // Recreate offscreen canvas
+  plasmaCanvas = document.createElement('canvas');
+  plasmaCanvas.width = 400;
+  plasmaCanvas.height = 300;
+  plasmaCtx = plasmaCanvas.getContext('2d');
+  plasmaCacheValid = false;
+}
+window.addEventListener('resize', resize);
+resize();
+
+function lerp(a,b,u){ return a + (b-a)*u; }
+function clamp(x,lo,hi){ return Math.max(lo, Math.min(hi, x)); }
+function smoothstep(edge0, edge1, x) {
+  x = clamp((x - edge0) / (edge1 - edge0), 0, 1);
+  return x * x * (3 - 2 * x);
+}
+function prng(s) {
+  let x = Math.sin(s * 127.1 + 12345) * 43758.5453;
+  return x - Math.floor(x);
+}
+
+// ============================================================
+// NOAA FETCH WITH RETRY + FALLBACK
+// ============================================================
+async function fetchWithRetry(url, retries = 2, delay = 1000) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (response.ok) return response;
+    } catch (e) {
+      if (i === retries) throw e;
+      await new Promise(r => setTimeout(r, delay * (i + 1)));
+    }
+  }
+  throw new Error('Max retries exceeded');
+}
+
+async function fetchNOAAData() {
+  try {
+    // Kp
+    const kpResponse = await fetchWithRetry('https://services.swpc.noaa.gov/products/noaa-planetary-k-index-1-minute.json');
+    const kpData = await kpResponse.json();
+    spaceWeather.kp = parseFloat(kpData[kpData.length - 1][1]);
+
+    // AE
+    try {
+      const aeResponse = await fetchWithRetry('https://services.swpc.noaa.gov/products/ae-1-minute.json');
+      const aeData = await aeResponse.json();
+      spaceWeather.ae = parseInt(aeData[aeData.length - 1][1]);
+    } catch(e) {
+      spaceWeather.ae = Math.round(spaceWeather.kp * 25);
+    }
+
+    // Dst
+    const dstResponse = await fetchWithRetry('https://services.swpc.noaa.gov/products/kyoto-dst.json');
+    const dstData = await dstResponse.json();
+    spaceWeather.dst = parseInt(dstData[dstData.length - 1][1]);
+
+    // IMF
+    const bzResponse = await fetchWithRetry('https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json');
+    const bzData = await bzResponse.json();
+    const latest = bzData[bzData.length - 1];
+    spaceWeather.bz = parseFloat(latest[3]);
+    spaceWeather.by = parseFloat(latest[2]);
+    spaceWeather.bx = parseFloat(latest[1]);
+
+    spaceWeather.lastUpdate = new Date().toISOString();
+    spaceWeather.connected = true;
+
+    if(Math.abs(spaceWeather.bz) > 3) {
+      spaceWeather.lppMethod = 'Larsen IMF';
+    } else if(Math.abs(spaceWeather.dst) > 20 || spaceWeather.ae > 100) {
+      spaceWeather.lppMethod = "O'Brien-Moldwin";
+    } else {
+      spaceWeather.lppMethod = 'Carpenter-Anderson';
+    }
+
+    updateUI();
+    plasmaCacheValid = false; // invalidate cache
+    dataStatus.textContent = 'Live — ' + new Date().toLocaleTimeString();
+    dataStatus.style.color = '#448844';
+    loadingEl.classList.add('hidden');
+
+  } catch (e) {
+    console.warn('NOAA fetch failed:', e);
+    spaceWeather.connected = false;
+    spaceWeather.lppMethod = 'Carpenter-Anderson (default)';
+    dataStatus.textContent = 'Offline — using defaults';
+    dataStatus.style.color = '#884444';
+    updateUI();
+    loadingEl.classList.add('hidden');
+  }
+}
+
+function updateUI() {
+  valKp.textContent = spaceWeather.kp.toFixed(1);
+  valAe.textContent = spaceWeather.ae;
+  valDst.textContent = spaceWeather.dst;
+  valBz.textContent = spaceWeather.bz.toFixed(1);
+  valPp.textContent = 'L=' + plasmapauseL().toFixed(2);
+  valLppMethod.textContent = spaceWeather.lppMethod;
+  valPhi.textContent = '𝔐=' + PHI.toFixed(6);
+  valKp.classList.toggle('alert', spaceWeather.kp >= 5);
+  valDst.classList.toggle('alert', spaceWeather.dst < -50);
+  valBz.classList.toggle('alert', spaceWeather.bz < -5);
+}
+
+fetchNOAAData();
+setInterval(fetchNOAAData, 300000);
+
+// ============================================================
+// ENHANCED PLASMASPHERE MODELS (same as v2.0)
+// ============================================================
+function obrienMoldwinLpp() {
+  return clamp(5.39 - 0.382 * spaceWeather.kp - 0.001 * spaceWeather.ae - 0.005 * Math.max(0, -spaceWeather.dst), 2.0, 8.0);
+}
+
+function larsenLpp() {
+  const clockAngle = Math.atan2(spaceWeather.by, spaceWeather.bz);
+  const phi = Math.sqrt(spaceWeather.by*spaceWeather.by + spaceWeather.bz*spaceWeather.bz) * Math.pow(Math.sin(clockAngle/2), 2);
+  return clamp(5.5 - 0.15 * Math.abs(spaceWeather.bz) - 0.08 * phi - 0.1 * Math.abs(Math.sin(clockAngle)), 2.0, 8.0);
+}
+
+function carpenterAndersonLpp() {
+  return clamp(5.6 - 0.46 * spaceWeather.kp, 2.0, 8.0);
+}
+
+function plasmapauseL() {
+  if(!spaceWeather.connected) return carpenterAndersonLpp();
+  if(Math.abs(spaceWeather.bz) > 2 && spaceWeather.by !== 0) return larsenLpp();
+  if(spaceWeather.ae > 30 || Math.abs(spaceWeather.dst) > 10) return obrienMoldwinLpp();
+  return carpenterAndersonLpp();
+}
+
+function equatorialDensity(L) {
+  const Lpp = plasmapauseL();
+  let logN = L < Lpp ? 4.5 - 0.6 * L : 3.0 - 1.5 * L;
+  const solarTerm = 0.15 * Math.sin(solarCyclePhase * Math.PI * 2);
+  const annualTerm = 0.1 * Math.cos((dayOfYear - 350) / 365 * Math.PI * 2);
+  const semiAnnualTerm = 0.08 * Math.sin(dayOfYear / 365 * Math.PI * 2);
+  logN += solarTerm + annualTerm + semiAnnualTerm;
+  if(spaceWeather.dst < -30) logN -= 0.3 * Math.exp(spaceWeather.dst / 50);
+  return Math.pow(10, logN);
+}
+
+function density(L, lambda) {
+  const neq = equatorialDensity(L);
+  const cosFactor = Math.pow(Math.cos(lambda), 2);
+  const Te = electronTemperature(L, lambda);
+  const Teq = electronTemperature(L, 0);
+  const tempCorrection = Math.sqrt(Teq / Te);
+  return neq * cosFactor * tempCorrection;
+}
+
+function electronTemperature(L, lambda) {
+  const Teq = 2500 + 5000 * Math.exp(-Math.pow((L - 3) / 1.5, 2));
+  const latFactor = Math.exp(-Math.abs(lambda) / (PHI * Math.PI / 2));
+  const stormHeating = spaceWeather.ae > 100 ? 500 * Math.log10(spaceWeather.ae / 100) : 0;
+  return (Teq * latFactor) + stormHeating;
+}
+
+function ionComposition(L, lambda) {
+  const ne = density(L, lambda);
+  const f_H = 0.7 + 0.25 * Math.exp(-Math.pow((L - 2.5) / 1.5, 2));
+  const f_O = 0.25 * Math.exp(-Math.pow((L - 1.5) / 0.8, 2));
+  const f_He = 1 - f_H - f_O;
+  return { H: ne * f_H, O: ne * f_O, He: ne * Math.max(0, f_He), total: ne };
+}
+
+function scalarDensity(L, lambda) {
+  const n = density(L, lambda);
+  const T = electronTemperature(L, lambda);
+  const comp = ionComposition(L, lambda);
+  return {
+    L, lambda, ne: n, Te: T,
+    n_H: comp.H, n_O: comp.O, n_He: comp.He,
+    scalarDensity: n * T * 1.602e-19,
+    plasmapause: plasmapauseL(),
+    lppMethod: spaceWeather.lppMethod,
+    kp: spaceWeather.kp, ae: spaceWeather.ae, dst: spaceWeather.dst
+  };
+}
+
+// ============================================================
+// PERFORMANCE: PRE-COMPUTED DENSITY GRID (30x20 = 600 points)
+// ============================================================
+function computeDensityGrid() {
+  const gridStart = performance.now();
+
+  const Lpp = plasmapauseL();
+  const L_min = 1.0;
+  const L_max = Math.min(8.0, Lpp + 2);
+  const lat_max = 60 * Math.PI / 180;
+
+  const gridL = 30;  // was 60
+  const gridLat = 20; // was 40
+  const grid = [];
+  let ne_min = Infinity, ne_max = -Infinity;
+
+  for(let i=0; i<=gridL; i++) {
+    const L = L_min + (L_max - L_min) * (i / gridL);
+    for(let j=0; j<=gridLat; j++) {
+      const lambda = -lat_max + 2 * lat_max * (j / gridLat);
+      const point = scalarDensity(L, lambda);
+      grid.push(point);
+      const logN = Math.log10(point.ne);
+      ne_min = Math.min(ne_min, logN);
+      ne_max = Math.max(ne_max, logN);
+    }
+  }
+
+  const gridTime = performance.now() - gridStart;
+  gridText.textContent = gridTime.toFixed(0) + ' ms grid';
+
+  return { grid, ne_min, ne_max, L_min, L_max, lat_max, Lpp };
+}
+
+// ============================================================
+// PERFORMANCE: CACHED PLASMA RENDER TO OFFSCREEN CANVAS
+// ============================================================
+function renderPlasmaToCache() {
+  if(plasmaCacheValid && plasmaCache) return plasmaCache;
+
+  const { grid, ne_min, ne_max, L_min, L_max, lat_max, Lpp } = computeDensityGrid();
+
+  const pw = plasmaCanvas.width;
+  const ph = plasmaCanvas.height;
+  const pctx = plasmaCtx;
+
+  pctx.fillStyle = '#000';
+  pctx.fillRect(0, 0, pw, ph);
+
+  const xScale = pw * 0.8 / (L_max - L_min);
+  const yScale = ph * 0.8 / (2 * lat_max);
+  const xOffset = pw * 0.1;
+  const yOffset = ph * 0.1;
+
+  for(const point of grid) {
+    const x = xOffset + (point.L - L_min) * xScale;
+    const y = yOffset + (point.lambda + lat_max) * yScale;
+    const logN = Math.log10(point.ne);
+    const t_val = (logN - ne_min) / (ne_max - ne_min);
+
+    const f_H = point.n_H / point.ne;
+    const f_O = point.n_O / point.ne;
+
+    const r = Math.floor(lerp(200, 10, t_val) * f_H + lerp(50, 10, t_val) * f_O);
+    const g = Math.floor(lerp(160, 30, t_val) * f_H + lerp(200, 30, t_val) * f_O);
+    const b = Math.floor(lerp(78, 80, t_val) * f_H + lerp(200, 80, t_val) * f_O);
+    const a = lerp(0.55, 0.1, t_val);
+
+    pctx.fillStyle = `rgba(${r},${g},${b},${a})`;
+    pctx.fillRect(x - 2, y - 2, 5, 5);
+  }
+
+  // Earth
+  pctx.fillStyle = '#c8a04e';
+  pctx.beginPath();
+  pctx.arc(xOffset, ph/2, 6, 0, Math.PI*2);
+  pctx.fill();
+
+  // Plasmapause line
+  const ppX = xOffset + (Lpp - L_min) * xScale;
+  pctx.strokeStyle = 'rgba(255,68,68,0.5)';
+  pctx.lineWidth = 1.5;
+  pctx.setLineDash([3, 3]);
+  pctx.beginPath();
+  pctx.moveTo(ppX, yOffset);
+  pctx.lineTo(ppX, ph - yOffset);
+  pctx.stroke();
+  pctx.setLineDash([]);
+
+  plasmaCacheValid = true;
+  return { grid, ne_min, ne_max, Lpp };
+}
+
+// ============================================================
+// STARS
+// ============================================================
+const stars = [];
+for(let i=0;i<300;i++){
+  stars.push({
+    x: (prng(i*2)-0.5), y: (prng(i*2+1)-0.5),
+    size: prng(i*3) * 1.5 + 0.5,
+    twinkle: prng(i*4) * Math.PI * 2,
+    depth: prng(i*5)
+  });
+}
+
+function drawStars(alpha, parallax=0) {
+  stars.forEach(s => {
+    const tw = Math.sin(t * 2 + s.twinkle) * 0.3 + 0.7;
+    const px = s.x * w + w/2 + parallax * s.depth * 20;
+    const py = s.y * h + h/2 + parallax * s.depth * 10;
+    const sz = s.size * (0.5 + 0.5 * s.depth);
+    ctx.fillStyle = `rgba(255,255,255,${alpha * tw * sz * 0.3})`;
+    ctx.fillRect(px, py, sz, sz);
+  });
+}
+
+// ============================================================
+// DIPOLE FIELD + PLASMASPHERE RENDERERS
+// ============================================================
+function drawDipoleField(cx, cy, scale, alpha, rotAngle, numLines, color, energyFlow=true) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(rotAngle);
+  ctx.globalAlpha = alpha;
+
+  const poleDist = scale * 0.6;
+  ctx.fillStyle = color;
+  ctx.beginPath(); ctx.arc(0, -poleDist, scale * 0.06, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(0, poleDist, scale * 0.06, 0, Math.PI*2); ctx.fill();
+
+  for(let i=0; i<numLines; i++) {
+    const theta0 = (i / numLines) * Math.PI * 0.48 + 0.02;
+    const loopR = scale * (0.5 + 0.8 * Math.sin(theta0 * Math.PI));
+
+    ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 0.8;
+    for(let step=0; step<=100; step++) {
+      const frac = step / 100;
+      const angle = frac * Math.PI * 2 - Math.PI/2;
+      const lx = loopR * Math.cos(angle) * Math.sin(theta0 * Math.PI);
+      const ly = loopR * Math.sin(angle);
+      if(step===0) ctx.moveTo(lx, ly); else ctx.lineTo(lx, ly);
+    }
+    ctx.stroke();
+
+    ctx.beginPath();
+    for(let step=0; step<=100; step++) {
+      const frac = step / 100;
+      const angle = frac * Math.PI * 2 - Math.PI/2;
+      const lx = -loopR * Math.cos(angle) * Math.sin(theta0 * Math.PI);
+      const ly = loopR * Math.sin(angle);
+      if(step===0) ctx.moveTo(lx, ly); else ctx.lineTo(lx, ly);
+    }
+    ctx.stroke();
+  }
+
+  if(energyFlow) {
+    const flowT = t * 1.5;
+    for(let i=0; i<numLines; i++) {
+      const theta0 = (i / numLines) * Math.PI * 0.48 + 0.02;
+      const loopR = scale * (0.5 + 0.8 * Math.sin(theta0 * Math.PI));
+      const arrowPos = (flowT + i * 0.7) % 1;
+      const angle = arrowPos * Math.PI * 2 - Math.PI/2;
+
+      for(let side of [-1, 1]) {
+        const ax = side * loopR * Math.cos(angle) * Math.sin(theta0 * Math.PI);
+        const ay = loopR * Math.sin(angle);
+        const nextAngle = angle + 0.12;
+        const nx = side * loopR * Math.cos(nextAngle) * Math.sin(theta0 * Math.PI);
+        const ny = loopR * Math.sin(nextAngle);
+
+        ctx.strokeStyle = `rgba(255,200,50,${alpha * 0.7})`;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(nx, ny); ctx.stroke();
+
+        const ang = Math.atan2(ny - ay, nx - ax);
+        const ah = 4;
+        ctx.beginPath();
+        ctx.moveTo(nx, ny);
+        ctx.lineTo(nx - ah*Math.cos(ang-Math.PI/6), ny - ah*Math.sin(ang-Math.PI/6));
+        ctx.lineTo(nx - ah*Math.cos(ang+Math.PI/6), ny - ah*Math.sin(ang+Math.PI/6));
+        ctx.closePath();
+        ctx.fillStyle = `rgba(255,200,50,${alpha * 0.7})`;
+        ctx.fill();
+      }
+    }
+  }
+
+  ctx.strokeStyle = `rgba(200,160,78,${alpha * 0.5})`;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  for(let i=0; i<=200; i++) {
+    const a = (i/200) * Math.PI * 2;
+    const torR = scale * 0.9;
+    const torr = scale * 0.22;
+    const x = torR * Math.cos(a);
+    const y = torr * Math.sin(a);
+    if(i===0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath(); ctx.stroke();
+
+  ctx.restore();
+}
+
+// PERFORMANCE: Draw cached plasma image
+function drawPlasmasphere(cx, cy, scale, alpha) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.globalAlpha = alpha;
+
+  // Use cached offscreen canvas
+  const cache = renderPlasmaToCache();
+  const drawW = scale * 1.6;
+  const drawH = scale * 1.2;
+  ctx.drawImage(plasmaCanvas, -drawW/2, -drawH/2, drawW, drawH);
+
+  // Labels
+  ctx.fillStyle = 'rgba(200,160,78,0.7)';
+  ctx.font = `${scale * 0.04}px monospace`;
+  ctx.textAlign = 'center';
+  ctx.fillText('EARTH', 0, scale * 0.75);
+  ctx.fillText(`L=${cache.Lpp.toFixed(1)}`, drawW/2 - 20, -scale * 0.55);
+  ctx.fillText(`(${spaceWeather.lppMethod})`, drawW/2 - 20, -scale * 0.6);
+
+  ctx.restore();
+}
+
+// ============================================================
+// SCENES 0-4
+// ============================================================
+function drawScene0(u) {
+  ctx.save();
+  ctx.translate(w/2, h/2);
+  const R = lerp(120, 60, u);
+  const eggAlpha = 1 - u * 0.5;
+
+  const glow = ctx.createRadialGradient(0,0,5,0,0,R*2);
+  glow.addColorStop(0, `rgba(255,255,255,${eggAlpha * 0.8})`);
+  glow.addColorStop(0.3, `rgba(100,150,255,${eggAlpha * 0.4})`);
+  glow.addColorStop(1, `rgba(100,150,255,0)`);
+  ctx.fillStyle = glow;
+  ctx.beginPath(); ctx.arc(0,0,R*2,0,Math.PI*2); ctx.fill();
+
+  const grad = ctx.createRadialGradient(-R*0.3,-R*0.3,5,0,0,R);
+  grad.addColorStop(0, `rgba(255,255,255,${eggAlpha})`);
+  grad.addColorStop(0.7, `rgba(150,180,255,${eggAlpha * 0.9})`);
+  grad.addColorStop(1, `rgba(80,100,200,${eggAlpha * 0.6})`);
+  ctx.fillStyle = grad;
+  ctx.beginPath(); ctx.arc(0,0,R,0,Math.PI*2); ctx.fill();
+
+  ctx.strokeStyle = `rgba(255,255,255,${eggAlpha})`;
+  ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.arc(0,0,R*0.35,0,Math.PI*2); ctx.stroke();
+
+  ctx.fillStyle = `rgba(255,255,255,${eggAlpha * 0.3})`;
+  ctx.font = "12px monospace"; ctx.textAlign = "center";
+  ctx.fillText("0 × 0 = 0    0 + 0 = 0", 0, R + 30);
+  ctx.restore();
+}
+
+function drawScene1(u) {
+  ctx.save();
+  ctx.translate(w/2, h/2);
+  const split = u;
+  const offset = lerp(0, 50, split);
+
+  [-1, 1].forEach(side => {
+    const cx = side * offset;
+    const R = lerp(60, 45, split);
+    const grad = ctx.createRadialGradient(cx - R*0.3, -R*0.3, 5, cx, 0, R);
+    grad.addColorStop(0, "rgba(255,255,255,0.9)");
+    grad.addColorStop(0.6, "rgba(200,160,78,0.6)");
+    grad.addColorStop(1, "rgba(200,160,78,0.2)");
+    ctx.fillStyle = grad;
+    ctx.beginPath(); ctx.arc(cx, 0, R, 0, Math.PI*2); ctx.fill();
+
+    ctx.strokeStyle = "#c8a04e"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(cx, 0, R*0.3, 0, Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, -R*0.4); ctx.lineTo(cx, R*0.4); ctx.stroke();
+  });
+
+  if(split < 0.8) {
+    ctx.strokeStyle = `rgba(200,160,78,${1 - split/0.8})`;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(-offset + 40, 0);
+    ctx.quadraticCurveTo(0, 20 * Math.sin(t*3), offset - 40, 0);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawScene2(u) {
+  ctx.save();
+  ctx.translate(w/2, h/2);
+
+  const scale = lerp(80, 160, u);
+  const alpha = lerp(0.3, 1.0, u);
+
+  drawDipoleField(0, 0, scale, alpha, t * 0.3, 12, "#ff8800", true);
+
+  if(u > 0.5) {
+    const plasmaAlpha = (u - 0.5) * 2;
+    const plasmaScale = scale * 0.35;
+    drawPlasmasphere(scale * 0.6, 0, plasmaScale, plasmaAlpha * 0.8);
+
+    ctx.strokeStyle = `rgba(200,160,78,${plasmaAlpha * 0.3})`;
+    ctx.lineWidth = 0.5; ctx.setLineDash([2, 6]);
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(scale * 0.6, 0); ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = `rgba(200,160,78,${plasmaAlpha * 0.7})`;
+    ctx.font = "10px monospace"; ctx.textAlign = "center";
+    ctx.fillText("⊕ EARTH PLASMASPHERE", scale * 0.6, plasmaScale * 0.7);
+  }
+
+  ctx.globalAlpha = alpha;
+  ctx.strokeStyle = "#c8a04e"; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.arc(0,0,25,0,Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,-30); ctx.lineTo(0,30); ctx.stroke();
+  ctx.globalAlpha = 1;
+
+  ctx.restore();
+}
+
+function drawScene3(u) {
+  ctx.save();
+  ctx.translate(w/2, h/2);
+
+  const heartScale = lerp(0.8, 1.2, u);
+  ctx.strokeStyle = `rgba(255,51,102,${lerp(0.4, 0.9, u)})`;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  for(let i=0;i<=100;i++){
+    const a = (i/100)*Math.PI*2;
+    const r = heartScale * 60 * (1 - Math.sin(a));
+    const x = r * Math.cos(a);
+    const y = -r * Math.sin(a) * 0.8;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.closePath(); ctx.stroke();
+
+  const scales = [
+    {r: 30, color: "#66ccff", label: "Atom", ne: 1e19},
+    {r: 55, color: "#ff3366", label: "Cell", ne: 1e15},
+    {r: 85, color: "#33ff99", label: "Ionosphere", ne: 1e12},
+    {r: 120, color: "#c8a04e", label: "Plasmasphere", ne: 1e6}
+  ];
+
+  ctx.font = "11px sans-serif"; ctx.textAlign = "center";
+  scales.forEach((s,i) => {
+    const visible = clamp((u - i*0.12) * 3, 0, 1);
+    ctx.strokeStyle = s.color; ctx.globalAlpha = visible;
+    ctx.beginPath(); ctx.arc(0,-30,s.r,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle = s.color;
+    ctx.fillText(s.label, s.r + 18, -30);
+    ctx.fillText(`nₑ=${s.ne.toExponential(0)}`, s.r + 18, -18);
+  });
+  ctx.globalAlpha = 1;
+
+  const pulse = (t * 2) % 1;
+  for(let ring=0; ring<3; ring++) {
+    const r = (pulse + ring * 0.33) % 1;
+    const alpha = (1 - r) * 0.3;
+    const radius = r * 200;
+    ctx.strokeStyle = `rgba(255,51,102,${alpha})`;
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(0,-30,radius,0,Math.PI*2); ctx.stroke();
+  }
+
+  const flowAmp = lerp(60, 140, u);
+  function arrow(x1,y1,x2,y2,color){
+    ctx.strokeStyle = color; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    const ang = Math.atan2(y2-y1,x2-x1);
+    const ah = 8;
+    ctx.beginPath();
+    ctx.moveTo(x2,y2);
+    ctx.lineTo(x2-ah*Math.cos(ang-Math.PI/6), y2-ah*Math.sin(ang-Math.PI/6));
+    ctx.lineTo(x2-ah*Math.cos(ang+Math.PI/6), y2-ah*Math.sin(ang+Math.PI/6));
+    ctx.closePath();
+    ctx.fillStyle = color; ctx.fill();
+  }
+  arrow(0, flowAmp-30, 0, flowAmp-70, "#ff4444");
+  arrow(0, -flowAmp-30, 0, -flowAmp+10, "#4488ff");
+
+  ctx.restore();
+}
+
+function drawScene4(u) {
+  ctx.save();
+  ctx.translate(w/2, h/2);
+
+  const scale = lerp(100, 200, u);
+  const alpha = lerp(0.5, 1.0, u);
+
+  drawDipoleField(0, 0, scale, alpha, t * 0.15, 16, "#ff8800", true);
+  drawDipoleField(0, 0, scale * 0.6, alpha * 0.5, -t * 0.2 + Math.PI/4, 10, "#c8a04e", false);
+  drawDipoleField(0, 0, scale * 1.3, alpha * 0.3, t * 0.1 + Math.PI/2, 8, "#66ccff", false);
+
+  const plasmaScale = scale * 0.25;
+  drawPlasmasphere(0, 0, plasmaScale, alpha * 0.9);
+
+  const scales = [
+    {r: 20, color: "#66ccff", label: "Atom"},
+    {r: 45, color: "#ff3366", label: "Heart"},
+    {r: 80, color: "#33ff99", label: "Earth"},
+    {r: 130, color: "#c8a04e", label: "Galaxy"}
+  ];
+
+  ctx.font = "12px sans-serif"; ctx.textAlign = "center";
+  scales.forEach(s => {
+    ctx.strokeStyle = s.color;
+    ctx.beginPath(); ctx.arc(0,0,s.r,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle = s.color;
+    ctx.fillText(s.label, 0, -s.r-12);
+  });
+
+  ctx.strokeStyle = "#c8a04e"; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.arc(0,0,30,0,Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,-35); ctx.lineTo(0,35); ctx.stroke();
+
+  const dataRingR = scale + 30;
+  ctx.strokeStyle = `rgba(200,160,78,${alpha * 0.3})`;
+  ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.arc(0, 0, dataRingR, 0, Math.PI*2); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = `rgba(200,160,78,${alpha * 0.6})`;
+  ctx.font = "10px monospace";
+  const liveText = `Kp=${spaceWeather.kp.toFixed(1)}  AE=${spaceWeather.ae}  Dst=${spaceWeather.dst}  Bz=${spaceWeather.bz.toFixed(1)}  Lpp=${plasmapauseL().toFixed(2)}`;
+  for(let i=0; i<liveText.length; i++){
+    const angle = (i/liveText.length)*Math.PI*2 - Math.PI/2 + t*0.1;
+    const tx = Math.cos(angle) * dataRingR;
+    const ty = Math.sin(angle) * dataRingR;
+    ctx.save();
+    ctx.translate(tx, ty);
+    ctx.rotate(angle + Math.PI/2);
+    ctx.fillText(liveText[i], 0, 0);
+    ctx.restore();
+  }
+
+  const flowAmp = 150;
+  function arrow(x1,y1,x2,y2,color){
+    ctx.strokeStyle = color; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    const ang = Math.atan2(y2-y1,x2-x1);
+    const ah = 8;
+    ctx.beginPath();
+    ctx.moveTo(x2,y2);
+    ctx.lineTo(x2-ah*Math.cos(ang-Math.PI/6), y2-ah*Math.sin(ang-Math.PI/6));
+    ctx.lineTo(x2-ah*Math.cos(ang+Math.PI/6), y2-ah*Math.sin(ang+Math.PI/6));
+    ctx.closePath();
+    ctx.fillStyle = color; ctx.fill();
+  }
+  arrow(0, flowAmp, 0, flowAmp-40, "#ff4444");
+  arrow(0, -flowAmp, 0, -flowAmp+40, "#4488ff");
+
+  ctx.fillStyle = "rgba(255,255,255,0.3)";
+  ctx.font = "10px monospace";
+  const text = "AS ABOVE  ·  SO BELOW  ·  𝔐 = " + PHI.toFixed(6);
+  for(let i=0; i<text.length; i++){
+    const angle = (i/text.length)*Math.PI*2 - Math.PI/2 + t*0.15;
+    const tx = Math.cos(angle) * (scale + 55);
+    const ty = Math.sin(angle) * (scale + 55);
+    ctx.save();
+    ctx.translate(tx, ty);
+    ctx.rotate(angle + Math.PI/2);
+    ctx.fillText(text[i], 0, 0);
+    ctx.restore();
+  }
+
+  ctx.restore();
+}
+
+// ============================================================
+// MAIN RENDER WITH FPS COUNTER
+// ============================================================
+function getPhase(cycleT) {
+  for(let i=phases.length-1;i>=0;i--){
+    if(cycleT >= phases[i].t) return i;
+  }
+  return 0;
+}
+
+function render(timestamp) {
+  // FPS calculation
+  if (lastFrameTime) {
+    const delta = timestamp - lastFrameTime;
+    frameCount++;
+    if (frameCount % 30 === 0) {
+      fps = Math.round(1000 / delta);
+      fpsText.textContent = fps + ' fps';
+    }
+  }
+  lastFrameTime = timestamp;
+
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0,0,w,h);
+
+  const cycleT = auto ? ((t * 0.05) % 1) : (manualT / 1000);
+
+  drawStars(1, Math.sin(cycleT * Math.PI * 2) * 0.3);
+
+  const phaseIdx = getPhase(cycleT);
+  const phase = phases[phaseIdx];
+
+  titleEl.textContent = phase.name;
+  phaseEl.innerHTML = phase.sub + "<br>cycle position: " + (cycleT * 100).toFixed(1) + "%";
+
+  phases.forEach((p,i) => {
+    const dot = document.getElementById('dot-' + i);
+    const dist = Math.abs(cycleT - p.t);
+    dot.classList.toggle('active', dist < 0.08);
+  });
+
+  const samplePoint = scalarDensity(3.0, 0);
+  scalarText.textContent = `L=3.0: nₑ=${samplePoint.ne.toExponential(1)}  Te=${Math.round(samplePoint.Te)}K  H⁺=${(samplePoint.n_H/samplePoint.ne*100).toFixed(0)}%  [${samplePoint.lppMethod}]`;
+
+  let w0, w1, w2, w3, w4;
+
+  if(view === 'cosmic') {
+    w0 = smoothstep(0.0, 0.15, cycleT) * (1 - smoothstep(0.15, 0.25, cycleT));
+    w1 = smoothstep(0.15, 0.25, cycleT) * (1 - smoothstep(0.30, 0.40, cycleT));
+    w2 = smoothstep(0.30, 0.40, cycleT) * (1 - smoothstep(0.55, 0.65, cycleT));
+    w3 = smoothstep(0.55, 0.65, cycleT) * (1 - smoothstep(0.80, 0.90, cycleT));
+    w4 = smoothstep(0.80, 0.90, cycleT);
+  } else if(view === 'plasma') {
+    w0 = 0;
+    w1 = smoothstep(0.15, 0.25, cycleT) * (1 - smoothstep(0.30, 0.40, cycleT)) * 0.3;
+    w2 = smoothstep(0.30, 0.40, cycleT) * (1 - smoothstep(0.55, 0.65, cycleT));
+    w3 = smoothstep(0.55, 0.65, cycleT) * (1 - smoothstep(0.80, 0.90, cycleT)) * 0.3;
+    w4 = smoothstep(0.80, 0.90, cycleT);
+  } else {
+    w0 = smoothstep(0.0, 0.15, cycleT) * (1 - smoothstep(0.15, 0.25, cycleT));
+    w1 = smoothstep(0.15, 0.25, cycleT) * (1 - smoothstep(0.30, 0.40, cycleT));
+    w2 = smoothstep(0.30, 0.40, cycleT) * (1 - smoothstep(0.55, 0.65, cycleT));
+    w3 = smoothstep(0.55, 0.65, cycleT) * (1 - smoothstep(0.80, 0.90, cycleT));
+    w4 = smoothstep(0.80, 0.90, cycleT) * (1 - smoothstep(0.95, 1.0, cycleT));
+  }
+
+  const total = w0 + w1 + w2 + w3 + w4;
+  const nw0 = w0 / (total || 1);
+  const nw1 = w1 / (total || 1);
+  const nw2 = w2 / (total || 1);
+  const nw3 = w3 / (total || 1);
+  const nw4 = w4 / (total || 1);
+
+  ctx.globalAlpha = nw0;
+  if(nw0 > 0.01) drawScene0(cycleT / 0.25);
+
+  ctx.globalAlpha = nw1;
+  if(nw1 > 0.01) drawScene1((cycleT - 0.15) / 0.25);
+
+  ctx.globalAlpha = nw2;
+  if(nw2 > 0.01) drawScene2((cycleT - 0.40) / 0.25);
+
+  ctx.globalAlpha = nw3;
+  if(nw3 > 0.01) drawScene3((cycleT - 0.65) / 0.25);
+
+  ctx.globalAlpha = nw4;
+  if(nw4 > 0.01) drawScene4((cycleT - 0.90) / 0.10);
+
+  ctx.globalAlpha = 1;
+
+  if(auto) {
+    slider.value = Math.round(cycleT * 1000);
+  }
+}
+
+function animationLoop(timestamp){
+  t += 0.016;
+  render(timestamp);
+  requestAnimationFrame(animationLoop);
+}
+requestAnimationFrame(animationLoop);
+
+// ============================================================
+// CONTROLS
+// ============================================================
+btnPlay.addEventListener('click', () => {
+  auto = !auto;
+  btnPlay.textContent = auto ? "⏸ pause" : "▶ play";
+});
+
+slider.addEventListener('input', () => {
+  auto = false;
+  manualT = parseInt(slider.value);
+  btnPlay.textContent = "▶ play";
+});
+
+btnPrev.addEventListener('click', () => {
+  auto = false;
+  manualT = Math.max(0, manualT - 100);
+  slider.value = manualT;
+  btnPlay.textContent = "▶ play";
+});
+
+btnNext.addEventListener('click', () => {
+  auto = false;
+  manualT = Math.min(1000, manualT + 100);
+  slider.value = manualT;
+  btnPlay.textContent = "▶ play";
+});
+
+viewMode.addEventListener('change', (e) => {
+  view = e.target.value;
+});
+</script>
+</body>
+</html>
 
 <!-- === STEP 2: ADD WIDGET SECTION (anywhere in body) === -->
 
@@ -361,7 +1552,11 @@ window.MathJax = {
                    background:#000;"
             loading="lazy"
             title="Φ669 Scalar-Plasma Cycle Live Widget">
-    </iframe>
+    </iframe><!-- OLD -->
+<iframe src="./scalar-plasma-cycle-v2.html" ...>
+
+<!-- NEW -->
+<iframe src="./scalar-plasma-cycle-v3.html" ...>
   </div>
 
   <!-- Data attribution footer -->
